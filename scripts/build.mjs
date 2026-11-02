@@ -44,9 +44,12 @@ export function writeStatic(outdir) {
   copyFileSync(join(root, 'tizen/icon.png'), join(outdir, 'icon.png'));
   const config = readFileSync(join(root, 'tizen/config.xml'), 'utf8').replace('@VERSION@', pkg.version);
   writeFileSync(join(outdir, 'config.xml'), config);
-  // The included collections' photos (see scripts/samples/).
-  const samples = join(root, 'assets/samples');
-  if (existsSync(samples)) cpSync(samples, join(outdir, 'samples'), { recursive: true });
+  // The included collections' photos (see scripts/samples/) and the logo
+  // images (see scripts/brand/).
+  for (const dir of ['samples', 'brand']) {
+    const from = join(root, 'assets', dir);
+    if (existsSync(from)) cpSync(from, join(outdir, dir), { recursive: true });
+  }
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

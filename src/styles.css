@@ -63,13 +63,8 @@ h1, h2 { margin: 0; font-weight: 700; }
 /* ---- Home ---------------------------------------------------------------- */
 
 .topbar { position: relative; display: flex; align-items: center; height: 120px; padding: 0 96px; }
-.wordmark { display: flex; align-items: center; font-size: 30px; font-weight: 700; letter-spacing: 0.5px; }
-.wordmark-mark {
-  width: 34px; height: 34px; margin-right: 14px; border-radius: 10px;
-  background: linear-gradient(135deg, #ffd27a, #ff8a5c 50%, #b06bff);
-  box-shadow: 0 4px 14px rgba(255, 140, 90, 0.35);
-}
-.wordmark-at { color: var(--now); margin: 0 1px; }
+/* The app's title, rendered from scripts/brand (the lettering needs a serif the TV lacks). */
+.wordmark { display: block; width: 360px; height: 64px; }
 .topbar-right { margin-left: auto; display: flex; align-items: center; }
 .topbar-right > * + * { margin-left: 16px; }
 .topbar-clock { font-size: 28px; color: var(--text-dim); margin-right: 18px; }

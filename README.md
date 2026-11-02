@@ -1,3 +1,5 @@
+<p align="center"><img src="docs/logo.png" width="260" alt="Gallery at Home"></p>
+
 # Gallery at Home
 
 A photo gallery for Samsung TVs: your photos and the included collections, framed, on the wall.
