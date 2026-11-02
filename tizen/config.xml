@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets"
+        id="http://callico.home/galleryathome" version="@VERSION@" viewmodes="maximized">
+  <tizen:application id="GalleryAtH.GalleryAtHome" package="GalleryAtH" required_version="5.5"/>
+  <name>Gallery at Home</name>
+  <description>Photo collections and slideshows from USB, OneDrive, your NAS and the web.</description>
+  <author>Javier Callico</author>
+  <icon src="icon.png"/>
+  <content src="index.html"/>
+  <feature name="http://tizen.org/feature/screen.size.normal.1080.1920"/>
+
+  <!-- Network sources: NAS on the LAN, OneDrive/Graph, arbitrary web links. -->
+  <access origin="*" subdomains="true"/>
+  <tizen:allow-navigation>*</tizen:allow-navigation>
+  <!-- Without this Tizen applies a default policy whose img-src excludes
+       blob: and data: URLs, which the app makes for small thumbnails and for
+       photos on password-protected shares. No object-src limit: on 2020 TVs
+       Samsung's webapis (screensaver control) run as an embedded plugin. -->
+  <tizen:content-security-policy>default-src *; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src * data: blob:; media-src * data: blob:; connect-src * data: blob:</tizen:content-security-policy>
+
+  <tizen:privilege name="http://tizen.org/privilege/internet"/>
+  <tizen:privilege name="http://tizen.org/privilege/filesystem.read"/>
+  <tizen:privilege name="http://tizen.org/privilege/externalstorage"/>
+  <tizen:privilege name="http://tizen.org/privilege/tv.inputdevice"/>
+  <tizen:privilege name="http://developer.samsung.com/privilege/productinfo"/>
+
+  <tizen:setting screen-orientation="landscape" context-menu="disable" background-support="disable"
+                 encryption="disable" install-location="auto" hwkey-event="enable"/>
+  <tizen:metadata key="http://samsung.com/tv/metadata/prelaunch.support" value="false"/>
+  <tizen:profile name="tv-samsung"/>
+</widget>

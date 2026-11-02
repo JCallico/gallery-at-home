@@ -1,0 +1,19 @@
+{
+  "name": "gallery-at-home",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Photo collections and slideshows for Samsung Tizen TVs",
+  "scripts": {
+    "dev": "node dev/server.mjs",
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "preact": "^10.29.8"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "typescript": "^7.0.2"
+  }
+}
