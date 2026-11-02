@@ -175,7 +175,7 @@ export function PlaySetup({ id }: { id: string }) {
           {usesOrder && <ChoiceRow label="Order" value={play.order} options={[...ORDERS]} onChange={(v) => set({ order: v })} />}
           {usesTransition && <ChoiceRow label="Transition" value={play.transition} options={[...TRANSITIONS]} onChange={(v) => set({ transition: v })} />}
           {play.mode !== 'ambient' && <ToggleRow label="Clock" value={play.showClock} onChange={(v) => set({ showClock: v })} />}
-          <ToggleRow label="Date of each photo" value={play.showCaption} onChange={(v) => set({ showCaption: v })} />
+          <ToggleRow label="Caption" hint="Title and credit, or the date taken" value={play.showCaption} onChange={(v) => set({ showCaption: v })} />
           <ChoiceRow label="Turn off" hint="Then the TV’s screensaver takes over" value={play.sleepMin} options={SLEEP} onChange={(v) => set({ sleepMin: v })} />
         </div>
         <button class="play-cta" data-nav data-nav-id="start" onClick={() => nav.replace({ name: 'player', id })}>
