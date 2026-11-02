@@ -43,10 +43,6 @@ const SLEEP = [0, 15, 30, 60, 120, 240].map((m) => ({ value: m, label: m === 0 ?
 /** Sensible defaults when switching mode. */
 function adaptToMode(play: PlaySettings, mode: PlayMode): PlaySettings {
   const next = { ...play, mode };
-  if (mode === 'ambient') {
-    if (play.intervalSec < 30) next.intervalSec = 60;
-    next.showClock = true;
-  }
   if (mode === 'kenburns' && play.intervalSec < 8) next.intervalSec = 10;
   if (mode === 'memories') next.order = 'date';
   return next;
@@ -88,7 +84,7 @@ function Preview({ photos, play }: { photos: Prepared[] | null; play: PlaySettin
   const taken = lead.takenAt ?? lead.ref.takenAt;
   // Same caption as the player: the photo's title, else when it was taken.
   const caption = lead.ref.caption ?? (taken ? new Date(taken).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) : null);
-  const showClock = play.showClock || play.mode === 'ambient';
+  const showClock = play.showClock;
   const dateLabel = now.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
   return (
     <div class="preview-stage">
@@ -104,7 +100,7 @@ function Preview({ photos, play }: { photos: Prepared[] | null; play: PlaySettin
         ) : (
           <>
             {showClock && (
-              <div class={`clock ${play.mode === 'ambient' ? 'clock-ambient' : ''}`}>
+              <div class="clock">
                 <div class="clock-time">{timeLabel(now)}</div>
                 <div class="clock-date">{dateLabel}</div>
               </div>
@@ -126,7 +122,7 @@ export function PlaySetup({ id }: { id: string }) {
   const set = (change: Partial<PlaySettings>) => setPlaySettings(id, { ...play, ...change });
 
   // Only the choices that matter for the chosen style are offered.
-  const usesFrame = play.mode === 'slideshow' || play.mode === 'memories' || play.mode === 'ambient';
+  const usesFrame = play.mode === 'slideshow' || play.mode === 'memories';
   const framed = effectiveFrame(play) !== 'none';
   const usesTransition = !framed && (play.mode === 'slideshow' || play.mode === 'duo' || play.mode === 'memories');
   const usesFit = play.mode === 'slideshow' || play.mode === 'memories' || framed;
@@ -157,7 +153,7 @@ export function PlaySetup({ id }: { id: string }) {
             <ChoiceRow
               label="Frame"
               value={effectiveFrame(play)}
-              options={play.mode === 'ambient' ? FRAME_OPTIONS.filter((f) => f.value !== 'none') : FRAME_OPTIONS}
+              options={FRAME_OPTIONS}
               onChange={(v) => set({ frame: v })}
             />
           )}
@@ -174,7 +170,7 @@ export function PlaySetup({ id }: { id: string }) {
           />
           {usesOrder && <ChoiceRow label="Order" value={play.order} options={[...ORDERS]} onChange={(v) => set({ order: v })} />}
           {usesTransition && <ChoiceRow label="Transition" value={play.transition} options={[...TRANSITIONS]} onChange={(v) => set({ transition: v })} />}
-          {play.mode !== 'ambient' && <ToggleRow label="Clock" value={play.showClock} onChange={(v) => set({ showClock: v })} />}
+          <ToggleRow label="Clock" value={play.showClock} onChange={(v) => set({ showClock: v })} />
           <ToggleRow label="Caption" hint="Title and credit, or the date taken" value={play.showCaption} onChange={(v) => set({ showCaption: v })} />
           <ChoiceRow label="Turn off" hint="Then the TV’s screensaver takes over" value={play.sleepMin} options={SLEEP} onChange={(v) => set({ sleepMin: v })} />
         </div>

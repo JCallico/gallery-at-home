@@ -18,7 +18,7 @@ export interface PhotoRef {
   credit?: string;
 }
 
-export type PlayMode = 'slideshow' | 'kenburns' | 'mosaic' | 'ambient' | 'duo' | 'memories';
+export type PlayMode = 'slideshow' | 'kenburns' | 'mosaic' | 'duo' | 'memories';
 export type PlayOrder = 'added' | 'shuffle' | 'date' | 'name';
 export type Transition = 'fade' | 'slide' | 'zoom' | 'none';
 export type Fit = 'fit' | 'fill';

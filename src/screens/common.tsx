@@ -1,6 +1,6 @@
 import { ComponentChildren } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
-import { FRAMES } from '../player/frames';
+import { effectiveFrame, FRAMES } from '../player/frames';
 import { Collection, PhotoRef, PlaySettings, Source } from '../store/types';
 import { Icon, IconName } from '../ui/icons';
 import { Thumb } from '../ui/photo';
@@ -120,7 +120,6 @@ export function NewCard(props: { label: string; sub?: string; navId: string; onC
 
 export const MODES = [
   { value: 'slideshow', label: 'Slideshow', icon: 'slideshow', desc: 'One photo at a time' },
-  { value: 'ambient', label: 'Ambient', icon: 'ambient', desc: 'Framed art with a clock' },
   { value: 'kenburns', label: 'Ken Burns', icon: 'kenburns', desc: 'Slow pan and zoom' },
   { value: 'mosaic', label: 'Mosaic', icon: 'mosaic', desc: 'A changing wall of photos' },
   { value: 'duo', label: 'Duo', icon: 'duo', desc: 'Portraits side by side' },
@@ -138,9 +137,8 @@ export function intervalLabel(sec: number): string {
 /** One line describing how a collection plays, e.g. "Slideshow · Oak frame · 10 s". */
 export function styleSummary(play: PlaySettings): string {
   const parts: string[] = [modeLabel(play.mode)];
-  const usesFrame = play.mode === 'slideshow' || play.mode === 'memories' || play.mode === 'ambient';
-  const frame = play.mode === 'ambient' && play.frame === 'none' ? 'gallery' : play.frame;
-  if (usesFrame && frame !== 'none') parts.push(`${FRAMES[frame].label} frame`);
+  const frame = effectiveFrame(play);
+  if (frame !== 'none') parts.push(`${FRAMES[frame].label} frame`);
   if (play.order === 'shuffle') parts.push('Shuffled');
   parts.push(intervalLabel(play.intervalSec));
   return parts.join(' · ');

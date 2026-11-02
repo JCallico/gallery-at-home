@@ -104,9 +104,8 @@ export const FRAME_OPTIONS: { value: FrameStyle; label: string }[] = [
   ...(Object.keys(FRAMES) as (keyof typeof FRAMES)[]).map((k) => ({ value: k as FrameStyle, label: FRAMES[k].label })),
 ];
 
-/** The frame actually used: Ambient always frames (gallery white by default). */
+/** The frame actually used: Slideshow and Memories can be framed; the other looks fill the screen. */
 export function effectiveFrame(settings: PlaySettings): FrameStyle {
-  if (settings.mode === 'ambient') return settings.frame === 'none' ? 'gallery' : settings.frame;
   if (settings.mode === 'slideshow' || settings.mode === 'memories') return settings.frame;
   return 'none';
 }

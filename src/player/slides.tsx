@@ -37,7 +37,6 @@ interface Props {
 const SCREEN = { width: 1920, height: 1080 };
 
 export function transitionMs(settings: PlaySettings): number {
-  if (settings.mode === 'ambient') return 2500;
   // Framed photos crossfade slowly, like a picture being swapped on a wall.
   if (effectiveFrame(settings) !== 'none') return 2000;
   if (settings.mode === 'kenburns') return 2000;
@@ -189,7 +188,7 @@ function SlideView({ slide, settings, leaving }: { slide: Slide; settings: PlayS
           photo={slide.photos[0]}
           fill={settings.frameFit === 'fill'}
           // Room for the label only when there's one (see MatLabel in player.tsx).
-          withLabel={settings.showCaption || settings.showClock || settings.mode === 'ambient'}
+          withLabel={settings.showCaption || settings.showClock}
         />
       </div>
     );

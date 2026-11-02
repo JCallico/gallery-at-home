@@ -202,7 +202,7 @@
    "id": "forests",
    "name": "Forests & Waterfalls",
    "play": {
-    "mode": "ambient",
+    "mode": "slideshow",
     "frame": "walnut",
     "intervalSec": 60,
     "showClock": true
