@@ -1,4 +1,4 @@
-import { useEffect } from 'preact/hooks';
+import { useEffect, useRef, useState } from 'preact/hooks';
 import { useKeys, useNav } from '../nav/router';
 import { captureDate, sourceLabel } from '../sources';
 import { refreshAlbum } from '../sources/albums';
@@ -41,6 +41,8 @@ function SideAction(props: {
   );
 }
 
+const GRID_STEP = 48;
+
 const longDate = (t: number) => new Date(t).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
 
 export function CollectionScreen({ id }: { id: string }) {
@@ -49,6 +51,23 @@ export function CollectionScreen({ id }: { id: string }) {
   useStore((s) => s.nowShowing);
   const showing = getNowShowing();
   const pinnedHere = showing?.collectionId === id;
+
+  // Big collections (a Google Photos album can hold thousands) draw their
+  // grid a few rows at a time: more tiles as the end comes into view.
+  const [shownCount, setShownCount] = useState(() => {
+    const at = collection && showing?.photoId ? collection.photos.findIndex((p) => p.id === showing.photoId) : -1;
+    return Math.max(GRID_STEP, at + GRID_STEP);
+  });
+  const gridEnd = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = gridEnd.current;
+    if (!el) return;
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) setShownCount((n) => n + GRID_STEP);
+    }, { rootMargin: '600px' });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [shownCount]);
 
   // Album collections pick up new photos when opened (if not read recently).
   useEffect(() => {
@@ -167,7 +186,7 @@ export function CollectionScreen({ id }: { id: string }) {
         ) : (
           <div class="scroll">
             <div class="photo-grid">
-              {collection.photos.map((p) => (
+              {collection.photos.slice(0, shownCount).map((p) => (
                 <button
                   key={p.id}
                   class={`photo-tile ${showing?.photoId === p.id ? 'is-showing' : ''}`}
@@ -181,6 +200,7 @@ export function CollectionScreen({ id }: { id: string }) {
                 </button>
               ))}
             </div>
+            {shownCount < count && <div ref={gridEnd} class="grid-more" />}
           </div>
         )}
       </main>

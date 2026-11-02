@@ -178,18 +178,20 @@ export function createAlbumCollection(name: string, sourceId: string, photos: Ph
 
 /**
  * Replaces an album collection's photos with a fresh read of the album,
- * keeping the cover when it's still there. Returns whether anything changed.
+ * keeping the cover when it's still there. Does nothing (no save, no
+ * re-render) when the album hasn't changed. Returns whether it changed.
  */
 export function syncAlbumPhotos(id: string, photos: PhotoRef[]): boolean {
   const before = getCollection(id);
   if (!before) return false;
   const changed = before.photos.length !== photos.length || before.photos.some((p, i) => p.id !== photos[i].id);
+  if (!changed) return false;
   updateCollection(id, (c) => ({
     photos,
     syncedAt: Date.now(),
     coverId: c.coverId && photos.some((p) => p.id === c.coverId) ? c.coverId : undefined,
   }));
-  return changed;
+  return true;
 }
 
 export function addPhotos(id: string, photos: PhotoRef[]): number {

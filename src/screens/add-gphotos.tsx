@@ -31,13 +31,15 @@ export function AddGooglePhotos({ collectionId }: { collectionId?: string }) {
       const source: GooglePhotosSource = existing ?? { id: `gphotos-${newId()}`, kind: 'gphotos', name: album.title, url: album.url };
       saveSource({ ...source, name: album.title });
       const refs = albumRefs(source, album);
+      // Newer TVs can read only the album's first page.
+      const partial = album.complete ? '' : ` (the first ${refs.length} of ${album.total}; this TV can only read the start of large albums)`;
       setBusy(null);
 
       const target = collectionId ? getCollection(collectionId) : undefined;
       const how = target
         ? await choose({
             title: album.title,
-            message: `${plural(refs.length, 'photo')} found.`,
+            message: `${plural(refs.length, 'photo')} found${partial}.`,
             options: [
               { value: 'new', label: 'Make it a new collection', hint: 'Stays in sync: photos added to the album appear on the TV' },
               { value: 'add', label: `Add the photos to “${target.name}”`, hint: 'A one-off copy of what’s in the album now' },
@@ -47,12 +49,12 @@ export function AddGooglePhotos({ collectionId }: { collectionId?: string }) {
       if (!how) return;
       if (how === 'add' && target) {
         const n = addPhotos(target.id, refs);
-        toast(n ? `Added ${plural(n, 'photo')}` : 'Those photos are already in this collection');
+        toast(n ? `Added ${plural(n, 'photo')}${partial}` : 'Those photos are already in this collection');
         nav.popTo('collection');
         return;
       }
       const c = createAlbumCollection(album.title, source.id, refs);
-      toast(`${plural(refs.length, 'photo')} added from Google Photos`);
+      toast(`${plural(refs.length, 'photo')} added from Google Photos${partial}`);
       nav.replace({ name: 'collection', id: c.id });
     } catch (err) {
       setBusy(null);

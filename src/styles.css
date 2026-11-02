@@ -364,3 +364,6 @@ h1, h2 { margin: 0; font-weight: 700; }
 .credits-group > * + * { margin-top: 12px; }
 .credits-group + .credits-group { margin-top: 40px; }
 .credits-heading { font-size: 26px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
+
+/* Placeholder at the end of a partly drawn photo grid; reaching it draws more. */
+.grid-more { height: 1px; }
