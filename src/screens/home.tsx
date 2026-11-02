@@ -50,10 +50,7 @@ export function Home() {
       <AmbientBackdrop photo={hero ? coverOf(hero) : null} />
 
       <div class="topbar">
-        <div class="wordmark">
-          <span class="wordmark-mark" />
-          Gallery<span class="wordmark-at">@</span>Home
-        </div>
+        <img class="wordmark" src="brand/title.png" alt="Gallery at Home" />
         <div class="topbar-right">
           <span class="topbar-clock">{timeLabel(clock)}</span>
           <button class="icon-btn" data-nav data-nav-id="go-sources" aria-label="Sources" onClick={() => nav.push({ name: 'sources' })}>
