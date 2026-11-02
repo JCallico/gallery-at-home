@@ -1,9 +1,8 @@
-import { useState } from 'preact/hooks';
 import { useNav } from '../nav/router';
 import { SAMPLE_COLLECTIONS } from '../samples';
 import { restoreSampleCollections, updateSettings, useStore } from '../store/store';
 import { toast } from '../ui/overlay';
-import { ChoiceRow, Row, TextRow } from '../ui/widgets';
+import { ChoiceRow, Row } from '../ui/widgets';
 import { Header, plural } from './common';
 
 const INTERVALS = [5, 10, 15, 30, 60, 300].map((s) => ({ value: s, label: s < 60 ? `${s} seconds` : `${s / 60} min` }));
@@ -12,7 +11,6 @@ const IDLE = [0, 1, 2, 5, 10, 15, 30].map((m) => ({ value: m, label: m === 0 ? '
 export function SettingsScreen() {
   const nav = useNav();
   const settings = useStore((s) => s.settings);
-  const [clientId, setClientId] = useState(settings.oneDriveClientId);
   return (
     <div class="screen page">
       <Header title="Settings" />
@@ -31,16 +29,6 @@ export function SettingsScreen() {
               value={settings.defaultPlay.intervalSec}
               options={INTERVALS}
               onChange={(v) => updateSettings({ defaultPlay: { ...settings.defaultPlay, intervalSec: v } })}
-            />
-            <TextRow
-              label="OneDrive app ID"
-              value={clientId}
-              placeholder="Application (client) ID from Azure"
-              onChange={setClientId}
-              onSubmit={() => {
-                updateSettings({ oneDriveClientId: clientId.trim() });
-                toast('Saved');
-              }}
             />
             {SAMPLE_COLLECTIONS.length > 0 && (
               <Row

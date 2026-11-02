@@ -1,7 +1,6 @@
 // Bundles the app into dist/ (or dev/.state/www for the dev server).
 //
 //   node scripts/build.mjs            production build for the TV → dist/
-//   ONEDRIVE_CLIENT_ID=… node …        bake in a OneDrive app ID
 //
 // Output targets Chromium 69, the web engine of 2020 Samsung TVs (Tizen 5.5).
 
@@ -31,7 +30,6 @@ export function buildOptions({ dev, outdir }) {
     define: {
       __DEV__: String(dev),
       __VERSION__: JSON.stringify(pkg.version),
-      __ONEDRIVE_CLIENT_ID__: JSON.stringify(process.env.ONEDRIVE_CLIENT_ID ?? ''),
     },
     // Live reload for the dev server.
     banner: dev ? { js: "new EventSource('/esbuild').addEventListener('change', () => location.reload());" } : undefined,

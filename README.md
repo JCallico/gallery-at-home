@@ -7,7 +7,7 @@ A photo gallery for Samsung TVs: your photos and the included collections, frame
 A Tizen TV app for building photo collections and playing them on the TV,
 driven entirely with the remote. No server or phone app is needed.
 
-- **Sources:** USB drives plugged into the TV, OneDrive, NAS/network shares
+- **Sources:** USB drives plugged into the TV, NAS/network shares
   (WebDAV or plain web-server folder listings) and web links (direct photo
   URLs, pages, or text/JSON lists of URLs).
 - **Collections:** pick photos one by one or whole folders (subfolders
@@ -112,19 +112,6 @@ Access) download previews to choose from; list the choices in
 `assets/samples/`, `src/samples/manifest.json` and `CREDITS.md`. Only
 public-domain, CC0, CC BY and CC BY-SA images are accepted.
 
-## OneDrive
-
-OneDrive sign-in uses a code shown on the TV that you enter on your phone.
-It needs a free Azure app registration, made once:
-
-1. portal.azure.com → App registrations → New registration.
-2. Supported accounts: personal Microsoft accounts (or "any organization +
-   personal").
-3. Authentication → Advanced → **Allow public client flows: Yes**.
-4. Copy the Application (client) ID into the app (Settings, or the OneDrive
-   sign-in screen), or bake it in at build time with
-   `ONEDRIVE_CLIENT_ID=… npm run build`.
-
 ## Layout
 
 ```
@@ -132,7 +119,7 @@ src/
   app.tsx            screen stack, remote key handling, Back behaviour
   nav/               spatial (arrow-key) focus navigation, router
   platform/          Tizen APIs: remote keys, screensaver, USB filesystem
-  sources/           USB, OneDrive, network, web adapters + EXIF reader
+  sources/           USB, network, web adapters + EXIF reader
   store/             collections, sources, settings (localStorage on the TV)
   screens/           home, collection, browse, play options, source setup
   player/            play queue, preloading, slide engine, mosaic

@@ -6,7 +6,6 @@ import { samplesAdapter, samplesSource, SAMPLES_ID } from '../samples';
 import { readExif } from './exif';
 import { smallThumb } from './thumbs';
 import { networkAdapter } from './network';
-import { oneDriveAdapter } from './onedrive';
 import { SourceAdapter } from './types';
 import { usbAdapter } from './usb';
 import { webAdapter } from './web';
@@ -66,7 +65,6 @@ export function adapterFor(sourceId: string): SourceAdapter {
     case 'samples': adapter = samplesAdapter(); break;
     case 'network': adapter = networkAdapter(source); break;
     case 'web': adapter = webAdapter(source); break;
-    case 'onedrive': adapter = oneDriveAdapter(source, getState().settings.oneDriveClientId); break;
   }
   adapters.set(sourceId, { source, adapter });
   return adapter;
@@ -94,8 +92,8 @@ function withExif(ref: PhotoRef, adapter: SourceAdapter, url: Promise<string>): 
 export function loadThumb(ref: PhotoRef): Promise<LoadedPhoto> {
   const adapter = adapterFor(ref.sourceId);
   const loaded = withExif(ref, adapter, adapter.thumbUrl(ref));
-  // Sources with real thumbnails (OneDrive) serve them directly; for raw
-  // originals (they're the ones with EXIF to read) make a small copy.
+  // Sources with ready-made thumbnails (the included photos) serve them
+  // directly; for raw originals (the ones with EXIF to read) make a small copy.
   if (!adapter.readHead) return loaded;
   return loaded.then((p) => smallThumb(ref.id, p.url, p.orientation).then((t) => ({ ...p, ...t })));
 }

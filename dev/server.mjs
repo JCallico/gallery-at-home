@@ -5,7 +5,7 @@
 // - Bundles with esbuild in watch mode and live-reloads the page.
 // - Serves dev/sample-usb as a fake USB drive ("removable_sda1"), standing
 //   in for tizen.filesystem.
-// - /__dev/proxy forwards cross-origin requests (OneDrive sign-in, WebDAV,
+// - /__dev/proxy forwards cross-origin requests (WebDAV,
 //   web links). On the TV the packaged app needs no proxy: config.xml's
 //   <access> grants cross-origin access directly.
 // - Answers the TV-only $WEBAPIS script with an empty file.

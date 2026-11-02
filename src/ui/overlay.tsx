@@ -120,7 +120,7 @@ export function prompt(opts: { title: string; label: string; value?: string; con
   ));
 }
 
-/** Shows arbitrary content (e.g. the OneDrive sign-in code) until closed. */
+/** Shows arbitrary content until closed. */
 export function showPanel(render: (close: () => void) => ComponentChildren): Promise<void> {
   return open<void>(undefined, (done) => render(() => done(undefined)));
 }
