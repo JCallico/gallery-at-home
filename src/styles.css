@@ -221,7 +221,6 @@ h1, h2 { margin: 0; font-weight: 700; }
 .tile-new { background: transparent; border: 3px dashed rgba(255, 255, 255, 0.16); }
 .tile-new:focus { border-color: transparent; }
 .source-usb { background: linear-gradient(135deg, #2ccf8a, #138a5a); color: #fff; }
-.source-onedrive { background: linear-gradient(135deg, #4aa3ff, #1c5fd6); color: #fff; }
 .source-network { background: linear-gradient(135deg, #ffb547, #e07818); color: #fff; }
 .source-web { background: linear-gradient(135deg, #c27bff, #7c3fe0); color: #fff; }
 
@@ -350,13 +349,6 @@ h1, h2 { margin: 0; font-weight: 700; }
 @keyframes pop-in { from { opacity: 0; transform: scale(0.95); } }
 @keyframes sheet-in { from { transform: translateX(100%); } }
 @keyframes toast-in { from { opacity: 0; transform: translate(-50%, 30px); } }
-
-/* OneDrive sign-in code */
-.code-box { display: flex; align-items: center; }
-.code-box > * + * { margin-left: 48px; }
-.code-steps { flex: 1; font-size: 30px; line-height: 1.6; color: var(--text-dim); }
-.code-steps b { color: var(--text); }
-.user-code { font-size: 84px; font-weight: 800; letter-spacing: 10px; padding: 24px 40px; border-radius: 20px; background: #000; font-family: ui-monospace, 'SamsungOne', monospace; }
 
 /* Colour-key legend */
 .legend { position: absolute; right: 96px; bottom: 40px; display: flex; font-size: 22px; color: var(--text-dim); }

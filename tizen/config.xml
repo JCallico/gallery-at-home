@@ -3,13 +3,13 @@
         id="http://callico.home/galleryathome" version="@VERSION@" viewmodes="maximized">
   <tizen:application id="GalleryAtH.GalleryAtHome" package="GalleryAtH" required_version="5.5"/>
   <name>Gallery at Home</name>
-  <description>Photo collections and slideshows from USB, OneDrive, your NAS and the web.</description>
+  <description>Photo collections and slideshows from USB, your NAS and the web.</description>
   <author>Javier Callico</author>
   <icon src="icon.png"/>
   <content src="index.html"/>
   <feature name="http://tizen.org/feature/screen.size.normal.1080.1920"/>
 
-  <!-- Network sources: NAS on the LAN, OneDrive/Graph, arbitrary web links. -->
+  <!-- Network sources: NAS on the LAN, arbitrary web links. -->
   <access origin="*" subdomains="true"/>
   <tizen:allow-navigation>*</tizen:allow-navigation>
   <!-- Without this Tizen applies a default policy whose img-src excludes

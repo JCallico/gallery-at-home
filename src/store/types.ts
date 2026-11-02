@@ -1,11 +1,11 @@
-export type SourceKind = 'usb' | 'onedrive' | 'network' | 'web' | 'samples';
+export type SourceKind = 'usb' | 'network' | 'web' | 'samples';
 
 /** A photo as stored in a collection: enough to find it again, never the bytes. */
 export interface PhotoRef {
   /** `${sourceId}|${key}`, unique across sources. */
   id: string;
   sourceId: string;
-  /** Source-specific locator: file path, OneDrive item id, or URL. */
+  /** Source-specific locator: file path or URL. */
   key: string;
   name: string;
   /** Capture time (ms since epoch) when the source knows it. */
@@ -66,12 +66,6 @@ export interface SamplesSource extends SourceBase {
   kind: 'samples';
 }
 
-export interface OneDriveSource extends SourceBase {
-  kind: 'onedrive';
-  account: string;
-  refreshToken: string;
-}
-
 export interface NetworkSource extends SourceBase {
   kind: 'network';
   /** Base URL of a WebDAV share or a web server directory listing. */
@@ -86,11 +80,10 @@ export interface WebSource extends SourceBase {
   urls: string[];
 }
 
-export type Source = UsbSource | SamplesSource | OneDriveSource | NetworkSource | WebSource;
-export type ConfiguredSource = OneDriveSource | NetworkSource | WebSource;
+export type Source = UsbSource | SamplesSource | NetworkSource | WebSource;
+export type ConfiguredSource = NetworkSource | WebSource;
 
 export interface AppSettings {
-  oneDriveClientId: string;
   defaultPlay: PlaySettings;
   /** Minutes of no remote input in the menus before "now showing" returns; 0 = never. */
   idleMin: number;

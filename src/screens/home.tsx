@@ -83,13 +83,13 @@ export function Home() {
         ) : collections.length ? (
           <>
             <h1 class="hero-title">New collection</h1>
-            <div class="hero-meta">Gather photos from a USB drive, OneDrive, your NAS or the web.</div>
+            <div class="hero-meta">Gather photos from a USB drive, your NAS or the web.</div>
           </>
         ) : (
           <>
             <h1 class="hero-title">Your photos, on the wall.</h1>
             <div class="hero-meta">
-              Make a collection from a USB drive, OneDrive, your NAS or the web, then play it framed, as a slideshow
+              Make a collection from a USB drive, your NAS or the web, then play it framed, as a slideshow
               or as a mosaic.
             </div>
           </>

@@ -22,7 +22,7 @@ function initialState(): State {
   return {
     collections: [],
     sources: [],
-    settings: { oneDriveClientId: __ONEDRIVE_CLIENT_ID__, defaultPlay: { ...DEFAULT_PLAY }, idleMin: 5 },
+    settings: { defaultPlay: { ...DEFAULT_PLAY }, idleMin: 5 },
     nowShowing: null,
     samplesAdded: false,
   };
@@ -61,11 +61,11 @@ function load(): State {
     return withSamples({
       // Older saves predate newer play options; fill them with defaults.
       collections: (saved.collections ?? []).map((c) => ({ ...c, play: upgradePlay(c.play) })),
-      sources: saved.sources ?? [],
+      // OneDrive sources were removed; drop any saved ones.
+      sources: (saved.sources ?? []).filter((x) => (x.kind as string) !== 'onedrive'),
       nowShowing: saved.nowShowing ?? null,
       settings: {
-        ...base.settings,
-        ...saved.settings,
+        idleMin: saved.settings?.idleMin ?? base.settings.idleMin,
         defaultPlay: upgradePlay(saved.settings?.defaultPlay),
       },
       samplesAdded: saved.samplesAdded ?? false,

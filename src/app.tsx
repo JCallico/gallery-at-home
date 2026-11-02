@@ -4,7 +4,6 @@ import { focusById, focusFirst, moveFocus } from './nav/spatial';
 import { keyAction } from './platform/keys';
 import { exitApp } from './platform/tizen';
 import { AddNetwork } from './screens/add-network';
-import { AddOneDrive } from './screens/add-onedrive';
 import { AddWeb } from './screens/add-web';
 import { Browse } from './screens/browse';
 import { CollectionScreen } from './screens/collection';
@@ -37,7 +36,6 @@ function renderRoute(route: Route) {
     case 'browse': return <Browse {...route} />;
     case 'add-network': return <AddNetwork sourceId={route.sourceId} />;
     case 'add-web': return <AddWeb sourceId={route.sourceId} />;
-    case 'add-onedrive': return <AddOneDrive />;
   }
 }
 

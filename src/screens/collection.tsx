@@ -152,7 +152,7 @@ export function CollectionScreen({ id }: { id: string }) {
         {count === 0 ? (
           <div class="detail-empty">
             <Icon name="image" />
-            <p>Add photos from a USB drive, OneDrive, a network share or the web.</p>
+            <p>Add photos from a USB drive, a network share or the web.</p>
           </div>
         ) : (
           <div class="scroll">

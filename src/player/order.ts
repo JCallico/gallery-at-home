@@ -17,11 +17,11 @@ const resolved = new Set<string>();
 
 /**
  * Fills in capture dates from EXIF for photos whose source can provide it
- * (USB, network, web); OneDrive already supplied them when browsing.
+ * (USB, network, web).
  * Results are written back to the collection so this happens once.
  */
 export async function resolveDates(photos: PhotoRef[], onProgress: (done: number, total: number) => void): Promise<PhotoRef[]> {
-  const todo = photos.filter((p) => !resolved.has(p.id) && !p.sourceId.startsWith('onedrive-'));
+  const todo = photos.filter((p) => !resolved.has(p.id));
   const dates = new Map<string, number>();
   let done = 0;
   let next = 0;
