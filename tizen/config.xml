@@ -19,6 +19,9 @@
   <tizen:content-security-policy>default-src *; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src * data: blob:; media-src * data: blob:; connect-src * data: blob:</tizen:content-security-policy>
 
   <tizen:privilege name="http://tizen.org/privilege/internet"/>
+  <!-- The download manager reads Google Photos album pages on newer TVs,
+       whose browser engine Google refuses (see src/sources/fetch-text.ts). -->
+  <tizen:privilege name="http://tizen.org/privilege/download"/>
   <tizen:privilege name="http://tizen.org/privilege/filesystem.read"/>
   <tizen:privilege name="http://tizen.org/privilege/externalstorage"/>
   <tizen:privilege name="http://tizen.org/privilege/tv.inputdevice"/>

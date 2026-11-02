@@ -81,11 +81,13 @@ export function Thumb({ photo }: { photo: PhotoRef }) {
 
   const onLoad = (e: Event) => {
     const img = e.currentTarget as HTMLImageElement;
-    const el = box.current!;
+    const el = box.current;
+    // The tile can be gone by the time its image arrives (grid redrawn).
+    if (!el || !src) return;
     const l = layoutImage(
       { width: img.naturalWidth, height: img.naturalHeight },
       { width: el.clientWidth, height: el.clientHeight },
-      src!.orientation,
+      src.orientation,
       'fill',
     );
     setStyle({ width: `${l.width}px`, height: `${l.height}px`, transform: l.transform });

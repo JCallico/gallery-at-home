@@ -16,7 +16,7 @@ export const TARGET = ['chrome69'];
 
 export function buildOptions({ dev, outdir }) {
   return {
-    entryPoints: { app: join(root, 'src/main.tsx') },
+    entryPoints: { app: join(root, 'src/main.tsx'), 'album-worker': join(root, 'src/sources/album-worker.ts') },
     bundle: true,
     outdir,
     target: TARGET,
@@ -32,7 +32,8 @@ export function buildOptions({ dev, outdir }) {
       __VERSION__: JSON.stringify(pkg.version),
     },
     // Live reload for the dev server.
-    banner: dev ? { js: "new EventSource('/esbuild').addEventListener('change', () => location.reload());" } : undefined,
+    // (Pages only: the album worker shares these options but has no page to reload.)
+    banner: dev ? { js: "if (typeof document !== 'undefined') new EventSource('/esbuild').addEventListener('change', () => location.reload());" } : undefined,
   };
 }
 

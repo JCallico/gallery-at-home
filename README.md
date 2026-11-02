@@ -117,13 +117,19 @@ public-domain, CC0, CC BY and CC BY-SA images are accepted.
 ## Google Photos shared albums
 
 Google offers no API for reading a shared album from its link, so the app
-reads the album's public page the way a browser does (`src/sources/gphotos.ts`):
-the first 300 items are embedded in the page, the rest come from the page's
-own data endpoint, and videos are skipped. It works on 2020 TVs (Chromium
-69). Newer engines label app requests `Sec-Fetch-Site: cross-site`, which
-Google refuses, so it fails on newer TVs and the Tizen 10 emulator. Google
-can change the page format at any time; the collection then keeps the photos
-it last read.
+reads the album's public page the way a browser does
+(`src/sources/gphotos-read.ts`): the first 300 items are embedded in the page,
+the rest come from the page's own data endpoint, and videos are skipped.
+Reading runs in a Web Worker (`album-worker.ts`) so the TV's screen never
+freezes for it. Album collections re-read the album in the background when
+opened (after 30 minutes) and every 30 minutes while playing.
+
+Newer browser engines (2021+ TVs, the Tizen 10 emulator) label app requests
+`Sec-Fetch-Site: cross-site`, which Google refuses. There the album page is
+fetched with Tizen's download manager instead (`fetch-text.ts`), which can't
+make the POST requests later pages need, so those TVs read an album's first
+300 items. Google can change the page format at any time; the collection then
+keeps the photos it last read.
 
 ## Layout
 
