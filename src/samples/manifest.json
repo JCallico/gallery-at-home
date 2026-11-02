@@ -1,0 +1,633 @@
+{
+ "collections": [
+  {
+   "id": "masterpieces",
+   "name": "Masterpieces",
+   "play": {
+    "mode": "slideshow",
+    "frame": "gold",
+    "intervalSec": 60,
+    "showCaption": true,
+    "frameFit": "fit"
+   },
+   "photos": [
+    {
+     "file": "wheat-field-with-cypresses.jpg",
+     "title": "Wheat Field with Cypresses",
+     "by": "Vincent van Gogh, 1889",
+     "license": "CC0 1.0",
+     "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+     "source": "https://www.metmuseum.org/art/collection/search/436535",
+     "width": 1785,
+     "height": 1400
+    },
+    {
+     "file": "the-great-wave-off-kanagawa.jpg",
+     "title": "The Great Wave off Kanagawa",
+     "by": "Katsushika Hokusai, ca. 1830–32",
+     "license": "CC0 1.0",
+     "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+     "source": "https://www.metmuseum.org/art/collection/search/39799",
+     "width": 1920,
+     "height": 1312
+    },
+    {
+     "file": "the-harvesters.jpg",
+     "title": "The Harvesters",
+     "by": "Pieter Bruegel the Elder, 1565",
+     "license": "CC0 1.0",
+     "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+     "source": "https://www.metmuseum.org/art/collection/search/435809",
+     "width": 1907,
+     "height": 1400
+    },
+    {
+     "file": "view-of-toledo.jpg",
+     "title": "View of Toledo",
+     "by": "El Greco, ca. 1599–1600",
+     "license": "CC0 1.0",
+     "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+     "source": "https://www.metmuseum.org/art/collection/search/436575",
+     "width": 1244,
+     "height": 1400
+    },
+    {
+     "file": "wheat-fields.jpg",
+     "title": "Wheat Fields",
+     "by": "Jacob van Ruisdael, ca. 1670",
+     "license": "CC0 1.0",
+     "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+     "source": "https://www.metmuseum.org/art/collection/search/437549",
+     "width": 1825,
+     "height": 1400
+    },
+    {
+     "file": "two-men-contemplating-the-moon.jpg",
+     "title": "Two Men Contemplating the Moon",
+     "by": "Caspar David Friedrich, ca. 1825–30",
+     "license": "CC0 1.0",
+     "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+     "source": "https://www.metmuseum.org/art/collection/search/438417",
+     "width": 1748,
+     "height": 1400
+    },
+    {
+     "file": "haystacks-autumn.jpg",
+     "title": "Haystacks: Autumn",
+     "by": "Jean-François Millet, ca. 1874",
+     "license": "CC0 1.0",
+     "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+     "source": "https://www.metmuseum.org/art/collection/search/437097",
+     "width": 1794,
+     "height": 1400
+    },
+    {
+     "file": "jalais-hill-pontoise.jpg",
+     "title": "Jalais Hill, Pontoise",
+     "by": "Camille Pissarro, 1867",
+     "license": "CC0 1.0",
+     "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+     "source": "https://www.metmuseum.org/art/collection/search/437299",
+     "width": 1839,
+     "height": 1400
+    }
+   ]
+  },
+  {
+   "id": "mountains",
+   "name": "Mountains",
+   "play": {
+    "mode": "kenburns",
+    "intervalSec": 15
+   },
+   "photos": [
+    {
+     "file": "pic-du-midi-dossau-french-pyrenees.jpg",
+     "title": "Pic du Midi d'Ossau, French Pyrenees",
+     "by": "Myrabella",
+     "license": "CC BY-SA 3.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+     "source": "https://commons.wikimedia.org/wiki/File:Gentau_Pic_du_Midi_Ossau.jpg",
+     "width": 1920,
+     "height": 1256
+    },
+    {
+     "file": "autumn-fog-synevyr-national-park-ukraine.jpg",
+     "title": "Autumn fog, Synevyr National Park, Ukraine",
+     "by": "Rbrechko",
+     "license": "CC BY-SA 4.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+     "source": "https://commons.wikimedia.org/wiki/File:21-224-5054_NNP_Synevyr_RB_18.jpg",
+     "width": 1920,
+     "height": 1280
+    },
+    {
+     "file": "ai-petri-above-the-clouds-crimea.jpg",
+     "title": "Ai-Petri above the clouds, Crimea",
+     "by": "Dmytro Balkhovitin",
+     "license": "CC BY-SA 4.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+     "source": "https://commons.wikimedia.org/wiki/File:Crimea,_Ai-Petri,_low_clouds.jpg",
+     "width": 1920,
+     "height": 960
+    },
+    {
+     "file": "lake-louise-canadian-rockies.jpg",
+     "title": "Lake Louise, Canadian Rockies",
+     "by": "Chensiyuan",
+     "license": "CC BY-SA 4.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+     "source": "https://commons.wikimedia.org/wiki/File:1_lake_louise_pano_2019.jpg",
+     "width": 1920,
+     "height": 1077
+    },
+    {
+     "file": "kirkjufell-iceland.jpg",
+     "title": "Kirkjufell, Iceland",
+     "by": "Jakub Hałun",
+     "license": "CC BY 4.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+     "source": "https://commons.wikimedia.org/wiki/File:Kirkjufell,_Iceland,_20240714_1631_0713.jpg",
+     "width": 1920,
+     "height": 1278
+    },
+    {
+     "file": "silver-lake-sierra-nevada-california.jpg",
+     "title": "Silver Lake, Sierra Nevada, California",
+     "by": "King of Hearts",
+     "license": "CC BY-SA 4.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+     "source": "https://commons.wikimedia.org/wiki/File:Silver_Lake_Mammoth_September_2016_001.jpg",
+     "width": 1920,
+     "height": 1280
+    },
+    {
+     "file": "watzmann-above-the-fog-bavaria.jpg",
+     "title": "Watzmann above the fog, Bavaria",
+     "by": "Jörg Braukmann",
+     "license": "CC BY-SA 4.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+     "source": "https://commons.wikimedia.org/wiki/File:Watzmann_mit_Sch%C3%B6nfeldspitze.jpg",
+     "width": 1920,
+     "height": 972
+    },
+    {
+     "file": "passo-pordoi-dolomites-italy.jpg",
+     "title": "Passo Pordoi, Dolomites, Italy",
+     "by": "Bops92",
+     "license": "CC BY-SA 4.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+     "source": "https://commons.wikimedia.org/wiki/File:Passo_Pordoi-bops_01.jpg",
+     "width": 1920,
+     "height": 1280
+    }
+   ]
+  },
+  {
+   "id": "lakes",
+   "name": "Still Waters",
+   "play": {
+    "mode": "slideshow",
+    "frame": "gallery",
+    "intervalSec": 30
+   },
+   "photos": [
+    {
+     "file": "eilean-donan-castle-scotland.jpg",
+     "title": "Eilean Donan Castle, Scotland",
+     "by": "Diliff",
+     "license": "CC BY-SA 3.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+     "source": "https://commons.wikimedia.org/wiki/File:Eilean_Donan_Castle,_Scotland_-_Jan_2011.jpg",
+     "width": 1920,
+     "height": 1130
+    },
+    {
+     "file": "dawn-in-the-barycz-valley-poland.jpg",
+     "title": "Dawn in the Barycz Valley, Poland",
+     "by": "Bartosz Dworski",
+     "license": "CC BY-SA 3.0 pl",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/pl/deed.en",
+     "source": "https://commons.wikimedia.org/wiki/File:Dolina_Baryczy_1.jpg",
+     "width": 1920,
+     "height": 1282
+    },
+    {
+     "file": "sunrise-on-lago-do-cunia-brazil.jpg",
+     "title": "Sunrise on Lago do Cuniã, Brazil",
+     "by": "RodrigoErse",
+     "license": "CC BY-SA 4.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+     "source": "https://commons.wikimedia.org/wiki/File:Aurora_amaz%C3%B4nica_no_Lago_do_Cuni%C3%A3.jpg",
+     "width": 1920,
+     "height": 1118
+    },
+    {
+     "file": "loch-tummel-in-the-fog-scotland.jpg",
+     "title": "Loch Tummel in the fog, Scotland",
+     "by": "Eric Kilby",
+     "license": "CC BY-SA 4.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+     "source": "https://commons.wikimedia.org/wiki/File:Foggy_Reflections_-_Loch_Tummel.jpg",
+     "width": 1920,
+     "height": 1280
+    },
+    {
+     "file": "jokulsarlon-glacier-lagoon-iceland.jpg",
+     "title": "Jökulsárlón glacier lagoon, Iceland",
+     "by": "Kenny Muir",
+     "license": "CC BY 2.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+     "source": "https://commons.wikimedia.org/wiki/File:Jokulsarlon_lake,_Iceland.jpg",
+     "width": 1920,
+     "height": 1269
+    },
+    {
+     "file": "lake-vuoksa-in-autumn-russia.jpg",
+     "title": "Lake Vuoksa in autumn, Russia",
+     "by": "Dmitry A. Mottl",
+     "license": "CC BY-SA 3.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+     "source": "https://commons.wikimedia.org/wiki/File:Lake_Vuoksa_1.jpg",
+     "width": 1920,
+     "height": 1280
+    },
+    {
+     "file": "lupins-at-lake-tekapo-new-zealand.jpg",
+     "title": "Lupins at Lake Tekapo, New Zealand",
+     "by": "Krzysztof Golik",
+     "license": "CC BY-SA 4.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+     "source": "https://commons.wikimedia.org/wiki/File:Lake_Tekapo_01.jpg",
+     "width": 1920,
+     "height": 1213
+    },
+    {
+     "file": "tufa-towers-mono-lake-california.jpg",
+     "title": "Tufa towers, Mono Lake, California",
+     "by": "Vezoy",
+     "license": "CC BY-SA 3.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+     "source": "https://commons.wikimedia.org/wiki/File:Mono_Lake_Tufa.JPG",
+     "width": 1920,
+     "height": 1280
+    }
+   ]
+  },
+  {
+   "id": "coast",
+   "name": "Coastlines",
+   "play": {
+    "mode": "slideshow",
+    "intervalSec": 20,
+    "transition": "fade"
+   },
+   "photos": [
+    {
+     "file": "cala-de-la-granadella-javea-spain.jpg",
+     "title": "Cala de la Granadella, Jávea, Spain",
+     "by": "Diego Delso",
+     "license": "CC BY-SA 4.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+     "source": "https://commons.wikimedia.org/wiki/File:Cala_de_la_Granadella,_J%C3%A1vea,_Espa%C3%B1a,_2014-07-01,_DD_37.JPG",
+     "width": 1920,
+     "height": 1190
+    },
+    {
+     "file": "evening-surf-at-pustkowo-poland.jpg",
+     "title": "Evening surf at Pustkowo, Poland",
+     "by": "Jar.ciurus",
+     "license": "CC BY 3.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+     "source": "https://commons.wikimedia.org/wiki/File:Plaza_Pustkowo_1.jpg",
+     "width": 1920,
+     "height": 1334
+    },
+    {
+     "file": "the-manneporte-etretat-france.jpg",
+     "title": "The Manneporte, Étretat, France",
+     "by": "Jörg Braukmann",
+     "license": "CC BY-SA 4.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+     "source": "https://commons.wikimedia.org/wiki/File:Manneporte_en_soir.jpg",
+     "width": 1920,
+     "height": 1206
+    },
+    {
+     "file": "kjeungskjr-lighthouse-norway.jpg",
+     "title": "Kjeungskjær Lighthouse, Norway",
+     "by": "Gordon Leggett",
+     "license": "CC BY-SA 4.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+     "source": "https://commons.wikimedia.org/wiki/File:2016-11-13_01_Kjeungskj%C3%A6r_Lighthouse,_S%C3%B8r-Tr%C3%B8ndelag,_Norway.jpg",
+     "width": 1920,
+     "height": 1042
+    },
+    {
+     "file": "second-beach-olympic-national-park.jpg",
+     "title": "Second Beach, Olympic National Park",
+     "by": "King of Hearts",
+     "license": "CC BY-SA 4.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+     "source": "https://commons.wikimedia.org/wiki/File:Second_Beach_Olympic_June_2018_008.jpg",
+     "width": 1920,
+     "height": 1280
+    },
+    {
+     "file": "padar-island-komodo-indonesia.jpg",
+     "title": "Padar Island, Komodo, Indonesia",
+     "by": "Jakub Hałun",
+     "license": "CC BY 4.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+     "source": "https://commons.wikimedia.org/wiki/File:Padar_Island,_Komodo_National_Park,_Indonesia,_20250822_0929_2659.jpg",
+     "width": 1920,
+     "height": 1282
+    },
+    {
+     "file": "navagio-beach-zakynthos-greece.jpg",
+     "title": "Navagio Beach, Zakynthos, Greece",
+     "by": "Wilnel José Verdú Guerrero",
+     "license": "CC BY-SA 4.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+     "source": "https://commons.wikimedia.org/wiki/File:Navagio,_Zante_02.jpg",
+     "width": 1889,
+     "height": 1400
+    },
+    {
+     "file": "the-twelve-apostles-victoria-australia.jpg",
+     "title": "The Twelve Apostles, Victoria, Australia",
+     "by": "Dietmar Rabich",
+     "license": "CC BY-SA 4.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+     "source": "https://commons.wikimedia.org/wiki/File:Princetown_(AU),_Port_Campbell_National_Park,_Twelve_Apostles_--_2019_--_0930.jpg",
+     "width": 1920,
+     "height": 1280
+    }
+   ]
+  },
+  {
+   "id": "forests",
+   "name": "Forests & Waterfalls",
+   "play": {
+    "mode": "ambient",
+    "frame": "walnut",
+    "intervalSec": 60,
+    "showClock": true
+   },
+   "photos": [
+    {
+     "file": "woodland-path-in-autumn-dulmen-germany.jpg",
+     "title": "Woodland path in autumn, Dülmen, Germany",
+     "by": "Dietmar Rabich",
+     "license": "CC BY-SA 4.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+     "source": "https://commons.wikimedia.org/wiki/File:D%C3%BClmen,_B%C3%B6rnste,_Waldweg_--_2015_--_4649.jpg",
+     "width": 1920,
+     "height": 1190
+    },
+    {
+     "file": "forest-road-in-winter-slavne-ukraine.jpg",
+     "title": "Forest road in winter, Slavne, Ukraine",
+     "by": "George Chernilevsky",
+     "license": "Public domain",
+     "source": "https://commons.wikimedia.org/wiki/File:Forest_road_Slavne_2017_G8.jpg",
+     "width": 1920,
+     "height": 1280
+    },
+    {
+     "file": "november-mist-on-the-uetliberg-zurich.jpg",
+     "title": "November mist on the Uetliberg, Zürich",
+     "by": "Kuhnmi",
+     "license": "CC BY-SA 4.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+     "source": "https://commons.wikimedia.org/wiki/File:Baumsilhouetten_am_Uetliberg_mit_Novembernebel_und_Sonnenstrahlen.jpg",
+     "width": 1920,
+     "height": 1280
+    },
+    {
+     "file": "sunbeams-in-the-roruper-holz-germany.jpg",
+     "title": "Sunbeams in the Roruper Holz, Germany",
+     "by": "Dietmar Rabich",
+     "license": "CC BY-SA 4.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+     "source": "https://commons.wikimedia.org/wiki/File:D%C3%BClmen,_Rorup,_NSG_Roruper_Holz_--_2021_--_8187-91.jpg",
+     "width": 1920,
+     "height": 1280
+    },
+    {
+     "file": "laurel-forest-in-the-fog-fanal-madeira.jpg",
+     "title": "Laurel forest in the fog, Fanal, Madeira",
+     "by": "Dietmar Rabich",
+     "license": "CC BY-SA 4.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+     "source": "https://commons.wikimedia.org/wiki/File:Fanal_(Madeira,_Portugal),_Lorbeerwald_--_2025_--_1532.jpg",
+     "width": 1920,
+     "height": 1280
+    },
+    {
+     "file": "horseshoe-falls-mount-field-tasmania.jpg",
+     "title": "Horseshoe Falls, Mount Field, Tasmania",
+     "by": "Flying Freddy",
+     "license": "CC BY-SA 3.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+     "source": "https://commons.wikimedia.org/wiki/File:Horseshoe_falls_fw.jpg",
+     "width": 1920,
+     "height": 1258
+    },
+    {
+     "file": "kuang-si-falls-laos.jpg",
+     "title": "Kuang Si Falls, Laos",
+     "by": "Basile Morin",
+     "license": "CC BY-SA 4.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+     "source": "https://commons.wikimedia.org/wiki/File:Kuang_Si_Falls_and_its_emerald_water_pools_in_Luang_Prabang_province_Laos.jpg",
+     "width": 1920,
+     "height": 1280
+    },
+    {
+     "file": "behind-seljalandsfoss-iceland.jpg",
+     "title": "Behind Seljalandsfoss, Iceland",
+     "by": "Diego Delso",
+     "license": "CC BY-SA 4.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+     "source": "https://commons.wikimedia.org/wiki/File:Seljalandsfoss,_Su%C3%B0urland,_Islandia,_2014-08-16,_DD_201-203_HDR.JPG",
+     "width": 1920,
+     "height": 1237
+    }
+   ]
+  },
+  {
+   "id": "night",
+   "name": "After Dark",
+   "play": {
+    "mode": "slideshow",
+    "frame": "floating",
+    "intervalSec": 30
+   },
+   "photos": [
+    {
+     "file": "northern-lights-over-bear-lake-alaska.jpg",
+     "title": "Northern lights over Bear Lake, Alaska",
+     "by": "U.S. Air Force photo",
+     "license": "Public domain",
+     "source": "https://commons.wikimedia.org/wiki/File:Aurora_borealis_over_Eielson_Air_Force_Base,_Alaska.jpg",
+     "width": 1920,
+     "height": 1251
+    },
+    {
+     "file": "aurora-over-flakstad-lofoten-norway.jpg",
+     "title": "Aurora over Flakstad, Lofoten, Norway",
+     "by": "Johannes Groll",
+     "license": "CC0",
+     "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+     "source": "https://commons.wikimedia.org/wiki/File:Lofoten,_Norway_(Unsplash).jpg",
+     "width": 1920,
+     "height": 1280
+    },
+    {
+     "file": "aurora-and-perseids-over-norderney-germany.jpg",
+     "title": "Aurora and Perseids over Norderney, Germany",
+     "by": "Stephan Sprinz",
+     "license": "CC BY 4.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+     "source": "https://commons.wikimedia.org/wiki/File:Aurora_and_perseids.jpg",
+     "width": 1920,
+     "height": 1277
+    },
+    {
+     "file": "savault-chapel-under-the-milky-way-burgundy.jpg",
+     "title": "Savault Chapel under the Milky Way, Burgundy",
+     "by": "Benh LIEU SONG",
+     "license": "CC BY-SA 4.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+     "source": "https://commons.wikimedia.org/wiki/File:Savault_Chapel_Under_Milky_Way_BLS.jpg",
+     "width": 1920,
+     "height": 1280
+    },
+    {
+     "file": "milky-way-over-serra-da-capivara-brazil.jpg",
+     "title": "Milky Way over Serra da Capivara, Brazil",
+     "by": "Thiago Campi",
+     "license": "CC BY-SA 4.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+     "source": "https://commons.wikimedia.org/wiki/File:Parque_nacional_serra_da_capivara-THIAGO_CAMPI-03.jpg",
+     "width": 1920,
+     "height": 1280
+    },
+    {
+     "file": "chateau-de-chillon-at-nightfall-switzerland.jpg",
+     "title": "Château de Chillon at nightfall, Switzerland",
+     "by": "Giles Laurent",
+     "license": "CC BY-SA 4.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+     "source": "https://commons.wikimedia.org/wiki/File:001_Chateau_de_Chillon_and_Dents_du_Midi_Photo_by_Giles_Laurent.jpg",
+     "width": 1920,
+     "height": 1281
+    },
+    {
+     "file": "hungarian-parliament-budapest.jpg",
+     "title": "Hungarian Parliament, Budapest",
+     "by": "Pierre Blaché",
+     "license": "CC0",
+     "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+     "source": "https://commons.wikimedia.org/wiki/File:Hungarian_Parliament_Building_2023-9.jpg",
+     "width": 1920,
+     "height": 1080
+    },
+    {
+     "file": "si-o-se-pol-bridge-isfahan-iran.jpg",
+     "title": "Si-o-se-pol bridge, Isfahan, Iran",
+     "by": "Reza Haji-pour",
+     "license": "CC BY 3.0",
+     "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+     "source": "https://commons.wikimedia.org/wiki/File:Si-o-se-Pol.jpg",
+     "width": 1920,
+     "height": 1398
+    }
+   ]
+  },
+  {
+   "id": "space",
+   "name": "Space",
+   "play": {
+    "mode": "kenburns",
+    "intervalSec": 20
+   },
+   "photos": [
+    {
+     "file": "jeju-island-from-orbit-south-korea.jpg",
+     "title": "Jeju Island from orbit, South Korea",
+     "by": "NASA Earth Observatory (Robert Simmon, Landsat)",
+     "license": "Public domain",
+     "source": "https://commons.wikimedia.org/wiki/File:Jeju_Island.jpg",
+     "width": 1920,
+     "height": 1280
+    },
+    {
+     "file": "typhoons-parma-and-melor-2009.jpg",
+     "title": "Typhoons Parma and Melor, 2009",
+     "by": "NASA, MODIS Rapid Response Team",
+     "license": "Public domain",
+     "source": "https://commons.wikimedia.org/wiki/File:ParmaMelor_AMO_TMO_2009279_lrg.jpg",
+     "width": 1878,
+     "height": 1400
+    },
+    {
+     "file": "city-lights-of-the-united-states.jpg",
+     "title": "City lights of the United States",
+     "by": "NASA Earth Observatory",
+     "license": "Public domain",
+     "source": "https://commons.wikimedia.org/wiki/File:City_Lights_of_the_United_States_2012.jpg",
+     "width": 1920,
+     "height": 1280
+    },
+    {
+     "file": "the-sombrero-galaxy.jpg",
+     "title": "The Sombrero Galaxy",
+     "by": "NASA/ESA, Hubble Heritage Team",
+     "license": "Public domain",
+     "source": "https://commons.wikimedia.org/wiki/File:M104_ngc4594_sombrero_galaxy_hi-res.jpg",
+     "width": 1920,
+     "height": 1076
+    },
+    {
+     "file": "the-whirlpool-galaxy.jpg",
+     "title": "The Whirlpool Galaxy",
+     "by": "NASA and ESA",
+     "license": "Public domain",
+     "source": "https://commons.wikimedia.org/wiki/File:Messier51_sRGB.jpg",
+     "width": 1920,
+     "height": 1332
+    },
+    {
+     "file": "the-andromeda-galaxy.jpg",
+     "title": "The Andromeda Galaxy",
+     "by": "Luc Viatour",
+     "license": "CC BY-SA 2.5",
+     "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5",
+     "source": "https://commons.wikimedia.org/wiki/File:M31-Andromede-16-09-2023-Hamois.jpg",
+     "width": 1920,
+     "height": 1269
+    },
+    {
+     "file": "the-moon-over-earths-atmosphere.jpg",
+     "title": "The Moon over Earth’s atmosphere",
+     "by": "NASA",
+     "license": "Public domain",
+     "source": "https://commons.wikimedia.org/wiki/File:Full_moon_partially_obscured_by_atmosphere.jpg",
+     "width": 1920,
+     "height": 1280
+    },
+    {
+     "file": "tracys-rock-apollo-17.jpg",
+     "title": "Tracy’s Rock, Apollo 17",
+     "by": "NASA, Eugene A. Cernan",
+     "license": "Public domain",
+     "source": "https://commons.wikimedia.org/wiki/File:Apollo_17_Harrison_H._Schmitt_and_Tracy%27s_Rock_-_AS17-140-21493%2BAS17-140-21497_2025.jpg",
+     "width": 1920,
+     "height": 915
+    }
+   ]
+  }
+ ]
+}

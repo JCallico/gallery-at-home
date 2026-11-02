@@ -1,0 +1,343 @@
+{
+ "collections": [
+  {
+   "id": "masterpieces",
+   "name": "Masterpieces",
+   "play": {
+    "mode": "slideshow",
+    "frame": "gold",
+    "intervalSec": 60,
+    "showCaption": true,
+    "frameFit": "fit"
+   },
+   "photos": [
+    {
+     "met": 436535,
+     "title": "Wheat Field with Cypresses",
+     "by": "Vincent van Gogh, 1889",
+     "image": "https://images.metmuseum.org/CRDImages/ep/original/DP-42549-001.jpg",
+     "page": "https://www.metmuseum.org/art/collection/search/436535"
+    },
+    {
+     "met": 39799,
+     "title": "The Great Wave off Kanagawa",
+     "by": "Katsushika Hokusai, ca. 1830–32",
+     "image": "https://images.metmuseum.org/CRDImages/as/original/DP141042.jpg",
+     "page": "https://www.metmuseum.org/art/collection/search/39799"
+    },
+    {
+     "met": 435809,
+     "title": "The Harvesters",
+     "by": "Pieter Bruegel the Elder, 1565",
+     "image": "https://images.metmuseum.org/CRDImages/ep/original/DP119115.jpg",
+     "page": "https://www.metmuseum.org/art/collection/search/435809"
+    },
+    {
+     "met": 436575,
+     "title": "View of Toledo",
+     "by": "El Greco, ca. 1599–1600",
+     "image": "https://images.metmuseum.org/CRDImages/ep/original/DP349564.jpg",
+     "page": "https://www.metmuseum.org/art/collection/search/436575"
+    },
+    {
+     "met": 437549,
+     "title": "Wheat Fields",
+     "by": "Jacob van Ruisdael, ca. 1670",
+     "image": "https://images.metmuseum.org/CRDImages/ep/original/DP145911.jpg",
+     "page": "https://www.metmuseum.org/art/collection/search/437549"
+    },
+    {
+     "met": 438417,
+     "title": "Two Men Contemplating the Moon",
+     "by": "Caspar David Friedrich, ca. 1825–30",
+     "image": "https://images.metmuseum.org/CRDImages/ep/original/DP-31997-001-NEW.jpg",
+     "page": "https://www.metmuseum.org/art/collection/search/438417"
+    },
+    {
+     "met": 437097,
+     "title": "Haystacks: Autumn",
+     "by": "Jean-François Millet, ca. 1874",
+     "image": "https://images.metmuseum.org/CRDImages/ep/original/DP124093.jpg",
+     "page": "https://www.metmuseum.org/art/collection/search/437097"
+    },
+    {
+     "met": 437299,
+     "title": "Jalais Hill, Pontoise",
+     "by": "Camille Pissarro, 1867",
+     "image": "https://images.metmuseum.org/CRDImages/ep/original/DT1859.jpg",
+     "page": "https://www.metmuseum.org/art/collection/search/437299"
+    }
+   ]
+  },
+  {
+   "id": "mountains",
+   "name": "Mountains",
+   "play": {
+    "mode": "kenburns",
+    "intervalSec": 15
+   },
+   "photos": [
+    {
+     "file": "File:Gentau Pic du Midi Ossau.jpg",
+     "title": "Pic du Midi d'Ossau, French Pyrenees"
+    },
+    {
+     "file": "File:21-224-5054 NNP Synevyr RB 18.jpg",
+     "title": "Autumn fog, Synevyr National Park, Ukraine"
+    },
+    {
+     "file": "File:Crimea, Ai-Petri, low clouds.jpg",
+     "title": "Ai-Petri above the clouds, Crimea"
+    },
+    {
+     "file": "File:1 lake louise pano 2019.jpg",
+     "title": "Lake Louise, Canadian Rockies"
+    },
+    {
+     "file": "File:Kirkjufell, Iceland, 20240714 1631 0713.jpg",
+     "title": "Kirkjufell, Iceland"
+    },
+    {
+     "file": "File:Silver Lake Mammoth September 2016 001.jpg",
+     "title": "Silver Lake, Sierra Nevada, California"
+    },
+    {
+     "file": "File:Watzmann mit Schönfeldspitze.jpg",
+     "title": "Watzmann above the fog, Bavaria"
+    },
+    {
+     "file": "File:Passo Pordoi-bops 01.jpg",
+     "title": "Passo Pordoi, Dolomites, Italy"
+    }
+   ]
+  },
+  {
+   "id": "lakes",
+   "name": "Still Waters",
+   "play": {
+    "mode": "slideshow",
+    "frame": "gallery",
+    "intervalSec": 30
+   },
+   "photos": [
+    {
+     "file": "File:Eilean Donan Castle, Scotland - Jan 2011.jpg",
+     "title": "Eilean Donan Castle, Scotland"
+    },
+    {
+     "file": "File:Dolina Baryczy 1.jpg",
+     "title": "Dawn in the Barycz Valley, Poland"
+    },
+    {
+     "file": "File:Aurora amazônica no Lago do Cuniã.jpg",
+     "title": "Sunrise on Lago do Cuniã, Brazil"
+    },
+    {
+     "file": "File:Foggy Reflections - Loch Tummel.jpg",
+     "title": "Loch Tummel in the fog, Scotland"
+    },
+    {
+     "file": "File:Jokulsarlon lake, Iceland.jpg",
+     "title": "Jökulsárlón glacier lagoon, Iceland"
+    },
+    {
+     "file": "File:Lake Vuoksa 1.jpg",
+     "title": "Lake Vuoksa in autumn, Russia"
+    },
+    {
+     "file": "File:Lake Tekapo 01.jpg",
+     "title": "Lupins at Lake Tekapo, New Zealand"
+    },
+    {
+     "file": "File:Mono Lake Tufa.JPG",
+     "title": "Tufa towers, Mono Lake, California",
+     "by": "Vezoy"
+    }
+   ]
+  },
+  {
+   "id": "coast",
+   "name": "Coastlines",
+   "play": {
+    "mode": "slideshow",
+    "intervalSec": 20,
+    "transition": "fade"
+   },
+   "photos": [
+    {
+     "file": "File:Cala de la Granadella, Jávea, España, 2014-07-01, DD 37.JPG",
+     "title": "Cala de la Granadella, Jávea, Spain"
+    },
+    {
+     "file": "File:Plaza Pustkowo 1.jpg",
+     "title": "Evening surf at Pustkowo, Poland"
+    },
+    {
+     "file": "File:Manneporte en soir.jpg",
+     "title": "The Manneporte, Étretat, France"
+    },
+    {
+     "file": "File:2016-11-13 01 Kjeungskjær Lighthouse, Sør-Trøndelag, Norway.jpg",
+     "title": "Kjeungskjær Lighthouse, Norway"
+    },
+    {
+     "file": "File:Second Beach Olympic June 2018 008.jpg",
+     "title": "Second Beach, Olympic National Park"
+    },
+    {
+     "file": "File:Padar Island, Komodo National Park, Indonesia, 20250822 0929 2659.jpg",
+     "title": "Padar Island, Komodo, Indonesia"
+    },
+    {
+     "file": "File:Navagio, Zante 02.jpg",
+     "title": "Navagio Beach, Zakynthos, Greece"
+    },
+    {
+     "file": "File:Princetown (AU), Port Campbell National Park, Twelve Apostles -- 2019 -- 0930.jpg",
+     "title": "The Twelve Apostles, Victoria, Australia"
+    }
+   ]
+  },
+  {
+   "id": "forests",
+   "name": "Forests & Waterfalls",
+   "play": {
+    "mode": "ambient",
+    "frame": "walnut",
+    "intervalSec": 60,
+    "showClock": true
+   },
+   "photos": [
+    {
+     "file": "File:Dülmen, Börnste, Waldweg -- 2015 -- 4649.jpg",
+     "title": "Woodland path in autumn, Dülmen, Germany"
+    },
+    {
+     "file": "File:Forest road Slavne 2017 G8.jpg",
+     "title": "Forest road in winter, Slavne, Ukraine"
+    },
+    {
+     "file": "File:Baumsilhouetten am Uetliberg mit Novembernebel und Sonnenstrahlen.jpg",
+     "title": "November mist on the Uetliberg, Zürich"
+    },
+    {
+     "file": "File:Dülmen, Rorup, NSG Roruper Holz -- 2021 -- 8187-91.jpg",
+     "title": "Sunbeams in the Roruper Holz, Germany"
+    },
+    {
+     "file": "File:Fanal (Madeira, Portugal), Lorbeerwald -- 2025 -- 1532.jpg",
+     "title": "Laurel forest in the fog, Fanal, Madeira"
+    },
+    {
+     "file": "File:Horseshoe falls fw.jpg",
+     "title": "Horseshoe Falls, Mount Field, Tasmania"
+    },
+    {
+     "file": "File:Kuang Si Falls and its emerald water pools in Luang Prabang province Laos.jpg",
+     "title": "Kuang Si Falls, Laos"
+    },
+    {
+     "file": "File:Seljalandsfoss, Suðurland, Islandia, 2014-08-16, DD 201-203 HDR.JPG",
+     "title": "Behind Seljalandsfoss, Iceland"
+    }
+   ]
+  },
+  {
+   "id": "night",
+   "name": "After Dark",
+   "play": {
+    "mode": "slideshow",
+    "frame": "floating",
+    "intervalSec": 30
+   },
+   "photos": [
+    {
+     "file": "File:Aurora borealis over Eielson Air Force Base, Alaska.jpg",
+     "title": "Northern lights over Bear Lake, Alaska",
+     "by": "U.S. Air Force photo"
+    },
+    {
+     "file": "File:Lofoten, Norway (Unsplash).jpg",
+     "title": "Aurora over Flakstad, Lofoten, Norway",
+     "by": "Johannes Groll"
+    },
+    {
+     "file": "File:Aurora and perseids.jpg",
+     "title": "Aurora and Perseids over Norderney, Germany"
+    },
+    {
+     "file": "File:Savault Chapel Under Milky Way BLS.jpg",
+     "title": "Savault Chapel under the Milky Way, Burgundy"
+    },
+    {
+     "file": "File:Parque nacional serra da capivara-THIAGO CAMPI-03.jpg",
+     "title": "Milky Way over Serra da Capivara, Brazil",
+     "by": "Thiago Campi"
+    },
+    {
+     "file": "File:001 Chateau de Chillon and Dents du Midi Photo by Giles Laurent.jpg",
+     "title": "Château de Chillon at nightfall, Switzerland"
+    },
+    {
+     "file": "File:Hungarian Parliament Building 2023-9.jpg",
+     "title": "Hungarian Parliament, Budapest"
+    },
+    {
+     "file": "File:Si-o-se-Pol.jpg",
+     "title": "Si-o-se-pol bridge, Isfahan, Iran",
+     "by": "Reza Haji-pour"
+    }
+   ]
+  },
+  {
+   "id": "space",
+   "name": "Space",
+   "play": {
+    "mode": "kenburns",
+    "intervalSec": 20
+   },
+   "photos": [
+    {
+     "file": "File:Jeju Island.jpg",
+     "title": "Jeju Island from orbit, South Korea",
+     "by": "NASA Earth Observatory (Robert Simmon, Landsat)"
+    },
+    {
+     "file": "File:ParmaMelor AMO TMO 2009279 lrg.jpg",
+     "title": "Typhoons Parma and Melor, 2009",
+     "by": "NASA, MODIS Rapid Response Team"
+    },
+    {
+     "file": "File:City Lights of the United States 2012.jpg",
+     "title": "City lights of the United States",
+     "by": "NASA Earth Observatory"
+    },
+    {
+     "file": "File:M104 ngc4594 sombrero galaxy hi-res.jpg",
+     "title": "The Sombrero Galaxy",
+     "by": "NASA/ESA, Hubble Heritage Team"
+    },
+    {
+     "file": "File:Messier51 sRGB.jpg",
+     "title": "The Whirlpool Galaxy",
+     "by": "NASA and ESA"
+    },
+    {
+     "file": "File:M31-Andromede-16-09-2023-Hamois.jpg",
+     "title": "The Andromeda Galaxy",
+     "by": "Luc Viatour"
+    },
+    {
+     "file": "File:Full moon partially obscured by atmosphere.jpg",
+     "title": "The Moon over Earth’s atmosphere",
+     "by": "NASA"
+    },
+    {
+     "file": "File:Apollo 17 Harrison H. Schmitt and Tracy's Rock - AS17-140-21493+AS17-140-21497 2025.jpg",
+     "title": "Tracy’s Rock, Apollo 17",
+     "by": "NASA, Eugene A. Cernan"
+    }
+   ]
+  }
+ ]
+}

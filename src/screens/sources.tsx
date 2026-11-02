@@ -1,0 +1,73 @@
+import { useNav } from '../nav/router';
+import { useSources } from '../sources';
+import { getState, removeSource } from '../store/store';
+import { Source } from '../store/types';
+import { choose, confirm, toast } from '../ui/overlay';
+import { Header, NewCard, plural, SourceCard } from './common';
+
+export async function chooseNewSource(nav: ReturnType<typeof useNav>): Promise<void> {
+  const kind = await choose({
+    title: 'Add a photo source',
+    message: 'USB drives appear by themselves when plugged into the TV.',
+    options: [
+      { value: 'onedrive', label: 'OneDrive', hint: 'Sign in with a code on your phone' },
+      { value: 'network', label: 'NAS or network share', hint: 'WebDAV or a web folder on your network' },
+      { value: 'web', label: 'Web links', hint: 'Photo links, or pages and lists of photos' },
+    ] as const,
+  });
+  if (kind === 'onedrive') nav.push({ name: 'add-onedrive' });
+  if (kind === 'network') nav.push({ name: 'add-network' });
+  if (kind === 'web') nav.push({ name: 'add-web' });
+}
+
+async function manageSource(nav: ReturnType<typeof useNav>, source: Source): Promise<void> {
+  if (source.kind === 'usb') {
+    toast('Photos on this drive can be added from any collection.');
+    return;
+  }
+  if (source.kind === 'samples') {
+    toast('These photos come with the app and can be added to any collection.');
+    return;
+  }
+  const used = getState().collections.reduce((n, c) => n + c.photos.filter((p) => p.sourceId === source.id).length, 0);
+  const action = await choose({
+    title: source.name,
+    options: [
+      ...(source.kind !== 'onedrive' ? [{ value: 'edit' as const, label: 'Edit' }] : []),
+      { value: 'remove' as const, label: 'Remove source', hint: used ? `${plural(used, 'photo')} in collections use it` : undefined },
+    ],
+  });
+  if (action === 'edit') nav.push({ name: source.kind === 'network' ? 'add-network' : 'add-web', sourceId: source.id });
+  if (action === 'remove') {
+    const ok = await confirm({
+      title: `Remove ${source.name}?`,
+      message: used ? 'Photos from it stay in your collections but won’t load until you add the source again.' : undefined,
+      confirmLabel: 'Remove',
+      danger: true,
+    });
+    if (ok) removeSource(source.id);
+  }
+}
+
+export function SourcesScreen() {
+  const nav = useNav();
+  const sources = useSources();
+  return (
+    <div class="screen page">
+      <Header title="Sources" sub="Where your photos come from" />
+      <div class="screen-body">
+        <div class="scroll">
+          <div class="grid tiles">
+            {sources.map((s, i) => (
+              <SourceCard key={s.id} source={s} navId={`src-${s.id}`} autofocus={i === 0} onClick={() => manageSource(nav, s)} />
+            ))}
+            <NewCard label="Add source" sub="OneDrive, NAS, web links" navId="new-source" onClick={() => chooseNewSource(nav)} />
+          </div>
+          {!sources.some((s) => s.kind === 'usb') && (
+            <div class="page-note">No USB drive detected. Plug one into the TV and it shows up here.</div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}

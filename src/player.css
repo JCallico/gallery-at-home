@@ -1,0 +1,150 @@
+/* ======================================================================
+   Player. Only transform and opacity are animated so the TV's GPU can
+   composite every transition without repainting.
+   ====================================================================== */
+
+.player { position: absolute; top: 0; left: 0; width: 1920px; height: 1080px; background: #000; overflow: hidden; cursor: none; }
+.player-loading {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  font-size: 28px; color: var(--text-dim);
+}
+.player-loading > * + * { margin-top: 28px; }
+
+.stage-slides, .slide { position: absolute; top: 0; left: 0; width: 1920px; height: 1080px; }
+.slide { overflow: hidden; will-change: opacity, transform; animation-fill-mode: both; animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1); }
+.photo { position: absolute; left: 50%; top: 50%; max-width: none; }
+.backdrop { position: absolute; top: -5%; left: -5%; width: 110%; height: 110%; opacity: 0.45; }
+
+.t-fade.enter { animation-name: slide-fade-in; }
+.t-fade.leave { animation-name: slide-fade-out; }
+.t-zoom.enter { animation-name: slide-zoom-in; }
+.t-zoom.leave { animation-name: slide-fade-out; }
+.t-slide.fwd.enter { animation-name: slide-in-right; }
+.t-slide.fwd.leave { animation-name: slide-out-left; }
+.t-slide.back.enter { animation-name: slide-in-left; }
+.t-slide.back.leave { animation-name: slide-out-right; }
+.t-none.leave { display: none; }
+
+@keyframes slide-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slide-fade-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes slide-zoom-in { from { opacity: 0; transform: scale(1.12); } to { opacity: 1; transform: scale(1); } }
+@keyframes slide-in-right { from { transform: translateX(100%); } to { transform: translateX(0); } }
+@keyframes slide-out-left { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+@keyframes slide-in-left { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+@keyframes slide-out-right { from { transform: translateX(0); } to { transform: translateX(100%); } }
+
+/* Ken Burns: six slow pan/zoom paths, picked at random per photo. */
+.kb { position: absolute; top: 0; left: 0; width: 100%; height: 100%; animation-timing-function: linear; animation-fill-mode: both; will-change: transform; }
+.kb-0 { animation-name: kb-0; } .kb-1 { animation-name: kb-1; } .kb-2 { animation-name: kb-2; }
+.kb-3 { animation-name: kb-3; } .kb-4 { animation-name: kb-4; } .kb-5 { animation-name: kb-5; }
+@keyframes kb-0 { from { transform: scale(1.0) translate(0, 0); } to { transform: scale(1.18) translate(-3%, -2%); } }
+@keyframes kb-1 { from { transform: scale(1.18) translate(3%, 2%); } to { transform: scale(1.02) translate(0, 0); } }
+@keyframes kb-2 { from { transform: scale(1.12) translate(-4%, 0); } to { transform: scale(1.12) translate(4%, 0); } }
+@keyframes kb-3 { from { transform: scale(1.12) translate(4%, 1%); } to { transform: scale(1.16) translate(-3%, -1%); } }
+@keyframes kb-4 { from { transform: scale(1.04) translate(0, 3%); } to { transform: scale(1.2) translate(0, -3%); } }
+@keyframes kb-5 { from { transform: scale(1.2) translate(-2%, -3%); } to { transform: scale(1.05) translate(2%, 2%); } }
+
+/* Duo: two portraits side by side. */
+.duo { position: absolute; top: 20px; left: 0; width: 100%; height: 1040px; display: flex; justify-content: center; }
+.duo-cell { position: relative; width: 940px; height: 1040px; overflow: hidden; border-radius: 6px; }
+.duo-cell + .duo-cell { margin-left: 20px; }
+
+/* The screen as a picture frame (see frame.tsx): moulding on the screen's
+   edges, the mat inside, and an opening per photo. */
+.screen-frame { position: absolute; top: 0; left: 0; width: 1920px; height: 1080px; }
+.screen-frame .stage-slides, .screen-frame .slide { z-index: 1; }
+.moulding { position: absolute; z-index: 2; }
+/* The mat sits below the moulding, which shades its outer edge (more at the top). */
+.frame-mat {
+  position: absolute; z-index: 0;
+  box-shadow:
+    inset 0 10px 14px -4px rgba(0, 0, 0, 0.36), inset 8px 0 12px -6px rgba(0, 0, 0, 0.18),
+    inset -6px 0 10px -6px rgba(0, 0, 0, 0.14), inset 0 -4px 7px -3px rgba(0, 0, 0, 0.1);
+}
+.mat-opening { position: absolute; border-style: solid; border-width: 0; }
+/* The mat's 45° cut: white core, brightest where it faces the light. */
+.mat-opening.frame-bevel {
+  border-color: #fffdf8 #e2ddd1 #d6cfc0 #f2eee5;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06);
+}
+.frame-window { position: relative; overflow: hidden; }
+/* The bevel's edge throws a hairline shadow onto the photo. */
+.frame-bevel .frame-window::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.28), inset 1px 0 2px rgba(0, 0, 0, 0.12);
+}
+/* Floating: the photo stands off a dark backing and casts its own shadow. */
+.mat-opening.floating { box-shadow: 0 14px 28px rgba(0, 0, 0, 0.75), 0 3px 6px rgba(0, 0, 0, 0.6); }
+
+/* The label in the mat's bottom margin: caption centred, time on the right. */
+.mat-label {
+  position: absolute; z-index: 3; transform: translateY(50%);
+  display: flex; align-items: center; white-space: nowrap;
+  font-size: 22px; letter-spacing: 0.2px;
+}
+.mat-label-side { flex: 1; min-width: 0; }
+.mat-label-clock { text-align: right; font-variant-numeric: tabular-nums; }
+.mat-label-caption { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; font-weight: 600; }
+.mat-label.has-clock .mat-label-caption { flex: 1 1 auto; }
+.mat-label-sub { font-weight: 400; margin-left: 14px; }
+.mat-label.has-clock .mat-label-side:first-child { display: none; }
+.mat-label.has-clock .mat-label-clock { flex: none; margin-left: 32px; }
+.mat-label.ink-dark { color: rgba(40, 34, 26, 0.72); }
+.mat-label.ink-dark .mat-label-sub, .mat-label.ink-dark .mat-label-clock { color: rgba(40, 34, 26, 0.5); }
+.mat-label.ink-light { color: rgba(255, 255, 255, 0.6); }
+.mat-label.ink-light .mat-label-sub, .mat-label.ink-light .mat-label-clock { color: rgba(255, 255, 255, 0.4); }
+
+/* Mosaic */
+.mosaic { position: absolute; top: 0; left: 0; width: 1920px; height: 1080px; background: #000; }
+.mosaic-tile { position: absolute; overflow: hidden; background: #111; border-radius: 4px; }
+.mosaic-photo { position: absolute; top: 0; left: 0; width: 100%; height: 100%; animation: tile-in 1.4s ease both; }
+.mosaic-photo.under { animation: none; }
+@keyframes tile-in { from { opacity: 0; transform: scale(1.06); } to { opacity: 1; transform: scale(1); } }
+
+/* Overlays */
+.clock { position: absolute; top: 56px; right: 80px; text-align: right; text-shadow: 0 2px 16px rgba(0, 0, 0, 0.7); z-index: 5; }
+.clock-time { font-size: 76px; font-weight: 300; letter-spacing: -1px; }
+.clock-date { font-size: 28px; color: rgba(255, 255, 255, 0.8); }
+.clock-ambient { top: auto; right: auto; left: 96px; bottom: 64px; text-align: left; }
+.clock-ambient .clock-time { font-size: 104px; font-weight: 300; line-height: 1; margin-bottom: 8px; }
+
+.caption {
+  position: absolute; left: 80px; bottom: 60px; z-index: 5;
+  font-size: 34px; font-weight: 600; text-shadow: 0 2px 16px rgba(0, 0, 0, 0.8);
+}
+.caption-sub { display: block; font-size: 24px; font-weight: 400; color: rgba(255, 255, 255, 0.75); margin-top: 4px; }
+.player-ambient .caption { left: auto; right: 96px; bottom: 72px; text-align: right; font-size: 26px; color: rgba(255, 255, 255, 0.7); }
+
+.banner {
+  position: absolute; left: 50%; top: 80px; z-index: 6;
+  transform: translateX(-50%);
+  padding: 20px 44px; border-radius: 40px;
+  background: rgba(0, 0, 0, 0.6); font-size: 32px; font-weight: 600;
+  animation: toast-in 0.4s var(--ease);
+}
+
+.pause-badge {
+  position: absolute; left: 50%; top: 50%; z-index: 6;
+  width: 160px; height: 160px; margin: -80px 0 0 -80px; border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55); display: flex; align-items: center; justify-content: center;
+}
+.pause-badge svg { width: 80px; height: 80px; }
+
+.info-bar {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 7;
+  padding: 120px 80px 56px;
+  display: flex; align-items: flex-end;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0) 100%);
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.3s, transform 0.3s var(--ease);
+}
+.info-bar.visible { opacity: 1; transform: translateY(0); }
+.info-main { flex: 1; }
+.info-title { font-size: 44px; font-weight: 700; }
+.info-sub { font-size: 26px; color: var(--text-dim); margin-top: 6px; }
+.info-keys { display: flex; font-size: 22px; color: var(--text-dim); }
+.info-keys span { display: inline-flex; align-items: center; }
+.info-keys span + span { margin-left: 36px; }
+.info-keys b { color: var(--text); margin-right: 10px; }
+.info-keys .key-dot { margin-right: 10px; }
