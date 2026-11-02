@@ -220,6 +220,7 @@ h1, h2 { margin: 0; font-weight: 700; }
 .tile:focus .tile-sub { color: rgba(11, 11, 13, 0.6); }
 .tile-new { background: transparent; border: 3px dashed rgba(255, 255, 255, 0.16); }
 .tile-new:focus { border-color: transparent; }
+.source-gphotos { background: linear-gradient(135deg, #fbbc04, #ea4335 40%, #4285f4 75%, #34a853); color: #fff; }
 .source-usb { background: linear-gradient(135deg, #2ccf8a, #138a5a); color: #fff; }
 .source-network { background: linear-gradient(135deg, #ffb547, #e07818); color: #fff; }
 .source-web { background: linear-gradient(135deg, #c27bff, #7c3fe0); color: #fff; }

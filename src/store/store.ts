@@ -169,6 +169,29 @@ export function deleteCollection(id: string): void {
 }
 
 /** Adds photos not already in the collection; returns how many were new. */
+/** A new collection that mirrors a Google Photos album. */
+export function createAlbumCollection(name: string, sourceId: string, photos: PhotoRef[]): Collection {
+  const c = createCollection(name);
+  updateCollection(c.id, () => ({ photos, albumSourceId: sourceId, syncedAt: Date.now() }));
+  return getCollection(c.id)!;
+}
+
+/**
+ * Replaces an album collection's photos with a fresh read of the album,
+ * keeping the cover when it's still there. Returns whether anything changed.
+ */
+export function syncAlbumPhotos(id: string, photos: PhotoRef[]): boolean {
+  const before = getCollection(id);
+  if (!before) return false;
+  const changed = before.photos.length !== photos.length || before.photos.some((p, i) => p.id !== photos[i].id);
+  updateCollection(id, (c) => ({
+    photos,
+    syncedAt: Date.now(),
+    coverId: c.coverId && photos.some((p) => p.id === c.coverId) ? c.coverId : undefined,
+  }));
+  return changed;
+}
+
 export function addPhotos(id: string, photos: PhotoRef[]): number {
   let added = 0;
   updateCollection(id, (c) => {

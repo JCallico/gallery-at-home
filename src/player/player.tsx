@@ -6,6 +6,7 @@ import { getCollection, setNowShowing } from '../store/store';
 import { PhotoRef, PlayMode, PlaySettings } from '../store/types';
 import { Icon } from '../ui/icons';
 import { toast } from '../ui/overlay';
+import { ALBUM_REFRESH_MS, refreshAlbum } from '../sources/albums';
 import { Spinner } from '../ui/widgets';
 import { MatLabel } from './frame';
 import { effectiveFrame } from './frames';
@@ -60,6 +61,8 @@ export function Player(props: Props) {
   const [paused, setPaused] = useState(false);
   const [command, setCommand] = useState<Command | null>(null);
   const [shown, setShown] = useState<{ photos: Prepared[]; index: number } | null>(null);
+  const shownRef = useRef(shown);
+  shownRef.current = shown;
   const [infoUntil, setInfoUntil] = useState(Date.now() + INFO_MS);
   const [banner, setBanner] = useState<string | null>(null);
   const now = useNow();
@@ -73,13 +76,28 @@ export function Player(props: Props) {
     return () => setScreenSaverAllowed(true);
   }, []);
 
+  // Album collections: re-read the Google Photos album now (when stale) and
+  // every half hour while playing; new photos rebuild the queue.
+  const [albumVersion, setAlbumVersion] = useState(0);
+  useEffect(() => {
+    if (!collection?.albumSourceId || props.single) return;
+    const check = (force: boolean) =>
+      void refreshAlbum(collection.id, force).then((changed) => changed && setAlbumVersion((v) => v + 1));
+    check(false);
+    const t = setInterval(() => check(true), ALBUM_REFRESH_MS);
+    return () => clearInterval(t);
+  }, []);
+
   // Build the queue (reading dates first when the order needs them).
   useEffect(() => {
-    if (!collection || !settings) return;
+    // Read afresh: an album refresh may have replaced the photos.
+    const current = getCollection(props.id);
+    if (!current || !settings) return;
     let live = true;
-    setQueue(null);
+    // A refresh mid-play keeps the current photo up rather than flashing the loading screen.
+    if (!albumVersion) setQueue(null);
     (async () => {
-      let photos = collection.photos;
+      let photos = current.photos;
       if (props.single) {
         const one = photos.find((p) => p.id === props.startPhotoId);
         if (!one) return;
@@ -99,9 +117,11 @@ export function Player(props: Props) {
       } else {
         ordered = orderPhotos(photos, settings);
       }
+      // After an album refresh, carry on from the photo on screen.
+      const startId = albumVersion ? shownRef.current?.photos[0]?.ref.id : props.startPhotoId;
       let start = 0;
-      if (props.startPhotoId) {
-        const at = ordered.findIndex((p) => p.id === props.startPhotoId);
+      if (startId) {
+        const at = ordered.findIndex((p) => p.id === startId);
         if (at >= 0) start = at;
       }
       setQueue({ id: ++queueId, photos: ordered, start, title });
@@ -110,7 +130,7 @@ export function Player(props: Props) {
     return () => {
       live = false;
     };
-  }, [settings?.mode, settings?.order]);
+  }, [settings?.mode, settings?.order, albumVersion]);
 
   // The queue is rebuilt on every mode change, so the mode here is current.
   // A mosaic wall holds 7 photos at once, so it keeps more of them ready.

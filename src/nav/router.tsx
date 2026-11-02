@@ -16,7 +16,8 @@ export type Route =
   | { name: 'pick-source'; collectionId: string }
   | { name: 'browse'; collectionId: string; sourceId: string; folderKey: string | null; trail: string[] }
   | { name: 'add-network'; sourceId?: string }
-  | { name: 'add-web'; sourceId?: string };
+  | { name: 'add-web'; sourceId?: string }
+  | { name: 'add-gphotos'; collectionId?: string };
 
 
 export interface StackEntry {

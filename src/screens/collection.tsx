@@ -1,5 +1,7 @@
+import { useEffect } from 'preact/hooks';
 import { useKeys, useNav } from '../nav/router';
 import { captureDate, sourceLabel } from '../sources';
+import { refreshAlbum } from '../sources/albums';
 import {
   clearNowShowing, deleteCollection, getNowShowing, removePhoto, renameCollection, setCover, useStore,
 } from '../store/store';
@@ -47,6 +49,11 @@ export function CollectionScreen({ id }: { id: string }) {
   useStore((s) => s.nowShowing);
   const showing = getNowShowing();
   const pinnedHere = showing?.collectionId === id;
+
+  // Album collections pick up new photos when opened (if not read recently).
+  useEffect(() => {
+    void refreshAlbum(id);
+  }, [id]);
 
   const play = (startPhotoId?: string) => {
     if (!collection?.photos.length) toast('Add some photos first.');
@@ -132,7 +139,10 @@ export function CollectionScreen({ id }: { id: string }) {
           </div>
         )}
         <h1 class="detail-title">{collection.name}</h1>
-        <div class="detail-meta">{count ? plural(count, 'photo') : 'No photos yet'}</div>
+        <div class="detail-meta">
+          {count ? plural(count, 'photo') : 'No photos yet'}
+          {collection.albumSourceId && ' · Google Photos album, kept in sync'}
+        </div>
         <div class="side-actions">
           {count > 0 && (
             <SideAction icon="play" label={pinnedHere && !showing!.photoId ? 'Resume' : 'Play'} primary navId="play" autofocus onClick={() => play()} />

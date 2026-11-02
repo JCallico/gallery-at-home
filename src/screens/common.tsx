@@ -74,6 +74,7 @@ export function Poster(props: {
 export const SOURCE_ICON: Record<Source['kind'], IconName> = {
   usb: 'usb',
   samples: 'image',
+  gphotos: 'album',
   network: 'network',
   web: 'link',
 };
@@ -82,6 +83,7 @@ export function sourceDetail(s: Source): string {
   switch (s.kind) {
     case 'usb': return 'Plugged into the TV';
     case 'samples': return 'Scenery and art that come with the app';
+    case 'gphotos': return 'Google Photos shared album';
     case 'network': return s.url.replace(/^https?:\/\//, '');
     case 'web': return plural(s.urls.length, 'link');
   }
