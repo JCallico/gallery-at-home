@@ -7,7 +7,9 @@ A photo gallery for Samsung TVs: your photos and the included collections, frame
 A Tizen TV app for building photo collections and playing them on the TV,
 driven entirely with the remote. No server or phone app is needed.
 
-- **Sources:** USB drives plugged into the TV, NAS/network shares
+- **Sources:** Google Photos shared albums (type the album's share link; the
+  collection stays in sync with the album), USB drives plugged into the TV,
+  NAS/network shares
   (WebDAV or plain web-server folder listings) and web links (direct photo
   URLs, pages, or text/JSON lists of URLs).
 - **Collections:** pick photos one by one or whole folders (subfolders
@@ -111,6 +113,17 @@ Access) download previews to choose from; list the choices in
 `scripts/samples/picks.json`, then `node scripts/samples/build.mjs` writes
 `assets/samples/`, `src/samples/manifest.json` and `CREDITS.md`. Only
 public-domain, CC0, CC BY and CC BY-SA images are accepted.
+
+## Google Photos shared albums
+
+Google offers no API for reading a shared album from its link, so the app
+reads the album's public page the way a browser does (`src/sources/gphotos.ts`):
+the first 300 items are embedded in the page, the rest come from the page's
+own data endpoint, and videos are skipped. It works on 2020 TVs (Chromium
+69). Newer engines label app requests `Sec-Fetch-Site: cross-site`, which
+Google refuses, so it fails on newer TVs and the Tizen 10 emulator. Google
+can change the page format at any time; the collection then keeps the photos
+it last read.
 
 ## Layout
 

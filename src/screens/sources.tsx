@@ -5,15 +5,17 @@ import { Source } from '../store/types';
 import { choose, confirm, toast } from '../ui/overlay';
 import { Header, NewCard, plural, SourceCard } from './common';
 
-export async function chooseNewSource(nav: ReturnType<typeof useNav>): Promise<void> {
+export async function chooseNewSource(nav: ReturnType<typeof useNav>, collectionId?: string): Promise<void> {
   const kind = await choose({
     title: 'Add a photo source',
     message: 'USB drives appear by themselves when plugged into the TV.',
     options: [
+      { value: 'gphotos', label: 'Google Photos shared album', hint: 'Type the album’s share link; stays in sync' },
       { value: 'network', label: 'NAS or network share', hint: 'WebDAV or a web folder on your network' },
       { value: 'web', label: 'Web links', hint: 'Photo links, or pages and lists of photos' },
     ] as const,
   });
+  if (kind === 'gphotos') nav.push({ name: 'add-gphotos', collectionId });
   if (kind === 'network') nav.push({ name: 'add-network' });
   if (kind === 'web') nav.push({ name: 'add-web' });
 }
@@ -31,7 +33,7 @@ async function manageSource(nav: ReturnType<typeof useNav>, source: Source): Pro
   const action = await choose({
     title: source.name,
     options: [
-      { value: 'edit' as const, label: 'Edit' },
+      ...(source.kind !== 'gphotos' ? [{ value: 'edit' as const, label: 'Edit' }] : []),
       { value: 'remove' as const, label: 'Remove source', hint: used ? `${plural(used, 'photo')} in collections use it` : undefined },
     ],
   });
@@ -59,7 +61,7 @@ export function SourcesScreen() {
             {sources.map((s, i) => (
               <SourceCard key={s.id} source={s} navId={`src-${s.id}`} autofocus={i === 0} onClick={() => manageSource(nav, s)} />
             ))}
-            <NewCard label="Add source" sub="NAS or web links" navId="new-source" onClick={() => chooseNewSource(nav)} />
+            <NewCard label="Add source" sub="Google Photos, NAS, web links" navId="new-source" onClick={() => chooseNewSource(nav)} />
           </div>
           {!sources.some((s) => s.kind === 'usb') && (
             <div class="page-note">No USB drive detected. Plug one into the TV and it shows up here.</div>

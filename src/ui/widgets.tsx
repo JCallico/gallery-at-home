@@ -117,7 +117,15 @@ export function TextRow(props: {
   const [editing, setEditing] = useState(false);
 
   useEffect(() => {
-    if (editing) input.current?.focus();
+    const el = input.current;
+    if (!editing || !el) return;
+    el.focus();
+    // Type after what's there (e.g. a prefilled link), not before it.
+    try {
+      el.setSelectionRange(el.value.length, el.value.length);
+    } catch {
+      // Some input types (url) don't support selections.
+    }
   }, [editing]);
 
   const stop = () => {

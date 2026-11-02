@@ -1,4 +1,4 @@
-export type SourceKind = 'usb' | 'network' | 'web' | 'samples';
+export type SourceKind = 'usb' | 'network' | 'web' | 'samples' | 'gphotos';
 
 /** A photo as stored in a collection: enough to find it again, never the bytes. */
 export interface PhotoRef {
@@ -48,6 +48,13 @@ export interface Collection {
   createdAt: number;
   updatedAt: number;
   play: PlaySettings;
+  /**
+   * Set when the collection mirrors a Google Photos shared album: its photos
+   * are re-read from the album now and then, so additions show up.
+   */
+  albumSourceId?: string;
+  /** When the album was last read (ms). */
+  syncedAt?: number;
 }
 
 interface SourceBase {
@@ -80,8 +87,15 @@ export interface WebSource extends SourceBase {
   urls: string[];
 }
 
-export type Source = UsbSource | SamplesSource | NetworkSource | WebSource;
-export type ConfiguredSource = NetworkSource | WebSource;
+/** A Google Photos shared album, read through its public link. */
+export interface GooglePhotosSource extends SourceBase {
+  kind: 'gphotos';
+  /** The album's share URL. */
+  url: string;
+}
+
+export type Source = UsbSource | SamplesSource | NetworkSource | WebSource | GooglePhotosSource;
+export type ConfiguredSource = NetworkSource | WebSource | GooglePhotosSource;
 
 export interface AppSettings {
   defaultPlay: PlaySettings;

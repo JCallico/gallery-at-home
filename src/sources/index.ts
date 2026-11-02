@@ -4,6 +4,7 @@ import { getState, useStore } from '../store/store';
 import { PhotoRef, Source, UsbSource } from '../store/types';
 import { samplesAdapter, samplesSource, SAMPLES_ID } from '../samples';
 import { readExif } from './exif';
+import { gphotosAdapter } from './gphotos';
 import { smallThumb } from './thumbs';
 import { networkAdapter } from './network';
 import { SourceAdapter } from './types';
@@ -63,6 +64,7 @@ export function adapterFor(sourceId: string): SourceAdapter {
   switch (source.kind) {
     case 'usb': adapter = usbAdapter(source); break;
     case 'samples': adapter = samplesAdapter(); break;
+    case 'gphotos': adapter = gphotosAdapter(source); break;
     case 'network': adapter = networkAdapter(source); break;
     case 'web': adapter = webAdapter(source); break;
   }

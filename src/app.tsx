@@ -3,6 +3,7 @@ import { coverTop, dispatchToScreen, entry, Navigator, NavContext, Route, StackE
 import { focusById, focusFirst, moveFocus } from './nav/spatial';
 import { keyAction } from './platform/keys';
 import { exitApp } from './platform/tizen';
+import { AddGooglePhotos } from './screens/add-gphotos';
 import { AddNetwork } from './screens/add-network';
 import { AddWeb } from './screens/add-web';
 import { Browse } from './screens/browse';
@@ -36,6 +37,7 @@ function renderRoute(route: Route) {
     case 'browse': return <Browse {...route} />;
     case 'add-network': return <AddNetwork sourceId={route.sourceId} />;
     case 'add-web': return <AddWeb sourceId={route.sourceId} />;
+    case 'add-gphotos': return <AddGooglePhotos collectionId={route.collectionId} />;
   }
 }
 
