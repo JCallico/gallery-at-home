@@ -184,7 +184,13 @@ function SlideView({ slide, settings, leaving }: { slide: Slide; settings: PlayS
     // Only the opening in the mat changes; the frame around it stays put.
     return (
       <div class={cls} style={style}>
-        <MatOpening style={frame} photo={slide.photos[0]} fill={settings.frameFit === 'fill'} />
+        <MatOpening
+          style={frame}
+          photo={slide.photos[0]}
+          fill={settings.frameFit === 'fill'}
+          // Room for the label only when there's one (see MatLabel in player.tsx).
+          withLabel={settings.showCaption || settings.showClock || settings.mode === 'ambient'}
+        />
       </div>
     );
   }

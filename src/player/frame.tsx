@@ -57,7 +57,11 @@ export interface ScreenFrameLayout {
 }
 
 /** Sizes for a frame filling the 1920×1080 stage (scaled up from the spec). */
-export function screenFrameLayout(style: keyof typeof FRAMES): ScreenFrameLayout {
+/**
+ * `withLabel`: keep a band at the bottom of the mat for the caption and
+ * clock. Without one the mat is even all round and the photo centred.
+ */
+export function screenFrameLayout(style: keyof typeof FRAMES, withLabel = true): ScreenFrameLayout {
   const spec = FRAMES[style];
   // A whole-screen frame: mouldings a little heavier than on a print and a
   // slim mat, so the photo covers most of what's inside the frame.
@@ -67,7 +71,7 @@ export function screenFrameLayout(style: keyof typeof FRAMES): ScreenFrameLayout
   return {
     border,
     margin,
-    area: { left: top, top, width: W - top * 2, height: H - top * 2 - LABEL },
+    area: { left: top, top, width: W - top * 2, height: H - top * 2 - (withLabel ? LABEL : 0) },
     labelCenter: border + Math.round((margin + LABEL) / 2),
     ink: spec.floating ? 'light' : 'dark',
   };
@@ -92,10 +96,10 @@ export function ScreenFrame(props: { style: keyof typeof FRAMES; children: Compo
  * One opening in the mat with its photo in it: as large as the area allows
  * for the photo's shape, centred.
  */
-export function MatOpening(props: { style: keyof typeof FRAMES; photo: Prepared; fill?: boolean }) {
+export function MatOpening(props: { style: keyof typeof FRAMES; photo: Prepared; fill?: boolean; withLabel: boolean }) {
   const { photo } = props;
   const spec = FRAMES[props.style];
-  const { area } = screenFrameLayout(props.style);
+  const { area } = screenFrameLayout(props.style, props.withLabel);
   const bevel = spec.bevel ? BEVEL : 0;
   // The photo's upright shape decides the opening's shape.
   const swap = photo.orientation >= 5;
