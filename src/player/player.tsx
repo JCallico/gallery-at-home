@@ -51,8 +51,8 @@ export function Player(props: Props) {
   const collection = getCollection(props.id);
   const [settings, setSettings] = useState<PlaySettings | null>(() => {
     const base = props.settings ?? collection?.play ?? null;
-    // A single pinned photo is held still: framed (Ambient) or full screen.
-    if (base && props.single) return { ...base, mode: base.mode === 'ambient' ? 'ambient' : 'slideshow' };
+    // A single pinned photo is held still, with the collection's frame if any.
+    if (base && props.single) return { ...base, mode: 'slideshow' };
     return base;
   });
   const [queue, setQueue] = useState<Queue | null>(null);
@@ -186,7 +186,7 @@ export function Player(props: Props) {
   const infoVisible = infoUntil > Date.now() || paused;
   const lead = shown?.photos[shown.photos.length - 1];
   const takenAt = lead?.takenAt ?? lead?.ref.takenAt;
-  const showClock = settings.showClock || settings.mode === 'ambient';
+  const showClock = settings.showClock;
   const frame = effectiveFrame(settings);
   const time = now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
   const date = now.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
@@ -226,7 +226,7 @@ export function Player(props: Props) {
       ) : (
         <>
           {showClock && (
-            <div class={`clock ${settings.mode === 'ambient' ? 'clock-ambient' : ''}`}>
+            <div class="clock">
               <div class="clock-time">{time}</div>
               <div class="clock-date">{date}</div>
             </div>

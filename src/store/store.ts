@@ -37,6 +37,21 @@ function withSamples(s: State): State {
   return { ...s, collections: [...s.collections, ...sampleCollections().filter((c) => !have.has(c.id))], samplesAdded: true };
 }
 
+/**
+ * Play settings from an older save: new options get their defaults, and the
+ * retired Ambient look becomes what it showed, a framed Slideshow with the
+ * clock on.
+ */
+function upgradePlay(play: Partial<PlaySettings> | undefined): PlaySettings {
+  const p = { ...DEFAULT_PLAY, ...play } as PlaySettings;
+  if ((p.mode as string) === 'ambient') {
+    p.mode = 'slideshow';
+    if (p.frame === 'none') p.frame = 'gallery';
+    p.showClock = true;
+  }
+  return p;
+}
+
 function load(): State {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -45,13 +60,13 @@ function load(): State {
     const base = initialState();
     return withSamples({
       // Older saves predate newer play options; fill them with defaults.
-      collections: (saved.collections ?? []).map((c) => ({ ...c, play: { ...DEFAULT_PLAY, ...c.play } })),
+      collections: (saved.collections ?? []).map((c) => ({ ...c, play: upgradePlay(c.play) })),
       sources: saved.sources ?? [],
       nowShowing: saved.nowShowing ?? null,
       settings: {
         ...base.settings,
         ...saved.settings,
-        defaultPlay: { ...DEFAULT_PLAY, ...saved.settings?.defaultPlay },
+        defaultPlay: upgradePlay(saved.settings?.defaultPlay),
       },
       samplesAdded: saved.samplesAdded ?? false,
     });

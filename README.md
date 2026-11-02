@@ -24,7 +24,7 @@ driven entirely with the remote. No server or phone app is needed.
   the TV's edges, a mat inside, and an opening cut to each photo's shape
   ("Whole photo") or, by default, an opening close to the screen's shape that the photo fills, cropping at most a quarter of it ("Fill the frame").
   The frame stays put while photos change; the caption and clock sit on the
-  mat like a gallery label. Available for Slideshow, Ambient and Memories.
+  mat like a gallery label. Available for Slideshow and Memories.
 - **Play modes:**
 
   | Mode | What it does |
@@ -32,7 +32,6 @@ driven entirely with the remote. No server or phone app is needed.
   | Slideshow | One photo at a time; crossfade, slide, zoom or cut |
   | Ken Burns | Slow pan-and-zoom across each photo |
   | Mosaic | A 7-tile wall; one tile changes at a time, portraits in tall tiles |
-  | Ambient | Always framed, with the time on the mat; long intervals |
   | Duo | Pairs portrait photos side by side |
   | Memories | Photos taken around today's date in past years ("7 years ago") |
 
