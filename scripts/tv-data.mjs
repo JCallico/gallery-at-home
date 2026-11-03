@@ -68,7 +68,8 @@ async function devtools(localPort) {
   const pending = new Map();
   ws.addEventListener('message', (e) => {
     const m = JSON.parse(e.data);
-    pending.get(m.id)?.(m);
+    const handler = pending.get(m.id);
+    if (typeof handler === 'function') handler(m);
     pending.delete(m.id);
   });
   return {

@@ -17,6 +17,7 @@ import { dirname, join, resolve, sep } from 'node:path';
 import { Readable } from 'node:stream';
 import { fileURLToPath } from 'node:url';
 import { buildOptions, writeStatic } from '../scripts/build.mjs';
+import { isAllowedProxyRequest } from './proxy-guard.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const outdir = join(here, '.state', 'www');
@@ -94,6 +95,7 @@ function handleFs(req, res, url) {
 const HOP_HEADERS = new Set(['host', 'origin', 'referer', 'connection', 'content-length', 'accept-encoding', 'cookie']);
 
 async function handleProxy(req, res, url) {
+  if (!isAllowedProxyRequest(req.headers, HOST)) return json(res, 403, { error: 'proxy: not from this app' });
   const target = url.searchParams.get('url');
   if (!target || !/^https?:\/\//.test(target)) return json(res, 400, { error: 'url required' });
   const headers = {};
