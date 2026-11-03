@@ -5,8 +5,9 @@ import { WebSource } from '../store/types';
 import { toast } from '../ui/overlay';
 import { Button, TextRow } from '../ui/widgets';
 import { Header } from './common';
+import { collectionFromSource } from './new-collection';
 
-export function AddWeb({ sourceId }: { sourceId?: string }) {
+export function AddWeb({ sourceId, newCollection }: { sourceId?: string; newCollection?: boolean }) {
   const nav = useNav();
   const existing = getState().sources.find((s): s is WebSource => s.id === sourceId && s.kind === 'web');
   const [name, setName] = useState(existing?.name ?? 'Web photos');
@@ -27,7 +28,9 @@ export function AddWeb({ sourceId }: { sourceId?: string }) {
     });
     if (!cleaned.length) return setError('Enter at least one link.');
     if (bad) return setError(`Not a valid link: ${bad}`);
-    saveSource({ id: existing?.id ?? `web-${newId()}`, kind: 'web', name: name.trim() || 'Web photos', urls: cleaned });
+    const source: WebSource = { id: existing?.id ?? `web-${newId()}`, kind: 'web', name: name.trim() || 'Web photos', urls: cleaned };
+    saveSource(source);
+    if (newCollection) return void collectionFromSource(nav, source);
     toast('Saved');
     nav.pop();
   };

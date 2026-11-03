@@ -2,8 +2,9 @@ import { useState } from 'preact/hooks';
 import { useKeys, useNav } from '../nav/router';
 import { createCollection, getCollection, getNowShowing, useStore } from '../store/store';
 import { AmbientBackdrop } from '../ui/ambient';
+import { chooseNewSource } from './sources';
 import { Icon } from '../ui/icons';
-import { prompt, toast } from '../ui/overlay';
+import { choose, prompt, toast } from '../ui/overlay';
 import { coverOf, plural, Poster, styleSummary, timeLabel, useClock } from './common';
 
 // Home is the photos themselves: the focused collection fills the screen as
@@ -37,6 +38,15 @@ export function Home() {
   });
 
   const create = async () => {
+    const how = await choose({
+      title: 'New collection',
+      options: [
+        { value: 'source', label: 'From a new source', hint: 'Google Photos album, NAS or web links; named after it' },
+        { value: 'empty', label: 'Empty collection', hint: 'Name it now and add photos from any source' },
+      ] as const,
+    });
+    if (how === 'source') return void chooseNewSource(nav, undefined, true);
+    if (how !== 'empty') return;
     const name = await prompt({ title: 'New collection', label: 'Name', value: `Collection ${collections.length + 1}`, confirmLabel: 'Create' });
     if (!name) return;
     const c = createCollection(name);
