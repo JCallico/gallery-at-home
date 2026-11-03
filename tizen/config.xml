@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets"
         id="http://callico.home/galleryathome" version="@VERSION@" viewmodes="maximized">
-  <tizen:application id="GalleryAtH.GalleryAtHome" package="GalleryAtH" required_version="5.5"/>
+  <tizen:application id="GalleryAtH.GalleryAtHome" package="GalleryAtH" required_version="5.0"/>
   <name>Gallery at Home</name>
   <description>Photo collections and slideshows from USB, your NAS and the web.</description>
   <author>Javier Callico</author>
