@@ -17,12 +17,12 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { allowedLicense, api, get } from './commons.mjs';
 import { MET_LICENSE } from './met.mjs';
+import { stripTags as strip } from './strip-tags.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const work = process.argv[2] ?? '/tmp/gallery-at-home-samples/originals';
 const picks = JSON.parse(readFileSync(join(root, 'scripts/samples/picks.json'), 'utf8'));
 
-const strip = (html) => (html ?? '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
 const slug = (s) => s.toLowerCase().normalize('NFKD').replace(/[^\w\s-]/g, '').trim().replace(/[\s_]+/g, '-').slice(0, 60);
 
 async function info(title) {

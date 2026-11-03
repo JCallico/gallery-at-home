@@ -1,5 +1,6 @@
 // Wikimedia Commons API helpers for choosing the built-in sample photos.
 // Polite by design: one request at a time, paced, honouring Retry-After.
+import { stripTags as strip } from './strip-tags.mjs';
 
 const API = 'https://commons.wikimedia.org/w/api.php';
 export const UA = 'gallery-at-home/0.1 (personal TV photo-frame app; sample-photo curation)';
@@ -38,7 +39,6 @@ export async function subcats(cat) {
   return (d.query?.categorymembers ?? []).map((m) => m.title.replace(/^Category:/, ''));
 }
 
-const strip = (html) => (html ?? '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
 
 /** Files in a category with size, licence, author and a preview URL. */
 export async function files(cat, { previewWidth = 640, max = 600 } = {}) {
