@@ -24,7 +24,7 @@ function render(svg, w, h, scale, out) {
     '--headless=new', '--disable-gpu', '--hide-scrollbars', `--force-device-scale-factor=${scale}`,
     '--default-background-color=00000000', `--window-size=${w},${h}`, `--screenshot=${out}`, `file://${page}`,
   ], { stdio: 'ignore' });
-  console.log('wrote', out.replace(root + '/', ''));
+  console.log('wrote', out.replace(`${root}/`, ''));
 }
 
 render(icon(), 512, 423, 1, join(root, 'tizen/icon.png'));

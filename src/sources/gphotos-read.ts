@@ -146,7 +146,7 @@ export async function readAlbum(link: string, net: Transport): Promise<Album> {
   let read = Array.isArray(data[1]) ? data[1].length : 0;
   let complete = true;
   while (token && key && read < MAX_ITEMS) {
-    let page;
+    let page: { items: unknown; token: string };
     try {
       page = await nextPage(net, albumId, key, token);
     } catch (err) {

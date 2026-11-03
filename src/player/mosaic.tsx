@@ -82,7 +82,7 @@ export function Mosaic(props: Props) {
       for (let k = 0; k < count && live; k++) {
         const photo = await nextPhoto();
         if (!photo) break;
-        const free = TILES.map((t, i) => i).filter((i) => !filled[i]);
+        const free = TILES.map((_, i) => i).filter((i) => !filled[i]);
         const match = free.find((i) => TILES[i].tall === photo.portrait) ?? free[0];
         filled[match] = { photo, key: ++tileKey };
         setTiles(filled.slice());
@@ -109,7 +109,7 @@ export function Mosaic(props: Props) {
       const empty = current.findIndex((t) => !t);
       let target = empty;
       if (target < 0) {
-        const candidates = TILES.map((t, i) => i).filter((i) => i !== lastTile.current);
+        const candidates = TILES.map((_, i) => i).filter((i) => i !== lastTile.current);
         const shaped = candidates.filter((i) => TILES[i].tall === photo.portrait);
         const pool = shaped.length ? shaped : candidates;
         target = pool[Math.floor(Math.random() * pool.length)];
@@ -180,7 +180,7 @@ export function MosaicStill({ photos }: { photos: Prepared[] }) {
   // Same shape matching as playback: portraits to tall tiles where possible.
   const placed: (Prepared | undefined)[] = TILES.map(() => undefined);
   for (const photo of photos.slice(0, TILES.length)) {
-    const free = TILES.map((t, i) => i).filter((i) => !placed[i]);
+    const free = TILES.map((_, i) => i).filter((i) => !placed[i]);
     placed[free.find((i) => TILES[i].tall === photo.portrait) ?? free[0]] = photo;
   }
   return (

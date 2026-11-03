@@ -158,6 +158,7 @@ export function SlideStage(props: Props) {
 /** With a frame chosen, the screen becomes the frame and the slides sit in its mat. */
 function Framed({ settings, children }: { settings: PlaySettings; children: ComponentChildren }) {
   const frame = effectiveFrame(settings);
+  // biome-ignore lint/complexity/noUselessFragments: a component has to return an element, not bare children.
   return frame === 'none' ? <>{children}</> : <ScreenFrame style={frame}>{children}</ScreenFrame>;
 }
 
