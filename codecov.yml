@@ -1,0 +1,10 @@
+# Report coverage without failing builds over it: the logic is tested, but
+# the screens and player UI aren't yet.
+coverage:
+  status:
+    project:
+      default:
+        informational: true
+    patch:
+      default:
+        informational: true

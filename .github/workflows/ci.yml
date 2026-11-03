@@ -17,6 +17,9 @@ jobs:
     name: Lint, typecheck, test and build
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: read
+      id-token: write # lets Codecov verify the upload without a stored token
     steps:
       - uses: actions/checkout@v7
 
@@ -35,7 +38,17 @@ jobs:
         run: npm run typecheck
 
       - name: Test
-        run: npm test
+        run: npm run test:coverage
+
+      # Not on PRs from forks, which get no OIDC identity. A Codecov outage
+      # shouldn't fail the build.
+      - name: Upload coverage to Codecov
+        if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+        uses: codecov/codecov-action@v7
+        with:
+          use_oidc: true
+          files: coverage/lcov.info
+          fail_ci_if_error: false
 
       - name: Build
         run: npm run build
