@@ -3,6 +3,10 @@
 # Gallery at Home
 
 [![CI](https://github.com/JCallico/gallery-at-home/actions/workflows/ci.yml/badge.svg)](https://github.com/JCallico/gallery-at-home/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/JCallico/gallery-at-home/branch/main/graph/badge.svg)](https://codecov.io/gh/JCallico/gallery-at-home)
+[![CodeQL](https://github.com/JCallico/gallery-at-home/actions/workflows/codeql.yml/badge.svg)](https://github.com/JCallico/gallery-at-home/actions/workflows/codeql.yml)
+[![License: PolyForm Strict](https://img.shields.io/badge/license-PolyForm%20Strict%201.0.0-blue)](LICENSE)
+[![Samsung Tizen 5.0+](https://img.shields.io/badge/Samsung%20TV-Tizen%205.0%2B-1428A0)](#development)
 
 A photo gallery for Samsung TVs: your photos and the included collections, framed, on the wall.
 
@@ -81,12 +85,16 @@ directly, so no proxy is used there.
 | Command | |
 |---|---|
 | `npm test` | Unit tests (Vitest) |
+| `npm run test:coverage` | Unit tests with a coverage report in `coverage/` |
 | `npm run lint` | Lint (Biome) |
 | `npm run typecheck` | Type-check the app and tests |
 | `npm run build` | Production build into `dist/` |
 
-CI runs all four on every push and pull request
-([workflow](.github/workflows/ci.yml)).
+CI runs these on every push and pull request
+([workflow](.github/workflows/ci.yml)) and reports coverage to
+[Codecov](https://codecov.io/gh/JCallico/gallery-at-home).
+[CodeQL](.github/workflows/codeql.yml) scans the code for security problems,
+and [Dependabot](.github/dependabot.yml) proposes dependency updates.
 
 ## Running on the emulator or the TV
 

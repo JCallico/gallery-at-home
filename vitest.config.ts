@@ -5,6 +5,12 @@ export default defineConfig({
     environment: 'jsdom',
     include: ['tests/**/*.test.{ts,tsx}'],
     restoreMocks: true,
+    coverage: {
+      provider: 'v8',
+      reporter: ['text-summary', 'lcov'],
+      include: ['src/**/*.{ts,tsx}'],
+      exclude: ['src/env.d.ts'],
+    },
   },
   define: {
     __DEV__: 'false',
