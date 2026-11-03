@@ -4,6 +4,11 @@
 
 A photo gallery for Samsung TVs: your photos and the included collections, framed, on the wall.
 
+<p align="center">
+  <img src="docs/screenshots/frame-gold.jpg" width="49%" alt="A painting in a gold frame filling the TV">
+  <img src="docs/screenshots/home.jpg" width="49%" alt="Home screen with the collections">
+</p>
+
 A Tizen TV app for building photo collections and playing them on the TV,
 driven entirely with the remote. No server or phone app is needed.
 
@@ -24,7 +29,8 @@ driven entirely with the remote. No server or phone app is needed.
 - **Frames:** Gallery white, Modern black, Natural oak, Dark walnut, Classic
   gold or Floating. The whole screen becomes the picture frame: moulding on
   the TV's edges, a mat inside, and an opening cut to each photo's shape
-  ("Whole photo") or, by default, an opening close to the screen's shape that the photo fills, cropping at most a quarter of it ("Fill the frame").
+  ("Whole photo") or, by default, an opening close to the screen's shape
+  that the photo fills, cropping at most a quarter of it ("Fill the frame").
   The frame stays put while photos change; the caption and clock sit on the
   mat like a gallery label. Available for Slideshow and Memories.
 - **Play modes:**
@@ -41,6 +47,12 @@ driven entirely with the remote. No server or phone app is needed.
   (whole photo on a colour-matched backdrop, or fill), clock, caption, and a
   sleep timer. During playback: ◀ ▶ previous/next, OK pause, Blue changes
   mode, Back exits. The TV's screensaver is held off while playing.
+
+<p align="center">
+  <img src="docs/screenshots/frame-walnut.jpg" width="32%" alt="Walnut frame with caption and clock">
+  <img src="docs/screenshots/style.jpg" width="32%" alt="Style screen with a live preview">
+  <img src="docs/screenshots/google-photos.jpg" width="32%" alt="Adding a Google Photos shared album">
+</p>
 
 Target: 2020+ Samsung TVs (Tizen 5.5, Chromium 69 web engine). The bundle is
 compiled down for that engine, and the CSS avoids newer features (flex `gap`,
@@ -71,7 +83,7 @@ Needs Tizen Studio CLI in `~/tizen-studio` (TV extensions and certificate
 add-on installed).
 
 ```sh
-scripts/tv.sh connect 192.168.2.16   # the TV, in Developer Mode
+scripts/tv.sh connect <tv-ip>        # the TV, in Developer Mode
 scripts/tv.sh deploy                 # build, sign, install and launch
 ```
 
@@ -138,12 +150,23 @@ src/
   app.tsx            screen stack, remote key handling, Back behaviour
   nav/               spatial (arrow-key) focus navigation, router
   platform/          Tizen APIs: remote keys, screensaver, USB filesystem
-  sources/           USB, network, web adapters + EXIF reader
+  sources/           Google Photos, USB, network, web adapters + EXIF reader
+  samples/           the included collections (manifest; photos in assets/)
   store/             collections, sources, settings (localStorage on the TV)
   screens/           home, collection, browse, play options, source setup
   player/            play queue, preloading, slide engine, mosaic
   ui/                widgets, dialogs/toasts, upright photo layout
+assets/              included photos (samples/) and logo images (brand/)
 tizen/config.xml     app manifest (privileges, network access)
 dev/                 dev server, sample-photo generator
-scripts/             build, package/deploy to TV
+scripts/             build, package/deploy to TV; samples/ and brand/ build
+                     the included collections and the logo
 ```
+
+## Licence
+
+Gallery at Home is source-available under the
+[PolyForm Strict License 1.0.0](LICENSE): free to use for any noncommercial
+purpose, but it may not be redistributed or modified. The included photos,
+test photos and screenshots keep their own licences; see
+[NOTICE.md](NOTICE.md) and [CREDITS.md](CREDITS.md).
