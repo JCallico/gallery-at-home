@@ -35,8 +35,8 @@ function renderRoute(route: Route) {
     case 'player': return <Player id={route.id} startPhotoId={route.startPhotoId} single={route.single} settings={route.settings} />;
     case 'pick-source': return <PickSource collectionId={route.collectionId} />;
     case 'browse': return <Browse {...route} />;
-    case 'add-network': return <AddNetwork sourceId={route.sourceId} />;
-    case 'add-web': return <AddWeb sourceId={route.sourceId} />;
+    case 'add-network': return <AddNetwork sourceId={route.sourceId} newCollection={route.newCollection} />;
+    case 'add-web': return <AddWeb sourceId={route.sourceId} newCollection={route.newCollection} />;
     case 'add-gphotos': return <AddGooglePhotos collectionId={route.collectionId} />;
   }
 }

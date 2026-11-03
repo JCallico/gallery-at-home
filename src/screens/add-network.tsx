@@ -6,13 +6,14 @@ import { NetworkSource } from '../store/types';
 import { errorMessage, toast } from '../ui/overlay';
 import { Button, TextRow } from '../ui/widgets';
 import { Header, plural } from './common';
+import { collectionFromSource } from './new-collection';
 
 function normalizeUrl(input: string): string {
   const trimmed = input.trim();
   return /^https?:\/\//i.test(trimmed) ? trimmed : `http://${trimmed}`;
 }
 
-export function AddNetwork({ sourceId }: { sourceId?: string }) {
+export function AddNetwork({ sourceId, newCollection }: { sourceId?: string; newCollection?: boolean }) {
   const nav = useNav();
   const existing = getState().sources.find((s): s is NetworkSource => s.id === sourceId && s.kind === 'network');
   const [name, setName] = useState(existing?.name ?? '');
@@ -44,7 +45,8 @@ export function AddNetwork({ sourceId }: { sourceId?: string }) {
       const n = await testNetworkSource(source);
       saveSource(source);
       toast(`Connected · ${plural(n, 'item')} at the top level`);
-      nav.pop();
+      if (newCollection) void collectionFromSource(nav, source);
+      else nav.pop();
     } catch (err) {
       setError(errorMessage(err));
     } finally {

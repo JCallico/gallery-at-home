@@ -6,6 +6,7 @@ import { GooglePhotosSource } from '../store/types';
 import { choose, errorMessage, toast } from '../ui/overlay';
 import { Button, Spinner, TextRow } from '../ui/widgets';
 import { Header, plural } from './common';
+import { askCollectionName } from './new-collection';
 
 // Add a Google Photos shared album by its link. The link box starts with
 // the short-link prefix the Photos app uses, so only the code is typed.
@@ -53,7 +54,9 @@ export function AddGooglePhotos({ collectionId }: { collectionId?: string }) {
         nav.popTo('collection');
         return;
       }
-      const c = createAlbumCollection(album.title, source.id, refs);
+      const name = await askCollectionName(album.title);
+      if (!name) return; // the album stays saved as a source
+      const c = createAlbumCollection(name, source.id, refs);
       toast(`${plural(refs.length, 'photo')} added from Google Photos${partial}`);
       nav.replace({ name: 'collection', id: c.id });
     } catch (err) {

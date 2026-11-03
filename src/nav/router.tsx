@@ -15,9 +15,9 @@ export type Route =
   | { name: 'player'; id: string; startPhotoId?: string; single?: boolean; settings?: PlaySettings }
   | { name: 'pick-source'; collectionId: string }
   | { name: 'browse'; collectionId: string; sourceId: string; folderKey: string | null; trail: string[] }
-  | { name: 'add-network'; sourceId?: string }
-  | { name: 'add-web'; sourceId?: string }
-  | { name: 'add-gphotos'; collectionId?: string };
+  | { name: 'add-network'; sourceId?: string; newCollection?: boolean }
+  | { name: 'add-web'; sourceId?: string; newCollection?: boolean }
+  | { name: 'add-gphotos'; collectionId?: string; newCollection?: boolean };
 
 
 export interface StackEntry {

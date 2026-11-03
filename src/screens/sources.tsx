@@ -5,7 +5,12 @@ import { Source } from '../store/types';
 import { choose, confirm, toast } from '../ui/overlay';
 import { Header, NewCard, plural, SourceCard } from './common';
 
-export async function chooseNewSource(nav: ReturnType<typeof useNav>, collectionId?: string): Promise<void> {
+/**
+ * The "Add a photo source" popup. `collectionId`: opened from a collection's
+ * Add photos. `newCollection`: opened from New collection, so the source
+ * becomes a collection named after it.
+ */
+export async function chooseNewSource(nav: ReturnType<typeof useNav>, collectionId?: string, newCollection = false): Promise<boolean> {
   const kind = await choose({
     title: 'Add a photo source',
     message: 'USB drives appear by themselves when plugged into the TV.',
@@ -16,8 +21,9 @@ export async function chooseNewSource(nav: ReturnType<typeof useNav>, collection
     ] as const,
   });
   if (kind === 'gphotos') nav.push({ name: 'add-gphotos', collectionId });
-  if (kind === 'network') nav.push({ name: 'add-network' });
-  if (kind === 'web') nav.push({ name: 'add-web' });
+  if (kind === 'network') nav.push({ name: 'add-network', newCollection });
+  if (kind === 'web') nav.push({ name: 'add-web', newCollection });
+  return !!kind;
 }
 
 async function manageSource(nav: ReturnType<typeof useNav>, source: Source): Promise<void> {
