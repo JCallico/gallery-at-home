@@ -2,6 +2,8 @@
 
 # Gallery at Home
 
+[![CI](https://github.com/JCallico/gallery-at-home/actions/workflows/ci.yml/badge.svg)](https://github.com/JCallico/gallery-at-home/actions/workflows/ci.yml)
+
 A photo gallery for Samsung TVs: your photos and the included collections, framed, on the wall.
 
 <p align="center">
@@ -54,10 +56,11 @@ driven entirely with the remote. No server or phone app is needed.
   <img src="docs/screenshots/google-photos.jpg" width="32%" alt="Adding a Google Photos shared album">
 </p>
 
-Target: 2020+ Samsung TVs (Tizen 5.5, Chromium 69 web engine). The bundle is
-compiled down for that engine, and the CSS avoids newer features (flex `gap`,
-`inset`, unguarded `aspect-ratio`). Photo rotation is applied by the app,
-because Chromium 69 ignores the EXIF orientation tag.
+Target: 2019+ Samsung TVs (Tizen 5.0, Chromium 63 web engine; tested on 2019
+and 2020 models). The bundle is compiled down for that engine, and the code
+and CSS avoid newer features (`flatMap`, `gap`, `inset`, unguarded
+`aspect-ratio`); a test enforces this. Photo rotation is applied by the app,
+because these engines ignore the EXIF orientation tag.
 
 ## Development
 
@@ -75,7 +78,15 @@ The dev server fakes `tizen.filesystem` with `dev/sample-usb` and proxies
 cross-origin requests. On the TV, `config.xml` grants network access
 directly, so no proxy is used there.
 
-`npm run typecheck` checks the types; `npm run build` writes `dist/`.
+| Command | |
+|---|---|
+| `npm test` | Unit tests (Vitest) |
+| `npm run lint` | Lint (Biome) |
+| `npm run typecheck` | Type-check the app and tests |
+| `npm run build` | Production build into `dist/` |
+
+CI runs all four on every push and pull request
+([workflow](.github/workflows/ci.yml)).
 
 ## Running on the emulator or the TV
 
@@ -166,6 +177,7 @@ src/
   ui/                widgets, dialogs/toasts, upright photo layout
 assets/              included photos (samples/) and logo images (brand/)
 tizen/config.xml     app manifest (privileges, network access)
+tests/               unit tests, plus guards for what only fails on a TV
 dev/                 dev server, sample-photo generator
 scripts/             build, package/deploy to TV; samples/ and brand/ build
                      the included collections and the logo

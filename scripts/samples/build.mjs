@@ -97,7 +97,7 @@ for (const c of picks.collections) {
   manifest.collections.push({ id: c.id, name: c.name, play: c.play ?? {}, photos });
 }
 
-writeFileSync(join(root, 'src/samples/manifest.json'), JSON.stringify(manifest, null, 1) + '\n');
+writeFileSync(join(root, 'src/samples/manifest.json'), `${JSON.stringify(manifest, null, 1)}\n`);
 writeFileSync(join(root, 'CREDITS.md'), credits.join('\n'));
 const total = execFileSync('du', ['-sh', out]).toString().split('\t')[0];
 console.error(`Done: ${manifest.collections.reduce((n, c) => n + c.photos.length, 0)} photos, ${total}`);

@@ -55,7 +55,10 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   mkdirSync(dir, { recursive: true });
   const list = [];
   for (const id of ids) {
-    const o = await metObject(id).catch((err) => (console.error(String(err)), null));
+    const o = await metObject(id).catch((err) => {
+      console.error(String(err));
+      return null;
+    });
     if (!o) continue;
     if (!o.isPublicDomain || !o.primaryImageSmall) continue;
     if (!/painting|print/i.test(o.classification ?? '')) continue;

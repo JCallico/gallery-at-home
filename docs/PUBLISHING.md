@@ -185,7 +185,7 @@ same TVs. A trademark search before launch is worth doing.
    and tags, a privacy policy page, the UI description and test notes.
 6. Join the Seller Office. To reach Canadian TVs, ask Samsung Canada about a
    partner contract. Otherwise launch in the US only, perhaps as a beta first.
-7. Submit for the 2020+ model groups and respond to review feedback.
+7. Submit for the 2019+ model groups and respond to review feedback.
 
 ## Sources
 

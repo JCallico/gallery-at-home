@@ -16,7 +16,10 @@ const selections = new Map<string, Map<string, PhotoRef>>();
 
 function selectionFor(collectionId: string): Map<string, PhotoRef> {
   let sel = selections.get(collectionId);
-  if (!sel) selections.set(collectionId, (sel = new Map()));
+  if (!sel) {
+    sel = new Map();
+    selections.set(collectionId, sel);
+  }
   return sel;
 }
 
