@@ -84,8 +84,16 @@ add-on installed).
 
 ```sh
 scripts/tv.sh connect <tv-ip>        # the TV, in Developer Mode
-scripts/tv.sh deploy                 # build, sign, install and launch
+scripts/tv.sh deploy <tv-ip>:26101   # build, sign, install and launch
 ```
+
+Some TVs refuse to update the app in place now and then ("download
+failed"). `deploy` then saves the app's data (collections, sources,
+settings) through the TV's debug connection, uninstalls, installs afresh and
+restores it (`scripts/tv-data.mjs`). `scripts/tv.sh reinstall` does the same
+on purpose, and `backup` / `restore` save and put back the data on their
+own. Backups go to `.tv-backups/` (git-ignored: they include album links and
+network-share passwords).
 
 TVs and the TV emulator only install apps signed with a **Samsung**
 certificate. Create one in Tizen Certificate Manager (+ → Samsung → TV) as a
