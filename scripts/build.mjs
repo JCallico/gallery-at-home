@@ -2,7 +2,8 @@
 //
 //   node scripts/build.mjs            production build for the TV → dist/
 //
-// Output targets Chromium 69, the web engine of 2020 Samsung TVs (Tizen 5.5).
+// Output targets Chromium 63, the web engine of 2019 Samsung TVs (Tizen 5.0);
+// 2020 TVs (Tizen 5.5) run Chromium 69.
 
 import * as esbuild from 'esbuild';
 import { copyFileSync, cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
@@ -12,7 +13,7 @@ import { fileURLToPath } from 'node:url';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
 
-export const TARGET = ['chrome69'];
+export const TARGET = ['chrome63'];
 
 export function buildOptions({ dev, outdir }) {
   return {

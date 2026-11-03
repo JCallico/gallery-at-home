@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'preact/hooks';
 import { useKeys, useNav } from '../nav/router';
 import { adapterFor, sourceLabel } from '../sources';
-import { Listing } from '../sources/types';
+import { FolderEntry, Listing, PhotoEntry } from '../sources/types';
 import { addPhotos, getCollection } from '../store/store';
 import { PhotoRef } from '../store/types';
 import { Icon } from '../ui/icons';
@@ -82,8 +82,10 @@ export function Browse({ collectionId, sourceId, folderKey, trail }: Props) {
     };
   }, [cacheKey]);
 
-  const photos = listing?.entries.flatMap((e) => (e.type === 'photo' ? [e.ref] : [])) ?? [];
-  const folders = listing?.entries.flatMap((e) => (e.type === 'folder' ? [e] : [])) ?? [];
+  // (No flatMap: 2019 TVs run Chromium 63, which predates it.)
+  const entries = listing?.entries ?? [];
+  const photos = entries.filter((e): e is PhotoEntry => e.type === 'photo').map((e) => e.ref);
+  const folders = entries.filter((e): e is FolderEntry => e.type === 'folder');
   const selectable = photos.filter((p) => !existing.has(p.id));
   const allHereSelected = selectable.length > 0 && selectable.every((p) => selection.has(p.id));
 
