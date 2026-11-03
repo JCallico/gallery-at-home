@@ -31,9 +31,11 @@ describe('first run', () => {
     expect(store.getState().collections.length).toBeGreaterThan(1);
   });
 
-  it('starts fresh from unreadable data', async () => {
+  it('starts fresh from unreadable data, and logs why', async () => {
+    const logged = vi.spyOn(console, 'error').mockImplementation(() => undefined);
     const store = await loadStore('{not json');
     expect(store.getState().collections.length).toBeGreaterThan(0);
+    expect(logged).toHaveBeenCalledWith('Could not read saved state; starting fresh', expect.any(SyntaxError));
   });
 });
 
