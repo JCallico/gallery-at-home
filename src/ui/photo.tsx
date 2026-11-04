@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'preact/hooks';
 import { orientationTransform } from '../sources/exif';
-import { loadThumb } from '../sources';
+import { loadImage, loadThumb } from '../sources';
 import { PhotoRef } from '../store/types';
 
 /**
@@ -54,8 +54,11 @@ function observe(el: Element, fn: Watcher): () => void {
   };
 }
 
-/** Lazy, upright, cropped thumbnail filling its (positioned) parent. */
-export function Thumb({ photo }: { photo: PhotoRef }) {
+/**
+ * Lazy, upright, cropped thumbnail filling its (positioned) parent. `full`
+ * loads the screen-sized photo instead, for pictures shown large.
+ */
+export function Thumb({ photo, full }: { photo: PhotoRef; full?: boolean }) {
   const box = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   const [src, setSrc] = useState<{ url: string; orientation: number } | null>(null);
@@ -70,7 +73,7 @@ export function Thumb({ photo }: { photo: PhotoRef }) {
       return;
     }
     let live = true;
-    loadThumb(photo).then(
+    (full ? loadImage : loadThumb)(photo).then(
       (p) => live && setSrc({ url: p.url, orientation: p.orientation }),
       (err) => console.warn('Thumbnail failed', photo.name, err),
     );

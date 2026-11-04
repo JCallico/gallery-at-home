@@ -67,7 +67,6 @@ h1, h2 { margin: 0; font-weight: 700; }
 .wordmark { display: block; width: 360px; height: 64px; }
 .topbar-right { margin-left: auto; display: flex; align-items: center; }
 .topbar-right > * + * { margin-left: 16px; }
-.topbar-clock { font-size: 28px; color: var(--text-dim); margin-right: 18px; }
 .icon-btn {
   display: flex; align-items: center; height: 64px; padding: 0 18px; border-radius: 32px;
   background: var(--glass); color: var(--text-dim);
@@ -124,6 +123,97 @@ h1, h2 { margin: 0; font-weight: 700; }
   position: absolute; top: 16px; left: 16px; padding: 6px 14px; border-radius: 20px;
   background: var(--now); color: #1c1205; font-size: 19px; font-weight: 800; letter-spacing: 0.5px;
 }
+
+/* The switch between Home's layouts: one small picture of each. */
+.view-switch { display: flex; align-items: center; height: 64px; padding: 0 6px; border-radius: 32px; background: var(--glass); }
+.view-switch > * + * { margin-left: 4px; }
+.view-btn {
+  display: flex; align-items: center; height: 52px; padding: 0 14px; border-radius: 26px; color: var(--text-faint);
+  transition: background 0.15s, color 0.15s, transform 0.15s var(--ease);
+}
+.view-btn svg { width: 42px; height: 28px; }
+.view-btn.on { background: rgba(255, 181, 71, 0.2); color: var(--now); }
+.view-btn:focus { background: var(--focus); color: var(--on-focus); transform: scale(1.06); }
+.view-btn-label { max-width: 0; overflow: hidden; white-space: nowrap; font-size: 26px; font-weight: 600; transition: max-width 0.25s var(--ease), margin 0.25s; }
+.view-btn:focus .view-btn-label { max-width: 160px; margin-left: 12px; }
+
+.home-hints { position: absolute; left: 96px; bottom: 30px; margin: 0; }
+.home-count { position: absolute; right: 96px; bottom: 32px; font-size: 24px; color: var(--text-dim); }
+.home-kick { font-size: 22px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); }
+
+/* Small posters (Wall, Shelves). Each poster's box includes the space around
+   its picture, and focus grows the picture rather than the box: scrolling
+   brings the box into view, so a focused picture is never cut off, even on
+   engines without scroll-margin (Chromium 63). */
+.home-wall .poster, .shelves-row .poster { scroll-margin: 0; }
+.home-wall .poster:focus, .shelves-row .poster:focus { transform: none; }
+.home-wall .poster:focus .poster-art, .shelves-row .poster:focus .poster-art { transform: scale(1.05); z-index: 3; }
+.home-wall .poster-art, .shelves-row .poster-art { transition: box-shadow 0.25s var(--ease), transform 0.25s var(--ease); }
+.home-wall .poster-title, .shelves-row .poster-title { font-size: 24px; }
+.home-wall .poster-sub, .shelves-row .poster-sub { font-size: 18px; }
+.home-wall .poster-label, .shelves-row .poster-label { left: 18px; right: 18px; bottom: 13px; }
+.home-wall .poster-new .poster-art, .shelves-row .poster-new .poster-art { font-size: 24px; }
+.home-wall .poster-new svg, .shelves-row .poster-new svg { width: 48px; height: 48px; }
+
+/* The one-line heading above the Wall. */
+.wall-head { position: absolute; left: 96px; right: 96px; top: 100px; display: flex; align-items: baseline; }
+.wall-head .hero-title { flex: 0 1 auto; min-width: 0; max-width: none; font-size: 60px; line-height: 1.25; letter-spacing: -1.5px; }
+.wall-meta { flex: none; margin-left: 26px; font-size: 28px; color: var(--text-dim); }
+.wall-meta.now { color: var(--now); }
+
+.wall-scroll { position: absolute; left: 0; right: 0; top: 190px; bottom: 84px; overflow-x: hidden; overflow-y: auto; scrollbar-width: none; }
+.wall-scroll::-webkit-scrollbar, .shelves-scroll::-webkit-scrollbar, .index-list::-webkit-scrollbar { display: none; }
+.wall-grid { display: grid; grid-template-columns: repeat(5, 350px); grid-auto-rows: 211px; padding: 0 84px; }
+.home-wall .poster { width: 350px; padding: 14px 12px; }
+.home-wall .poster-art { width: 326px; height: 183px; }
+.wall-fade { position: absolute; left: 0; right: 0; bottom: 84px; height: 36px; z-index: 2; background: linear-gradient(0deg, #08090b, rgba(8, 9, 11, 0)); }
+
+/* Shelves: the name and details above rows that fill themselves. */
+.shelves-head { position: absolute; left: 96px; right: 96px; top: 100px; }
+.shelves-head .hero-title { max-width: none; font-size: 64px; line-height: 1.2; letter-spacing: -1.5px; }
+.shelves-head .hero-meta { margin-top: 2px; font-size: 28px; max-width: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.shelves-scroll { position: absolute; left: 0; right: 0; top: 238px; bottom: 30px; overflow-x: hidden; overflow-y: auto; scrollbar-width: none; }
+.shelves-section { position: relative; }
+.shelves-label { position: absolute; left: 96px; top: 8px; display: flex; align-items: baseline; }
+.shelves-count { margin-left: 16px; font-size: 20px; color: var(--text-faint); }
+/* The label sits inside each poster's box, so moving up reveals it too. */
+.shelves-row { display: flex; overflow-x: auto; overflow-y: hidden; padding: 0 85px; scrollbar-width: none; }
+.shelves-row::-webkit-scrollbar { display: none; }
+.shelves-row .poster { width: 352px; padding: 50px 11px 16px; }
+.shelves-row .poster-art { width: 330px; height: 186px; }
+
+/* Index: an alphabetical list beside a large preview. */
+.index-head { position: absolute; left: 110px; top: 112px; }
+.index-list { position: absolute; left: 96px; top: 156px; width: 760px; bottom: 36px; overflow-x: hidden; overflow-y: auto; scrollbar-width: none; }
+.index-row { display: flex; align-items: center; width: 100%; height: 76px; margin-bottom: 4px; padding: 0 20px 0 14px; border-radius: 14px; transition: background 0.12s, color 0.12s; }
+.index-row:focus { background: var(--focus); color: var(--on-focus); box-shadow: 0 14px 34px rgba(0, 0, 0, 0.5); }
+.index-letter { flex: none; width: 42px; font-size: 26px; font-weight: 800; color: var(--text-faint); }
+.index-row:focus .index-letter { color: var(--on-focus); }
+.index-art { position: relative; flex: none; width: 92px; height: 56px; margin-right: 20px; overflow: hidden; border-radius: 9px; background: var(--glass); display: flex; align-items: center; justify-content: center; }
+.index-art svg { width: 34px; height: 34px; opacity: 0.6; }
+.index-name { flex: 1; min-width: 0; font-size: 29px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.index-row:focus .index-name { font-weight: 700; }
+.index-now { flex: none; width: 12px; height: 12px; margin-left: 14px; border-radius: 50%; background: var(--now); }
+.index-size { flex: none; margin-left: 16px; font-size: 22px; color: var(--text-dim); }
+.index-row:focus .index-size { color: rgba(11, 11, 13, 0.6); }
+.index-panel { position: absolute; left: 930px; top: 124px; width: 894px; }
+.index-preview { position: relative; height: 503px; overflow: hidden; border-radius: 20px; background: var(--glass); box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6); }
+.index-panel .hero-title { max-width: none; margin-top: 22px; font-size: 54px; line-height: 1.2; letter-spacing: -1.2px; }
+.index-panel .hero-meta { margin-top: 2px; font-size: 26px; max-width: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.index-strip { display: flex; margin-top: 20px; }
+.index-strip > * + * { margin-left: 16px; }
+.index-strip-photo { position: relative; flex: none; width: 211px; height: 158px; overflow: hidden; border-radius: 12px; background: var(--glass); }
+.home-index .home-hints { left: 930px; }
+
+/* Jump bar: recents and letters above the row of large posters. */
+.jump-bar { position: absolute; left: 96px; right: 60px; top: 572px; display: flex; align-items: center; }
+.jump-recent { flex: none; height: 48px; margin-right: 18px; padding: 0 22px; border-radius: 24px; background: var(--glass); font-size: 24px; font-weight: 700; color: rgba(245, 245, 247, 0.82); display: flex; align-items: center; transition: transform 0.15s var(--ease); }
+.jump-letter { flex: none; width: 49px; height: 54px; border-radius: 12px; font-size: 28px; font-weight: 600; display: flex; align-items: center; justify-content: center; color: rgba(245, 245, 247, 0.82); transition: transform 0.15s var(--ease); }
+.jump-letter.off, .jump-recent.off { color: rgba(245, 245, 247, 0.22); }
+.jump-letter.on, .jump-recent.on { color: var(--now); }
+.jump-letter:focus, .jump-recent:focus { background: var(--focus); color: var(--on-focus); font-weight: 800; transform: scale(1.14); box-shadow: 0 10px 26px rgba(0, 0, 0, 0.5); }
+.home-jump .shelf { bottom: 84px; }
+.home-jump .shelf-row { position: relative; }
 
 /* ---- Collection ---------------------------------------------------------- */
 

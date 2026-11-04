@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'preact/hooks';
 import { sampleCollections } from '../samples';
 import {
-  AppSettings, Collection, ConfiguredSource, DEFAULT_PLAY, NowShowing, PhotoRef, PlaySettings,
+  AppSettings, Collection, ConfiguredSource, DEFAULT_PLAY, HOME_VIEWS, HomeView, NowShowing, PhotoRef, PlaySettings,
 } from './types';
 
 // All app state lives in localStorage on the TV, which the Tizen web runtime
@@ -22,7 +22,7 @@ function initialState(): State {
   return {
     collections: [],
     sources: [],
-    settings: { defaultPlay: { ...DEFAULT_PLAY }, idleMin: 5 },
+    settings: { defaultPlay: { ...DEFAULT_PLAY }, idleMin: 5, homeView: 'wall' },
     nowShowing: null,
     samplesAdded: false,
   };
@@ -67,6 +67,7 @@ function load(): State {
       settings: {
         idleMin: saved.settings?.idleMin ?? base.settings.idleMin,
         defaultPlay: upgradePlay(saved.settings?.defaultPlay),
+        homeView: HOME_VIEWS.includes(saved.settings?.homeView as HomeView) ? (saved.settings!.homeView as HomeView) : base.settings.homeView,
       },
       samplesAdded: saved.samplesAdded ?? false,
     });
@@ -250,8 +251,12 @@ export function rememberTakenAt(dates: Map<string, number>): void {
 /** Pins what's playing so the app returns to it when opened or left idle. */
 export function setNowShowing(collectionId: string, photoId?: string): void {
   const cur = state.nowShowing;
-  if (cur && cur.collectionId === collectionId && cur.photoId === photoId) return;
-  commit({ ...state, nowShowing: { collectionId, photoId, since: Date.now() } });
+  const same = cur && cur.collectionId === collectionId && cur.photoId === photoId;
+  commit({
+    ...state,
+    collections: state.collections.map((c) => (c.id === collectionId ? { ...c, playedAt: Date.now() } : c)),
+    nowShowing: same ? cur : { collectionId, photoId, since: Date.now() },
+  });
 }
 
 export function clearNowShowing(): void {
