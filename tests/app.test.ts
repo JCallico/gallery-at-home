@@ -20,7 +20,7 @@ describe('Home', () => {
     app = await startApp();
     await find('.poster');
     const titles = $$('.poster-title').map((e) => e.textContent);
-    expect(titles).toEqual(['Masterpieces', 'Mountains', 'Still Waters', 'Coastlines', 'Forests & Waterfalls', 'After Dark', 'Space']);
+    expect(titles).toEqual(['After Dark', 'Coastlines', 'Forests & Waterfalls', 'Masterpieces', 'Mountains', 'Space', 'Still Waters']);
     expect($<HTMLImageElement>('.wordmark')?.alt).toBe('Gallery at Home');
   });
 
@@ -41,6 +41,141 @@ describe('Home', () => {
     poster.focus();
     press(KEY.play);
     await find('.player');
+  });
+});
+
+describe('Home layouts', () => {
+  const focused = () => document.activeElement?.getAttribute('data-nav-id');
+  const pic = (id: string) => ({ id, sourceId: 'samples', key: `coast/${id}.jpg`, name: id });
+  const col = (id: string, name: string, extra: Record<string, unknown> = {}) => ({
+    id, name, photos: [pic(`${id}-1`), pic(`${id}-2`), pic(`${id}-3`)], createdAt: 1, updatedAt: 1, play: {}, ...extra,
+  });
+  const library = (homeView: string, extra: Record<string, unknown> = {}) => ({
+    samplesAdded: true,
+    settings: { homeView },
+    collections: [
+      col('sp', 'Space'),
+      col('al', 'Album', { albumSourceId: 'gp' }),
+      col('be', 'Beach', { playedAt: 5 }),
+      col('st', 'Still Waters'),
+      col('sample-coast', 'Coastlines'),
+    ],
+    ...extra,
+  });
+
+  it('switches layout from the top bar, and remembers it', async () => {
+    app = await startApp(library('wall'));
+    await find('.home-wall');
+    expect($(nav('view-wall'))?.getAttribute('aria-pressed')).toBe('true');
+    await click(nav('view-index'));
+    await find('.home-index');
+    expect($(nav('view-index'))?.getAttribute('aria-pressed')).toBe('true');
+    expect($(nav('view-wall'))?.getAttribute('aria-pressed')).toBe('false');
+    expect(saved().settings.homeView).toBe('index');
+    app.close();
+    app = await mountApp();
+    await find('.home-index');
+  });
+
+  it('has nothing to switch while there are no collections', async () => {
+    app = await startApp({ samplesAdded: true, collections: [] });
+    await vi.waitFor(() => expect(focused()).toBe('new-collection'));
+    expect($('.view-switch')).toBeNull();
+    expect(text('.hero-title')).toBe('Your photos, on the wall.');
+  });
+
+  it('Down from the top bar returns to the collection you were on', async () => {
+    app = await startApp(library('wall'));
+    (await find('[data-collection-id="sp"]')).focus();
+    (await find(nav('view-shelves'))).focus();
+    press(KEY.down);
+    expect(document.activeElement?.getAttribute('data-collection-id')).toBe('sp');
+  });
+
+  it('Wall counts your place in the A–Z list', async () => {
+    app = await startApp(library('wall'));
+    (await find('[data-collection-id="sp"]')).focus();
+    await vi.waitFor(() => expect(text('.home-count')).toBe('4 of 5 · A–Z'));
+    expect(text('.hero-title')).toBe('Space');
+    (await find(nav('new-collection'))).focus();
+    await vi.waitFor(() => expect(text('.home-count')).toBe('5 collections'));
+    expect(text('.hero-title')).toBe('New collection');
+  });
+
+  it('Shelves groups them, showing a played collection twice under different ids', async () => {
+    app = await startApp(library('shelves'));
+    await find('.home-shelves');
+    expect($$('.shelves-label .home-kick').map((e) => e.textContent)).toEqual([
+      'Recently played', 'Google Photos albums', 'My collections', 'Included with the app',
+    ]);
+    expect($(nav('recent-be'))).not.toBeNull();
+    expect($(nav('col-be'))).not.toBeNull();
+    const ids = $$('[data-nav-id]').map((e) => e.getAttribute('data-nav-id'));
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it('Index jumps a letter with CH▼ and back with CH▲', async () => {
+    app = await startApp(library('index'));
+    (await find('[data-collection-id="al"]')).focus();
+    press(428);
+    expect(document.activeElement?.getAttribute('data-collection-id')).toBe('be');
+    press(428);
+    expect(document.activeElement?.getAttribute('data-collection-id')).toBe('sample-coast');
+    press(427);
+    expect(document.activeElement?.getAttribute('data-collection-id')).toBe('be');
+  });
+
+  it('Index shows letters once per group, and a sharp preview once focus settles', async () => {
+    app = await startApp(library('index'));
+    await find('.index-row');
+    expect($$('.index-letter').map((e) => e.textContent)).toEqual(['A', 'B', 'C', 'S', '', '']);
+    await vi.waitFor(() => {
+      const sources = $$<HTMLImageElement>('.index-preview img').map((i) => i.getAttribute('src'));
+      expect(sources.some((u) => u?.includes('/thumb/'))).toBe(true);
+      expect(sources.some((u) => u && !u.includes('/thumb/'))).toBe(true);
+      expect($$('.index-strip-photo').length).toBe(2);
+    });
+  });
+
+  it('Jump bar shows only the letters in use as choices, and leads into the row', async () => {
+    app = await startApp(library('jump'));
+    await find('.jump-bar');
+    expect($$('.jump-letter[data-nav]').map((e) => e.textContent)).toEqual(['A', 'B', 'C', 'S']);
+    expect($$('.jump-letter.off').length).toBe(22);
+    (await find(nav('jump-S'))).focus();
+    await vi.waitFor(() => expect(text('.hero-title')).toBe('Space'));
+    expect(text('.home-hints')).toContain('choose a letter');
+    press(KEY.down);
+    expect(focused()).toBe('col-sp');
+    await vi.waitFor(() => expect(text('.home-hints')).toContain('browse'));
+    press(KEY.up);
+    expect(focused()).toBe('jump-S');
+  });
+
+  it('Jump bar shows recents on request, and offers none until something is played', async () => {
+    app = await startApp(library('jump'));
+    (await find(nav('jump-recent'))).focus();
+    await vi.waitFor(() => expect($$('.shelf-row [data-collection-id]').map((e) => e.getAttribute('data-collection-id'))).toEqual(['be']));
+    press(KEY.down);
+    expect(focused()).toBe('col-be');
+    press(KEY.up);
+    expect(focused()).toBe('jump-recent');
+    app.close();
+    app = await startApp(library('jump', { collections: [col('sp', 'Space')] }));
+    await find('.jump-bar');
+    expect($(nav('jump-recent'))).toBeNull();
+    expect($('.jump-recent.off')).not.toBeNull();
+  });
+
+  it('playing a collection puts it in Recently played', async () => {
+    app = await startApp(library('shelves'));
+    (await find(nav('col-sp'))).focus();
+    await vi.waitFor(() => expect(text('.hero-title')).toBe('Space'));
+    press(KEY.play);
+    await find('.player');
+    await vi.waitFor(() => expect(saved().collections.find((c: { id: string }) => c.id === 'sp').playedAt).toBeGreaterThan(0));
+    press(KEY.back);
+    await find(nav('recent-sp'));
   });
 });
 

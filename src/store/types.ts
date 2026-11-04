@@ -55,6 +55,8 @@ export interface Collection {
   albumSourceId?: string;
   /** When the album was last read (ms). */
   syncedAt?: number;
+  /** When it was last played (ms); fills Home's "Recently played". */
+  playedAt?: number;
 }
 
 interface SourceBase {
@@ -97,8 +99,13 @@ export interface GooglePhotosSource extends SourceBase {
 export type Source = UsbSource | SamplesSource | NetworkSource | WebSource | GooglePhotosSource;
 export type ConfiguredSource = NetworkSource | WebSource | GooglePhotosSource;
 
+/** How Home lays out the collections; changed with the switch in its top bar. */
+export const HOME_VIEWS = ['wall', 'shelves', 'index', 'jump'] as const;
+export type HomeView = (typeof HOME_VIEWS)[number];
+
 export interface AppSettings {
   defaultPlay: PlaySettings;
+  homeView: HomeView;
   /** Minutes of no remote input in the menus before "now showing" returns; 0 = never. */
   idleMin: number;
 }

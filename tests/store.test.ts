@@ -81,6 +81,14 @@ describe('older saves', () => {
   });
 });
 
+describe('Home layout setting', () => {
+  it('defaults to the Wall, keeps a saved choice and ignores an unknown one', async () => {
+    expect((await loadStore()).getState().settings.homeView).toBe('wall');
+    expect((await loadStore({ samplesAdded: true, settings: { homeView: 'index' } })).getState().settings.homeView).toBe('index');
+    expect((await loadStore({ samplesAdded: true, settings: { homeView: 'carousel' } })).getState().settings.homeView).toBe('wall');
+  });
+});
+
 describe('album collections', () => {
   it('replace their photos and keep a cover that is still there', async () => {
     const store = await loadStore();

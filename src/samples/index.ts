@@ -34,6 +34,7 @@ export const samplesSource: SamplesSource = { id: SAMPLES_ID, kind: 'samples', n
 
 /** Collection ids of the included collections, so they can be restored. */
 export const sampleCollectionId = (theme: string) => `sample-${theme}`;
+export const isSampleCollection = (id: string) => id.startsWith('sample-');
 
 function credit(p: SamplePhoto): string {
   return /public domain|cc0/i.test(p.license) ? p.by : `${p.by} · ${p.license}`;
