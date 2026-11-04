@@ -1,10 +1,10 @@
-# Report coverage without failing builds over it: the logic is tested, but
-# the screens and player UI aren't yet.
 coverage:
   status:
+    # Flag a real drop in overall coverage, allowing for small swings.
     project:
       default:
-        informational: true
+        target: auto
+        threshold: 2%
     patch:
       default:
         informational: true
