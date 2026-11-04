@@ -25,6 +25,7 @@ export function usbAdapter(source: UsbSource): SourceAdapter {
       const files = await filesystem.list(path);
       const entries: Entry[] = [];
       for (const f of files) {
+        if (f.name.startsWith('.')) continue; // .Trashes, .Spotlight-V100 and the like
         if (f.isDir) entries.push({ type: 'folder', key: f.path, name: f.name });
         else if (isImageName(f.name)) {
           entries.push({ type: 'photo', ref: photoRef(source.id, f.path, f.name, { takenAt: f.modified }) });

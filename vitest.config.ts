@@ -10,6 +10,8 @@ export default defineConfig({
       reporter: ['text-summary', 'lcov'],
       include: ['src/**/*.{ts,tsx}'],
       exclude: ['src/env.d.ts'],
+      // Fails the run if coverage drops well below where it stands.
+      thresholds: { lines: 75, statements: 75, functions: 70, branches: 65 },
     },
   },
   define: {

@@ -40,7 +40,8 @@ async function expandList(listUrl: string): Promise<string[]> {
     const doc = new DOMParser().parseFromString(text, 'text/html');
     urls = [
       ...Array.from(doc.querySelectorAll('img[src]')).map((i) => i.getAttribute('src')!),
-      ...Array.from(doc.querySelectorAll('a[href]')).map((a) => a.getAttribute('href')!).filter(looksLikeImage),
+      // Resolved before checking: links on a page are usually relative.
+      ...Array.from(doc.querySelectorAll('a[href]')).map((a) => new URL(a.getAttribute('href')!, listUrl).href).filter(looksLikeImage),
     ];
   } else {
     urls = text.split(/\s+/).filter((line) => /^https?:\/\//i.test(line));
