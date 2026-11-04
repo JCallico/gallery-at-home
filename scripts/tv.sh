@@ -86,12 +86,19 @@ backup() {
   echo "$file"
 }
 
+is_installed() {
+  # Read the list first: with pipefail, grep -q stopping early would look like failure.
+  local apps
+  apps="$("$SDB" -s "$1" shell 0 applist 2>/dev/null || true)"
+  [[ "$apps" == *"$APP_ID"* ]]
+}
+
 # Installs over an existing copy; if the TV refuses, reinstalls with the
 # app's data saved and put back.
 install_keeping_data() {
   local serial="$1"
   if install_pkg "$serial"; then return; fi
-  if ! "$SDB" -s "$serial" shell 0 applist 2>/dev/null | grep -q "$APP_ID"; then
+  if ! is_installed "$serial"; then
     echo "Install failed on $serial (and the app isn't installed there)." >&2
     exit 1
   fi
@@ -103,7 +110,17 @@ install_keeping_data() {
 reinstall_keeping_data() {
   local serial="$1" file
   file="$(backup "$serial")"
-  "$TIZEN" uninstall -p "$APP_ID" -s "$serial" >/dev/null
+  "$TIZEN" uninstall -p "$APP_ID" -s "$serial" >/dev/null || true
+  sleep 3
+  # Some TVs ignore the uninstall without saying so. The old version and its
+  # data are then still there, so say that rather than "reinstall failed".
+  if is_installed "$serial"; then
+    echo "$serial won't remove the app remotely; the old version is still installed, with its data." >&2
+    echo "Restart the TV (hold the power button) and deploy again." >&2
+    echo "If that fails, delete the app on the TV, deploy, then: scripts/tv.sh restore $file $serial" >&2
+    "$TIZEN" run -p "$APP_ID" -s "$serial" >/dev/null || true
+    exit 1
+  fi
   if ! install_pkg "$serial"; then
     echo "Reinstall failed. Your data is saved in $file;" >&2
     echo "after installing, put it back with: scripts/tv.sh restore $file $serial" >&2
