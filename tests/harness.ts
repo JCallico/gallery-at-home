@@ -66,6 +66,15 @@ export function stubBrowser(): void {
   URL.revokeObjectURL = () => undefined;
 }
 
+/**
+ * Stands in for the network: tests must never reach the internet. No USB
+ * drive is plugged in; everything else answers with `respond`, by default
+ * a small image.
+ */
+export function stubNetwork(respond: (url: string, init?: RequestInit) => Response = () => new Response(new Blob(['image']))): void {
+  vi.stubGlobal('fetch', vi.fn(async (url: string, init?: RequestInit) => (String(url).includes('/__dev/fs/drives') ? new Response('[]') : respond(String(url), init))));
+}
+
 export interface AppHandle {
   close(): void;
 }

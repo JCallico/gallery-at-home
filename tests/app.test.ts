@@ -1,9 +1,12 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { $, $$, albumPage, albumPhoto, type AppHandle, click, clickText, find, KEY, mountApp, nav, press, saved, startApp, stubBrowser, text, type } from './harness';
+import { $, $$, albumPage, albumPhoto, type AppHandle, click, clickText, find, KEY, mountApp, nav, press, saved, startApp, stubBrowser, stubNetwork, text, type } from './harness';
 
 let app: AppHandle;
 
-beforeEach(() => stubBrowser());
+beforeEach(() => {
+  stubBrowser();
+  stubNetwork();
+});
 afterEach(() => {
   app?.close();
   vi.unstubAllGlobals();
@@ -133,7 +136,7 @@ describe('Google Photos album', () => {
   });
 
   it('becomes a synced collection, named after the album unless changed', async () => {
-    vi.stubGlobal('fetch', vi.fn(async () => new Response(albumPage('Spain 2025', [albumPhoto('a'), albumPhoto('b'), albumPhoto('v', { 76647426: [] })]))));
+    stubNetwork(() => new Response(albumPage('Spain 2025', [albumPhoto('a'), albumPhoto('b'), albumPhoto('v', { 76647426: [] })])));
     app = await startApp();
     await openForm();
     await type(`${nav('Album link')} input`, 'https://photos.app.goo.gl/AbC123');
@@ -151,7 +154,7 @@ describe('Google Photos album', () => {
   });
 
   it('explains when the album cannot be read', async () => {
-    vi.stubGlobal('fetch', vi.fn(async () => new Response('<html>Sign in</html>')));
+    stubNetwork(() => new Response('<html>Sign in</html>'));
     app = await startApp();
     await openForm();
     await type(`${nav('Album link')} input`, 'photos.app.goo.gl/AbC123');
@@ -160,7 +163,7 @@ describe('Google Photos album', () => {
   });
 
   it('from a collection, can instead copy the photos in once', async () => {
-    vi.stubGlobal('fetch', vi.fn(async () => new Response(albumPage('Spain', [albumPhoto('a')]))));
+    stubNetwork(() => new Response(albumPage('Spain', [albumPhoto('a')])));
     app = await startApp();
     await click(nav('new-collection'));
     await clickText('Empty collection', '.dialog');
@@ -374,6 +377,7 @@ describe('Player', () => {
   });
 
   it('skips a photo that will not load', async () => {
+    const warned = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     const photos = [
       { id: 's|broken', sourceId: 'samples', key: 'coast/broken.jpg', name: 'broken' },
       { id: 's|ok', sourceId: 'samples', key: 'coast/ok.jpg', name: 'ok' },
@@ -382,9 +386,11 @@ describe('Player', () => {
     await openCollection('c');
     await click(nav('play'));
     await vi.waitFor(() => expect(shownSrc()).toContain('ok.jpg'));
+    expect(warned).toHaveBeenCalledWith('Skipping photo', 'broken', expect.any(Error));
   });
 
   it('leaves when none of the photos load', async () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     const photos = [{ id: 's|broken', sourceId: 'samples', key: 'coast/broken.jpg', name: 'broken' }];
     app = await startApp({ samplesAdded: true, collections: [{ id: 'c', name: 'C', photos, play: {} }] });
     await openCollection('c');
@@ -466,7 +472,7 @@ describe('Sources', () => {
       <d:response><d:href>/photos/Summer/</d:href><d:propstat><d:prop><d:resourcetype><d:collection/></d:resourcetype></d:prop></d:propstat></d:response>
       <d:response><d:href>/photos/a.jpg</d:href><d:propstat><d:prop><d:resourcetype/><d:getcontenttype>image/jpeg</d:getcontenttype></d:prop></d:propstat></d:response>
     </d:multistatus>`;
-    vi.stubGlobal('fetch', vi.fn(async () => new Response(dav)));
+    stubNetwork(() => new Response(dav));
     app = await startApp();
     await click(nav('go-sources'));
     await click(nav('new-source'));
@@ -478,7 +484,7 @@ describe('Sources', () => {
   });
 
   it('reports a share that rejects the password', async () => {
-    vi.stubGlobal('fetch', vi.fn(async () => new Response('', { status: 401 })));
+    stubNetwork(() => new Response('', { status: 401 }));
     app = await startApp();
     await click(nav('go-sources'));
     await click(nav('new-source'));
