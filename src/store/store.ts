@@ -22,7 +22,7 @@ function initialState(): State {
   return {
     collections: [],
     sources: [],
-    settings: { defaultPlay: { ...DEFAULT_PLAY }, idleMin: 5, homeView: 'wall' },
+    settings: { defaultPlay: { ...DEFAULT_PLAY }, idleMin: 5, homeView: 'jump' },
     nowShowing: null,
     samplesAdded: false,
   };

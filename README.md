@@ -30,8 +30,8 @@ driven entirely with the remote. No server or phone app is needed.
   list grows. **Wall** shows them all in an A–Z grid. **Shelves** fills rows by
   itself: Recently played, Google Photos albums, My collections and Included.
   **Index** is an A–Z list beside a large preview, where CH ▲▼ jumps a letter.
-  **Jump bar** is one row of large posters under a Recent button and an A–Z
-  strip. The choice is remembered.
+  **Jump bar**, the default, is one row of large posters under a Recent button
+  and an A–Z strip. The choice is remembered.
 - **Now showing:** whatever you play last stays pinned: one photo ("Show
   this photo", or Red on a photo) or a whole collection (Play). Opening the
   app goes straight to it, the menus return to it after a few idle minutes

@@ -24,6 +24,14 @@ describe('Home', () => {
     expect($<HTMLImageElement>('.wordmark')?.alt).toBe('Gallery at Home');
   });
 
+  it('opens on the Jump bar on first run, with a collection focused', async () => {
+    app = await startApp();
+    await find('.jump-bar');
+    expect($(nav('view-jump'))?.getAttribute('aria-pressed')).toBe('true');
+    await vi.waitFor(() => expect(document.activeElement?.getAttribute('data-collection-id')).toBe('sample-night'));
+    expect(text('.hero-title')).toBe('After Dark');
+  });
+
   it('asks before exiting on Back, and Cancel stays', async () => {
     app = await startApp();
     await vi.waitFor(() => expect(document.activeElement?.getAttribute('data-nav')).not.toBeNull());
