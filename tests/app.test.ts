@@ -568,6 +568,118 @@ describe('Now showing', () => {
   });
 });
 
+describe('After the TV closes the app in the background', () => {
+  const hide = () => {
+    vi.spyOn(document, 'visibilityState', 'get').mockReturnValue('hidden');
+    document.dispatchEvent(new Event('visibilitychange'));
+  };
+  /** Pins a collection as "now showing", then opens Settings from Home. */
+  const pinThenOpenSettings = async () => {
+    app = await startApp();
+    await openCollection('sample-coast');
+    await click(nav('play'));
+    await find('.player img');
+    press(KEY.back);
+    await vi.waitFor(() => expect(screen()).not.toContain('player'));
+    press(KEY.back);
+    await vi.waitFor(() => expect(screen()).toContain('home'));
+    await click(nav('go-settings'));
+    await find('.form');
+  };
+  /** The TV closes the app, and the user opens it again. */
+  const closeAndReopen = async () => {
+    app.close();
+    vi.restoreAllMocks();
+    app = await mountApp();
+  };
+
+  it('reopens on the page that was open', async () => {
+    await pinThenOpenSettings();
+    hide();
+    await closeAndReopen();
+    await find('.form');
+    expect($('.player')).toBeNull();
+    await vi.waitFor(() => expect(document.activeElement?.getAttribute('data-nav')).not.toBeNull());
+    press(KEY.back);
+    await vi.waitFor(() => expect(screen()).toContain('home'));
+  });
+
+  it('opens on "now showing" once the idle time has passed', async () => {
+    await pinThenOpenSettings();
+    hide();
+    app.close();
+    vi.restoreAllMocks();
+    const later = Date.now() + 6 * 60000;
+    vi.spyOn(Date, 'now').mockReturnValue(later);
+    app = await mountApp();
+    await find('.player');
+  });
+
+  it('opens on "now showing" after leaving through Exit', async () => {
+    await pinThenOpenSettings();
+    await vi.waitFor(() => expect(document.activeElement?.getAttribute('data-nav')).not.toBeNull());
+    press(KEY.back);
+    await vi.waitFor(() => expect(screen()).toContain('home'));
+    await vi.waitFor(() => expect(document.activeElement?.getAttribute('data-nav')).not.toBeNull());
+    vi.spyOn(console, 'info').mockImplementation(() => undefined);
+    press(KEY.back);
+    await clickText('Exit', '.dialog');
+    hide();
+    await closeAndReopen();
+    await find('.player');
+  });
+
+  it('opens on "now showing" when the page is gone', async () => {
+    app = await startApp();
+    await openCollection('sample-coast');
+    await find('.collection, .screen');
+    hide();
+    app.close();
+    vi.restoreAllMocks();
+    const state = saved();
+    state.collections = state.collections.filter((c: { id: string }) => c.id !== 'sample-coast');
+    localStorage.setItem('gah.state.v1', JSON.stringify(state));
+    app = await mountApp();
+    await find('.poster');
+    expect(screen()).toContain('home');
+  });
+});
+
+describe('Idle return to "now showing"', () => {
+  const pinThenOpenSettings = async () => {
+    app = await startApp();
+    await openCollection('sample-coast');
+    await click(nav('play'));
+    await find('.player img');
+    press(KEY.back);
+    await vi.waitFor(() => expect(screen()).not.toContain('player'));
+    press(KEY.back);
+    await vi.waitFor(() => expect(screen()).toContain('home'));
+    await click(nav('go-settings'));
+    await find('.form');
+  };
+
+  afterEach(() => vi.useRealTimers());
+
+  it('happens after the idle time in the menus', async () => {
+    vi.useFakeTimers({ toFake: ['setInterval', 'clearInterval', 'Date'] });
+    await pinThenOpenSettings();
+    vi.advanceTimersByTime(5 * 60000 + 10000);
+    await vi.waitFor(() => expect(screen()).toContain('player'));
+  });
+
+  it('doesn’t count time the app spent paused in the background', async () => {
+    vi.useFakeTimers({ toFake: ['setInterval', 'clearInterval', 'Date'] });
+    await pinThenOpenSettings();
+    // Paused: the clock moves on but no timer runs; then one overdue tick.
+    vi.setSystemTime(Date.now() + 10 * 60000);
+    vi.advanceTimersByTime(10000);
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    expect($('.form')).not.toBeNull();
+    expect($('.player')).toBeNull();
+  });
+});
+
 describe('Network loss', () => {
   const setOnline = (online: boolean) => {
     vi.spyOn(navigator, 'onLine', 'get').mockReturnValue(online);

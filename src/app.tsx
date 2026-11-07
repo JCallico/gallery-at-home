@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { coverTop, dispatchToScreen, entry, Navigator, NavContext, Route, StackEntry } from './nav/router';
+import { clearResume, markExiting, saveResume, takeResume } from './nav/resume';
 import { focusById, focusFirst, moveFocus } from './nav/spatial';
 import { keyAction } from './platform/keys';
 import { exitApp } from './platform/tizen';
@@ -80,7 +81,14 @@ function useReturnToNowShowing(stack: StackEntry[], setStack: (fn: (s: StackEntr
     const onInput = () => {
       lastInput.current = Date.now();
     };
+    // Timers stop while the app is in the background, and an overdue tick can
+    // run before the app hears it's back. A long gap between ticks means it
+    // was paused: that time isn't idle time.
+    let lastTick = Date.now();
     const tick = setInterval(() => {
+      const now = Date.now();
+      if (now - lastTick > 30000) lastInput.current = now;
+      lastTick = now;
       const idleMin = getState().settings.idleMin;
       if (idleMin > 0 && Date.now() - lastInput.current >= idleMin * 60000) {
         lastInput.current = Date.now();
@@ -100,14 +108,30 @@ function useReturnToNowShowing(stack: StackEntry[], setStack: (fn: (s: StackEntr
   }, []);
 }
 
+/** Saves the open pages whenever the app goes to the background (see nav/resume.ts). */
+function useSaveForResume(stack: StackEntry[]) {
+  const latest = useRef(stack);
+  latest.current = stack;
+  useEffect(() => {
+    const onVisibility = () => (document.visibilityState === 'hidden' ? saveResume(latest.current) : clearResume());
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => document.removeEventListener('visibilitychange', onVisibility);
+  }, []);
+}
+
 export function App() {
   // Opening the app goes straight to what's pinned; Back reveals the menus.
+  // After the TV closed it in the background, it picks up where it was,
+  // unless that was longer ago than the menus would wait before "now showing".
   const [stack, setStack] = useState<StackEntry[]>(() => {
+    const resumed = takeResume((getState().settings.idleMin || 5) * 60000);
+    if (resumed) return resumed;
     const showing = nowShowingRoute();
     return showing ? [entry({ name: 'home' }), entry(showing)] : [entry({ name: 'home' })];
   });
   useStageScale();
   useReturnToNowShowing(stack, setStack);
+  useSaveForResume(stack);
 
   const nav = useMemo<Navigator>(
     () => ({
@@ -180,7 +204,10 @@ export function App() {
         case 'back':
           e.preventDefault();
           if (stack.length > 1) nav.pop();
-          else if (await confirm({ title: 'Exit Gallery at Home?', confirmLabel: 'Exit' })) exitApp();
+          else if (await confirm({ title: 'Exit Gallery at Home?', confirmLabel: 'Exit' })) {
+            markExiting();
+            exitApp();
+          }
           break;
       }
     };
