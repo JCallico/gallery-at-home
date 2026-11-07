@@ -18,5 +18,6 @@ export default defineConfig({
   define: {
     __DEV__: 'false',
     __VERSION__: '"test"',
+    __GOOGLE_PHOTOS__: 'true',
   },
 });

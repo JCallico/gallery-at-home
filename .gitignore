@@ -1,6 +1,8 @@
 node_modules/
 dist/
+dist-store/
 build/
+build-store/
 *.wgt
 .sign/
 dev/.state/

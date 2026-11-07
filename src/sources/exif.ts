@@ -12,11 +12,17 @@ export interface ExifInfo {
 const NONE: ExifInfo = { orientation: 1 };
 const cache = new Map<string, Promise<ExifInfo>>();
 
-/** Reads EXIF for an image URL; cached per URL key. Never rejects. */
+/**
+ * Reads EXIF for an image URL; cached per URL key. Never rejects. A failed
+ * read isn't kept: it may only mean the network is down for now.
+ */
 export function readExif(cacheKey: string, load: () => Promise<ArrayBuffer>): Promise<ExifInfo> {
   let pending = cache.get(cacheKey);
   if (!pending) {
-    pending = load().then(parseExif, () => NONE);
+    pending = load().then(parseExif, () => {
+      cache.delete(cacheKey);
+      return NONE;
+    });
     cache.set(cacheKey, pending);
   }
   return pending;

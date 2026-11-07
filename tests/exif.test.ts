@@ -55,11 +55,19 @@ describe('parseExif', () => {
 });
 
 describe('readExif', () => {
-  it('never rejects, and caches per key', async () => {
+  it('never rejects, and tries again after a failure', async () => {
     let calls = 0;
     const load = async () => { calls++; throw new Error('offline'); };
     expect(await readExif('exif-test', load)).toEqual({ orientation: 1 });
     await readExif('exif-test', load);
+    expect(calls).toBe(2);
+  });
+
+  it('caches a successful read per key', async () => {
+    let calls = 0;
+    const load = async () => { calls++; return jpeg({ orientation: 6 }); };
+    expect((await readExif('exif-cached', load)).orientation).toBe(6);
+    await readExif('exif-cached', load);
     expect(calls).toBe(1);
   });
 });

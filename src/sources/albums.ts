@@ -42,6 +42,7 @@ const inFlight = new Map<string, Promise<boolean>>();
  * failures (offline, album no longer shared) leave the collection as it was.
  */
 export function refreshAlbum(collectionId: string, force = false): Promise<boolean> {
+  if (!__GOOGLE_PHOTOS__) return Promise.resolve(false);
   const c = getCollection(collectionId);
   if (!c?.albumSourceId) return Promise.resolve(false);
   if (!force && Date.now() - lastRead(collectionId) < ALBUM_REFRESH_MS) return Promise.resolve(false);

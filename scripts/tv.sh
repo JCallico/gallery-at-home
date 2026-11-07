@@ -2,6 +2,7 @@
 # Package, install and launch the app on a Tizen TV or the TV emulator.
 #
 #   scripts/tv.sh package              build dist/ and sign it into build/GalleryAtHome.wgt
+#   scripts/tv.sh package-store        the store version (no Google Photos), into build-store/GalleryAtHome.wgt
 #   scripts/tv.sh connect <ip>         connect sdb to a TV in Developer Mode
 #   scripts/tv.sh install [target]     package + install (target = sdb serial, default: first device)
 #   scripts/tv.sh run [target]         launch the installed app
@@ -52,17 +53,27 @@ ensure_profile() {
   "$TIZEN" security-profiles add -n "$PROFILE" -a "$HOME/tizen-studio-data/keystore/author/gallery-at-home-author.p12" -p "$pwd" >/dev/null
 }
 
+# Signs a built folder into <out>/GalleryAtHome.wgt.
+sign_into() {
+  local dist="$1" out="$2" wgt
+  ensure_profile
+  rm -rf "$out"
+  mkdir -p "$out"
+  cp -r "$dist/." "$out/"
+  "$TIZEN" package -t wgt -s "$PROFILE" -- "$out" >/dev/null
+  wgt="$(ls "$out"/*.wgt | head -1)"
+  mv "$wgt" "$out/GalleryAtHome.wgt"
+  echo "Packaged $out/GalleryAtHome.wgt"
+}
+
 package() {
   (cd "$ROOT" && node scripts/build.mjs)
-  ensure_profile
-  rm -rf "$OUT"
-  mkdir -p "$OUT"
-  cp -r "$ROOT/dist/." "$OUT/"
-  "$TIZEN" package -t wgt -s "$PROFILE" -- "$OUT" >/dev/null
-  local wgt
-  wgt="$(ls "$OUT"/*.wgt | head -1)"
-  mv "$wgt" "$OUT/GalleryAtHome.wgt"
-  echo "Packaged $OUT/GalleryAtHome.wgt"
+  sign_into "$ROOT/dist" "$OUT"
+}
+
+package_store() {
+  (cd "$ROOT" && node scripts/build.mjs --store)
+  sign_into "$ROOT/dist-store" "$ROOT/build-store"
 }
 
 # Outside build/, which package() wipes. Git-ignored: backups hold album links and passwords.
@@ -142,6 +153,7 @@ cmd="${1:-}"
 shift || true
 case "$cmd" in
   package) package ;;
+  package-store) package_store ;;
   connect) "$SDB" connect "${1:?TV IP address}" ;;
   devices) "$SDB" devices ;;
   install)
@@ -174,7 +186,7 @@ case "$cmd" in
     "$TIZEN" run -p "$APP_ID" -s "$serial" >/dev/null
     ;;
   *)
-    sed -n '2,20p' "$0" | sed 's/^# \{0,1\}//'
+    sed -n '2,21p' "$0" | sed 's/^# \{0,1\}//'
     exit 1
     ;;
 esac

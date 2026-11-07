@@ -54,7 +54,7 @@ export function Home() {
     const how = await choose({
       title: 'New collection',
       options: [
-        { value: 'source', label: 'From a new source', hint: 'Google Photos album, NAS or web links; named after it' },
+        { value: 'source', label: 'From a new source', hint: __GOOGLE_PHOTOS__ ? 'Google Photos album, NAS or web links; named after it' : 'NAS or web links; named after it' },
         { value: 'empty', label: 'Empty collection', hint: 'Name it now and add photos from any source' },
       ] as const,
     });

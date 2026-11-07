@@ -16,6 +16,7 @@ import { PickSource } from './screens/pick-source';
 import { PlaySetup } from './screens/play-setup';
 import { Player } from './player/player';
 import { getNowShowing, getState } from './store/store';
+import { NetworkBanner } from './ui/network-banner';
 import { cancelDialog, confirm, isDialogOpen, OverlayHost } from './ui/overlay';
 
 /** The player route for whatever is pinned as "now showing", if anything. */
@@ -37,7 +38,7 @@ function renderRoute(route: Route) {
     case 'browse': return <Browse {...route} />;
     case 'add-network': return <AddNetwork sourceId={route.sourceId} newCollection={route.newCollection} />;
     case 'add-web': return <AddWeb sourceId={route.sourceId} newCollection={route.newCollection} />;
-    case 'add-gphotos': return <AddGooglePhotos collectionId={route.collectionId} />;
+    case 'add-gphotos': return __GOOGLE_PHOTOS__ ? <AddGooglePhotos collectionId={route.collectionId} /> : null;
   }
 }
 
@@ -58,9 +59,10 @@ function useStageScale() {
 }
 
 /**
- * Brings "now showing" back when the menus sit idle for the configured time,
- * or when the app returns to the foreground — the closest a TV app can get
- * to being the screensaver (Samsung doesn't let apps replace the real one).
+ * Brings "now showing" back when the menus sit idle for the configured time —
+ * the closest a TV app can get to being the screensaver (Samsung doesn't let
+ * apps replace the real one). Returning from the background counts as use and
+ * shows the same page, as Samsung's checklist requires (CO-MT-01).
  */
 function useReturnToNowShowing(stack: StackEntry[], setStack: (fn: (s: StackEntry[]) => StackEntry[]) => void) {
   const lastInput = useRef(Date.now());
@@ -86,10 +88,7 @@ function useReturnToNowShowing(stack: StackEntry[], setStack: (fn: (s: StackEntr
       }
     }, 10000);
     const onVisible = () => {
-      if (document.visibilityState === 'visible') {
-        lastInput.current = Date.now();
-        show();
-      }
+      if (document.visibilityState === 'visible') lastInput.current = Date.now();
     };
     document.addEventListener('keydown', onInput, true);
     document.addEventListener('visibilitychange', onVisible);
@@ -194,6 +193,7 @@ export function App() {
       <div key={top.key} class="screen-host">
         {renderRoute(top.route)}
       </div>
+      <NetworkBanner playing={top.route.name === 'player'} />
       <OverlayHost />
     </NavContext.Provider>
   );

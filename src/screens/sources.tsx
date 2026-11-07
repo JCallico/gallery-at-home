@@ -5,6 +5,9 @@ import { Source } from '../store/types';
 import { choose, confirm, toast } from '../ui/overlay';
 import { Header, NewCard, plural, SourceCard } from './common';
 
+/** What can be added, as shown on the Add source cards. */
+export const NEW_SOURCE_KINDS = __GOOGLE_PHOTOS__ ? 'Google Photos, NAS, web links' : 'NAS, web links';
+
 /**
  * The "Add a photo source" popup. `collectionId`: opened from a collection's
  * Add photos. `newCollection`: opened from New collection, so the source
@@ -15,10 +18,10 @@ export async function chooseNewSource(nav: ReturnType<typeof useNav>, collection
     title: 'Add a photo source',
     message: 'USB drives appear by themselves when plugged into the TV.',
     options: [
-      { value: 'gphotos', label: 'Google Photos shared album', hint: 'Type the album’s share link; stays in sync' },
-      { value: 'network', label: 'NAS or network share', hint: 'WebDAV or a web folder on your network' },
-      { value: 'web', label: 'Web links', hint: 'Photo links, or pages and lists of photos' },
-    ] as const,
+      ...(__GOOGLE_PHOTOS__ ? [{ value: 'gphotos' as const, label: 'Google Photos shared album', hint: 'Type the album’s share link; stays in sync' }] : []),
+      { value: 'network' as const, label: 'NAS or network share', hint: 'WebDAV or a web folder on your network' },
+      { value: 'web' as const, label: 'Web links', hint: 'Photo links, or pages and lists of photos' },
+    ],
   });
   if (kind === 'gphotos') nav.push({ name: 'add-gphotos', collectionId });
   if (kind === 'network') nav.push({ name: 'add-network', newCollection });
@@ -67,7 +70,7 @@ export function SourcesScreen() {
             {sources.map((s, i) => (
               <SourceCard key={s.id} source={s} navId={`src-${s.id}`} autofocus={i === 0} onClick={() => manageSource(nav, s)} />
             ))}
-            <NewCard label="Add source" sub="Google Photos, NAS, web links" navId="new-source" onClick={() => chooseNewSource(nav)} />
+            <NewCard label="Add source" sub={NEW_SOURCE_KINDS} navId="new-source" onClick={() => chooseNewSource(nav)} />
           </div>
           {!sources.some((s) => s.kind === 'usb') && (
             <div class="page-note">No USB drive detected. Plug one into the TV and it shows up here.</div>

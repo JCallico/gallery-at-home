@@ -64,7 +64,10 @@ export function adapterFor(sourceId: string): SourceAdapter {
   switch (source.kind) {
     case 'usb': adapter = usbAdapter(source); break;
     case 'samples': adapter = samplesAdapter(); break;
-    case 'gphotos': adapter = gphotosAdapter(source); break;
+    case 'gphotos':
+      if (!__GOOGLE_PHOTOS__) throw new Error('This version of the app can’t read Google Photos albums.');
+      adapter = gphotosAdapter(source);
+      break;
     case 'network': adapter = networkAdapter(source); break;
     case 'web': adapter = webAdapter(source); break;
   }
