@@ -2,7 +2,7 @@ import { useNav } from '../nav/router';
 import { useSources } from '../sources';
 import { useStore } from '../store/store';
 import { Header, NewCard, SourceCard } from './common';
-import { chooseNewSource } from './sources';
+import { chooseNewSource, NEW_SOURCE_KINDS } from './sources';
 import { clearSelection } from './browse';
 
 export function PickSource({ collectionId }: { collectionId: string }) {
@@ -24,7 +24,7 @@ export function PickSource({ collectionId }: { collectionId: string }) {
             {sources.map((s) => (
               <SourceCard key={s.id} source={s} navId={`src-${s.id}`} onClick={() => open(s.id)} />
             ))}
-            <NewCard label="Add source" sub="Google Photos, NAS, web links" navId="new-source" onClick={() => chooseNewSource(nav, collectionId)} />
+            <NewCard label="Add source" sub={NEW_SOURCE_KINDS} navId="new-source" onClick={() => chooseNewSource(nav, collectionId)} />
           </div>
           {!sources.some((s) => s.kind === 'usb') && (
             <div class="page-note">No USB drive detected. Plug one into the TV and it will show up here.</div>

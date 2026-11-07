@@ -63,10 +63,13 @@ export function Thumb({ photo, full }: { photo: PhotoRef; full?: boolean }) {
   const [visible, setVisible] = useState(false);
   const [src, setSrc] = useState<{ url: string; orientation: number } | null>(null);
   const [style, setStyle] = useState<Record<string, string> | null>(null);
+  const [failed, setFailed] = useState(false);
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => observe(box.current!, setVisible), []);
 
   useEffect(() => {
+    setFailed(false);
     if (!visible) {
       setSrc(null);
       setStyle(null);
@@ -75,12 +78,27 @@ export function Thumb({ photo, full }: { photo: PhotoRef; full?: boolean }) {
     let live = true;
     (full ? loadImage : loadThumb)(photo).then(
       (p) => live && setSrc({ url: p.url, orientation: p.orientation }),
-      (err) => console.warn('Thumbnail failed', photo.name, err),
+      (err) => {
+        console.warn('Thumbnail failed', photo.name, err);
+        if (live) setFailed(true);
+      },
     );
     return () => {
       live = false;
     };
-  }, [visible, photo.id]);
+  }, [visible, photo.id, attempt]);
+
+  // The network may be why it failed: try again when it's back.
+  useEffect(() => {
+    if (!failed) return;
+    const retry = () => {
+      setSrc(null);
+      setStyle(null);
+      setAttempt((n) => n + 1);
+    };
+    window.addEventListener('online', retry);
+    return () => window.removeEventListener('online', retry);
+  }, [failed]);
 
   const onLoad = (e: Event) => {
     const img = e.currentTarget as HTMLImageElement;
@@ -98,7 +116,7 @@ export function Thumb({ photo, full }: { photo: PhotoRef; full?: boolean }) {
 
   return (
     <div class="thumb" ref={box}>
-      {src && <img src={src.url} onLoad={onLoad} class={style ? 'ready' : ''} style={style ?? undefined} alt="" />}
+      {src && <img src={src.url} onLoad={onLoad} onError={() => setFailed(true)} class={style ? 'ready' : ''} style={style ?? undefined} alt="" />}
     </div>
   );
 }

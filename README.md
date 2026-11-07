@@ -111,7 +111,11 @@ add-on installed).
 ```sh
 scripts/tv.sh connect <tv-ip>        # the TV, in Developer Mode
 scripts/tv.sh deploy <tv-ip>:26101   # build, sign, install and launch
+scripts/tv.sh package-store          # the store version, in build-store/
 ```
+
+The store version leaves out the Google Photos source, its code and the
+`download` privilege only it needs (see [PUBLISHING](docs/PUBLISHING.md)).
 
 Some TVs refuse to update the app in place now and then ("download
 failed"). `deploy` then saves the app's data (collections, sources,

@@ -554,15 +554,86 @@ describe('Player', () => {
 });
 
 describe('Now showing', () => {
-  it('comes back when the app returns to the foreground', async () => {
+  it('leaves the page as it was when the app returns to the foreground', async () => {
     app = await startApp();
     await openCollection('sample-coast');
     await click(nav('play'));
     await find('.player img');
     press(KEY.back);
     await vi.waitFor(() => expect(screen()).not.toContain('player'));
+    const page = screen();
     document.dispatchEvent(new Event('visibilitychange'));
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    expect(screen()).toBe(page);
+  });
+});
+
+describe('Network loss', () => {
+  const setOnline = (online: boolean) => {
+    vi.spyOn(navigator, 'onLine', 'get').mockReturnValue(online);
+    window.dispatchEvent(new Event(online ? 'online' : 'offline'));
+  };
+
+  it('says so, leaves the remote working, and clears on reconnecting', async () => {
+    app = await startApp();
+    await find('.poster');
+    expect($('.network-banner')).toBeNull();
+    setOnline(false);
+    await find('.network-banner');
+    expect(text('.network-banner')).toContain('No network connection');
+    await vi.waitFor(() => expect(document.activeElement?.getAttribute('data-nav')).not.toBeNull());
+    press(KEY.back);
+    await find('.dialog');
+    await clickText('Cancel', '.dialog');
+    setOnline(true);
+    await vi.waitFor(() => expect($('.network-banner')).toBeNull());
+  });
+
+  it('says so when the app starts without a network', async () => {
+    vi.spyOn(navigator, 'onLine', 'get').mockReturnValue(false);
+    app = await startApp();
+    await find('.network-banner');
+  });
+
+  it('leaves the picture alone after a moment while photos play', async () => {
+    app = await startApp();
+    await openCollection('sample-coast');
+    await click(nav('play'));
     await find('.player img');
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+    try {
+      setOnline(false);
+      await vi.waitFor(() => expect($('.network-banner')).not.toBeNull());
+      await vi.advanceTimersByTimeAsync(10001);
+      await vi.waitFor(() => expect($('.network-banner')).toBeNull());
+    } finally {
+      vi.useRealTimers();
+    }
+    press(KEY.back);
+    await vi.waitFor(() => expect(screen()).not.toContain('player'));
+    await find('.network-banner');
+  });
+
+  it('reloads a picture that failed once the network is back', async () => {
+    stubNetwork(() => {
+      throw new TypeError('Failed to fetch');
+    });
+    const photo = { id: 'p', sourceId: 'w', key: 'https://x.test/p.jpg', name: 'p', url: 'https://x.test/p.jpg' };
+    const { h, render } = await import('preact');
+    const { Thumb } = await import('../src/ui/photo');
+    const sources = await import('../src/sources');
+    const load = vi.spyOn(sources, 'loadThumb').mockRejectedValueOnce(new TypeError('offline')).mockResolvedValue({ url: 'blob:ok', orientation: 1 });
+    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const host = document.createElement('div');
+    document.body.append(host);
+    render(h(Thumb, { photo }), host);
+    await vi.waitFor(() => expect(load).toHaveBeenCalledTimes(1));
+    await new Promise((resolve) => setTimeout(resolve, 20));
+    expect(host.querySelector('img')).toBeNull();
+    window.dispatchEvent(new Event('online'));
+    await vi.waitFor(() => expect(host.querySelector('img')?.getAttribute('src')).toBe('blob:ok'));
+    render(null, host);
+    host.remove();
   });
 });
 

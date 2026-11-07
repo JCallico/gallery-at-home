@@ -62,15 +62,14 @@ From the [Launch Checklist](https://developer.samsung.com/tv-seller-office/check
   **Back up the author certificate (`author.p12`) and its password now.**
   Losing them means the app can never be updated in the store.
 - **App ID** (`GalleryAtH.GalleryAtHome`) stays fixed forever. The
-  **version** must be `x.y.z` and increase with every update (currently 0.1.0).
+  **version** must be `x.y.z` and increase with every update (currently 1.0.0).
 - **Title:** `<name>` in `tizen/config.xml` ("Gallery at Home") must match the
   store's default-language title exactly, or the pre-test fails.
-- **Privileges:** partner-only APIs fail the pre-test. The app declares
-  `internet`, `filesystem.read`, `externalstorage`, `tv.inputdevice`,
-  `download` and Samsung's `productinfo`. `productinfo` is listed among the
-  billing-related privileges and **the app doesn't use it, so it should be
-  removed** before submitting. The others are public-level privileges, to be
-  confirmed by the pre-test.
+- **Privileges:** partner-only APIs fail the pre-test. The store version
+  (`scripts/tv.sh package-store`) declares `internet`, `filesystem.read`,
+  `externalstorage` and `tv.inputdevice`, which should be public-level, to be
+  confirmed by the pre-test. The version for your own TVs adds `download`,
+  needed only for Google Photos on newer TVs.
 - **Size:** the package is about 35 MB, almost all of it the included photos.
   No size limit was found, but smaller is kinder to TVs, which have little
   storage (installing updates on the test TV already fails intermittently).
@@ -108,12 +107,12 @@ cases. Items most relevant to this app:
 
 | Case | Requirement | App today |
 |---|---|---|
-| CO-US-05 Return key | Closes popups, goes back a page; on the home page, exits (shows the TV channel on 2016+ models) | Back works; on Home it asks "Exit Gallery at Home?". An older Samsung guide asked for that confirmation, the current checklist describes exiting. **Confirm which the reviewers expect.** |
+| CO-US-05 Return key | Closes popups, goes back a page; on the home page, exits (shows the TV channel on 2016+ models) | Back works; on Home it asks "Exit Gallery at Home?". Samsung's pages disagree: the checklist describes exiting, while [Terminating applications](https://developer.samsung.com/smarttv/develop/guides/fundamentals/terminating-applications.html) says Return on the home page "must display an exit confirmation popup". The app follows that guide. **Confirm with Samsung (1:1 Q&A ticket) which the reviewers expect.** |
 | CO-US-04 Exit key | Closes popups and the keyboard; exits the app | Exit is left to the system; to verify on the TV |
 | CO-GE-01 Responsiveness | Responds within at most 30 s | Opens in well under a second |
-| CO-GE-07 / CO-MT-01 Multitasking | Smart Hub key backgrounds the app; resuming shows the same state | The app returns to "now showing" on resume; to verify |
+| CO-GE-07 / CO-MT-01 Multitasking | Smart Hub key backgrounds the app; resuming shows the same state | Resuming keeps the same page; to verify on the TV |
 | CO-GE-08 Power cycle | The previous screen or page appears after power off and on | Opens to "now showing"; to verify |
-| CO-CN-01/02 Network loss | No freeze; a clear message; recovers on reconnect | Photo loading errors are handled, but **no explicit "no network" message**. To add and test |
+| CO-CN-01/02 Network loss | No freeze; a clear message; recovers on reconnect | A message shows until reconnecting (for 10 s over playing photos), and failed pictures reload. Tested in a browser; to verify on the TV |
 | CO-CN-03 Loading | A progress indicator while loading | Present (spinners) |
 | CO-UI-04/06/09 Focus | Every item reachable, focus never lost, stops at edges | Built for this (focus recovery, row end stops); to test fully |
 | CO-SO-* Sound | Volume and mute behave normally | The app plays no sound; to verify the TV's own sound UI |
@@ -165,7 +164,8 @@ Options for a store release, from safest:
 allow redistribution in a free app with attribution. The in-app Photo credits
 screen and `CREDITS.md` provide that. CC BY-SA asks that adaptations be shared
 alike; resizing isn't generally considered an adaptation, but replacing the
-few CC BY-SA photos with public-domain or CC0 ones would remove any doubt.
+CC BY-SA photos (31 of the 56) with public-domain or CC0 ones would remove any
+doubt.
 
 **The app's own licence.** The PolyForm Strict licence restricts other people;
 as the copyright holder you can still publish the app in the store. Samsung's
@@ -178,8 +178,9 @@ same TVs. A trademark search before launch is worth doing.
 
 1. Finish testing on the TV.
 2. Decide the Google Photos question (section 6).
-3. Small app changes: remove `productinfo`, add a "no network" message,
-   settle the Return-on-Home behaviour, and run the Common checklist on the TV.
+3. Settle the Return-on-Home behaviour with Samsung and run the Common
+   checklist on the TV. (Done: `productinfo` removed, "no network" message,
+   same page on resume, and a store build without Google Photos.)
 4. Back up the author certificate.
 5. Prepare the listing: the 1920×1080 icon pair, 4 screenshots, description
    and tags, a privacy policy page, the UI description and test notes.
