@@ -59,10 +59,11 @@ From the [Launch Checklist](https://developer.samsung.com/tv-seller-office/check
   every future update must be signed with the **same** one. The Samsung
   certificate used for development (with device IDs) is for testing; for the
   store, Samsung adds its own distributor signature.
-  **Back up the author certificate (`author.p12`) and its password now.**
-  Losing them means the app can never be updated in the store.
+  **Keep the author certificate (`author.p12`) and its password safe.**
+  (Copied to the OneDrive project folder; keep the password in a password
+  manager.) Losing them means the app can never be updated in the store.
 - **App ID** (`GalleryAtH.GalleryAtHome`) stays fixed forever. The
-  **version** must be `x.y.z` and increase with every update (currently 1.0.0).
+  **version** must be `x.y.z` and increase with every update (currently 1.1.0).
 - **Title:** `<name>` in `tizen/config.xml` ("Gallery at Home") must match the
   store's default-language title exactly, or the pre-test fails.
 - **Privileges:** partner-only APIs fail the pre-test. The store version
@@ -80,17 +81,17 @@ From [Entering Application Information](https://developer.samsung.com/tv-seller-
 
 | Item | Requirement | Status |
 |---|---|---|
-| Icon, 512×423 | PNG, ≤300 KB | `tizen/icon.png` (27 KB) |
-| Icon, 1920×1080 | Logo as a transparent 32-bit PNG plus a background PNG/JPG, each ≤300 KB | **To make** (from `scripts/brand`) |
-| Screenshots | Exactly 4, 1920×1080 JPG, ≤500 KB | `docs/screenshots/` has 8 to choose from |
-| Description | Up to 4,000 characters per language, plus at least 3 search tags | **To write** |
-| Category | For example Lifestyle | To choose |
-| Age rating | All ages (the included content is landscapes and classic paintings) | To choose |
-| Privacy policy URL | Required if the app collects personal information | **Recommended** (see below) |
-| Seller information | Name, support email, home page, phone, mailing address | To provide |
+| Icon, 512×423 | 24-bit PNG, ≤300 KB | Ready: `tizen/icon.png` (28 KB) |
+| Icon, 1920×1080 | Logo as a transparent 32-bit PNG plus a background PNG/JPG, each ≤300 KB | Ready: `docs/store/icon-logo.png`, `icon-background.jpg` |
+| Screenshots | Exactly 4, 1920×1080 JPG, ≤500 KB | Ready: `docs/store/screenshots/` |
+| Description | Up to 4,000 characters per language, plus at least 3 search tags | Ready: [listing](store/listing.md) |
+| Category | Lifestyle | Chosen |
+| Age rating | All ages (the included content is landscapes and classic paintings) | Chosen |
+| Privacy policy URL | Required if the app collects personal information | Ready: [PRIVACY.md](../PRIVACY.md) |
+| Seller information | Name, support email, home page, phone, mailing address | **You** provide |
 | Price | Free | — |
-| App UI description | Document of the app's screens and user flows ([guide](https://developer.samsung.com/smarttv/develop/distribute/launch-checklist/application-ui-description.html)) | **To write** |
-| Test information | Steps and test material for reviewers, such as a Google Photos album link and a test web link | **To prepare** |
+| App UI description | Document of the app's screens and user flows ([guide](https://developer.samsung.com/smarttv/develop/distribute/launch-checklist/application-ui-description.html)) | Ready: [UI description](store/ui-description.md) |
+| Test information | Steps and test material for reviewers, such as a test web link | Ready: [test notes](store/test-notes.md) |
 
 **Privacy:** the app sends nothing to the developer. Everything (collections,
 sources, network-share passwords, album links) stays on the TV. It does,
@@ -181,9 +182,10 @@ same TVs. A trademark search before launch is worth doing.
 3. Settle the Return-on-Home behaviour with Samsung and run the Common
    checklist on the TV. (Done: `productinfo` removed, "no network" message,
    same page on resume, and a store build without Google Photos.)
-4. Back up the author certificate.
+4. Back up the author certificate. (Done.)
 5. Prepare the listing: the 1920×1080 icon pair, 4 screenshots, description
    and tags, a privacy policy page, the UI description and test notes.
+   (Done: [docs/store/](store/README.md).)
 6. Join the Seller Office. To reach Canadian TVs, ask Samsung Canada about a
    partner contract. Otherwise launch in the US only, perhaps as a beta first.
 7. Submit for the 2019+ model groups and respond to review feedback.

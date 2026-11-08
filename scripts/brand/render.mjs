@@ -3,7 +3,8 @@
 //   node scripts/brand/render.mjs
 //
 // Writes tizen/icon.png (TV app icon), assets/brand/title.png (Home-screen
-// title, 2×) and docs/logo.png (README). Needs Chromium; the lettering uses
+// title, 2×), docs/logo.png (README) and the store's 1920×1080 icon pair in
+// docs/store/ (a transparent logo and an opaque background). Needs Chromium; the lettering uses
 // Noto Serif, so it's rendered to images here rather than left to the TV's
 // fonts.
 
@@ -12,7 +13,7 @@ import { mkdtempSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { icon, stacked, title } from './logo.mjs';
+import { icon, stacked, storeBackground, storeLogo, title } from './logo.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const tmp = mkdtempSync(join(tmpdir(), 'gah-brand-'));
@@ -30,3 +31,8 @@ function render(svg, w, h, scale, out) {
 render(icon(), 512, 423, 1, join(root, 'tizen/icon.png'));
 render(title(), 360, 64, 2, join(root, 'assets/brand/title.png'));
 render(stacked(), 520, 440, 1, join(root, 'docs/logo.png'));
+render(storeLogo(), 1920, 1080, 1, join(root, 'docs/store/icon-logo.png'));
+// A smooth gradient is too big as PNG for Samsung's 300 KB limit; JPG is allowed.
+render(storeBackground(), 1920, 1080, 1, join(tmp, 'background.png'));
+execFileSync('magick', [join(tmp, 'background.png'), '-strip', '-quality', '92', join(root, 'docs/store/icon-background.jpg')]);
+console.log('wrote docs/store/icon-background.jpg');

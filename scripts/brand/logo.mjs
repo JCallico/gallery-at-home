@@ -55,6 +55,14 @@ const svg = (w, h, body) => `<svg xmlns="http://www.w3.org/2000/svg" width="${w}
 /** TV app icon, 512×423 (Samsung's launcher tile shape). */
 export const icon = () => svg(512, 423, `<rect width="512" height="423" fill="#151318"/>${frame(18, 14, 476, 395)}${at(253, 213, 254)}`);
 
+/**
+ * Store icon, 1920×1080, in Samsung's two layers: the framed @ on a
+ * transparent background (the logo), and a plain backdrop. Smart Hub may
+ * mask the corners with a squircle, so the logo stays well inside the centre.
+ */
+export const storeLogo = () => svg(1920, 1080, `${frame(660, 240, 600, 600)}${at(960, 540, 384)}`);
+export const storeBackground = () => svg(1920, 1080, `<defs><radialGradient id="bg" cx="0.5" cy="0.45" r="0.75"><stop offset="0" stop-color="#3a2f4f"/><stop offset="0.6" stop-color="#1d1824"/><stop offset="1" stop-color="#151318"/></radialGradient></defs><rect width="1920" height="1080" fill="url(#bg)"/>`);
+
 /** Square mark. */
 export const mark = (S = 256) => svg(S, S, `<rect width="${S}" height="${S}" rx="${S * 0.12}" fill="#151318"/>${frame(S * 0.06, S * 0.06, S * 0.88, S * 0.88)}${at(S / 2, S / 2, S * 0.56)}`);
 
