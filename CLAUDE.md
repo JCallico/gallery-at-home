@@ -20,3 +20,8 @@ bump.
 
 Samsung's store also requires every upload to have a higher version than the
 last, with each part in range: `[0-255].[0-255].[0-65535]`.
+
+## Commits
+
+Don't add `Co-Authored-By` (or any other AI attribution) trailers to commit
+messages or pull requests. Commits are authored by the repository owner only.
