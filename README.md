@@ -100,8 +100,7 @@ directly, so no proxy is used there.
 CI runs these on every push and pull request
 ([workflow](.github/workflows/ci.yml)) and reports coverage to
 [Codecov](https://codecov.io/gh/JCallico/gallery-at-home).
-[CodeQL](.github/workflows/codeql.yml) scans the code for security problems,
-and [Dependabot](.github/dependabot.yml) proposes dependency updates.
+[CodeQL](.github/workflows/codeql.yml) scans the code for security problems.
 
 ## Running on the emulator or the TV
 
